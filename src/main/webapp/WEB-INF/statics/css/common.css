@@ -1,0 +1,11 @@
+.whitebackcolor{background-color: #fff;}
+.text20px{font-size: 20px;}
+.text16px{font-size: 16px;}
+.smallshadow{box-shadow: 0px 2px 2px 0px #777;}
+.focusshadow:hover{border-color: rgba(82,168,236,.8);outline: 0;box-shadow: 0 0 8px rgba(82,168,236,.6);}
+.paddingT-5{padding-top: 5px;}
+.paddingB-5{padding-bottom: 5px;}
+.roundedbox{border: solid 1px #ddd;border-radius: 4px;padding: 5px;}
+
+/*belong publish.jsp*/
+.check-box .bootstrap-switch{margin-top: -5px;}
