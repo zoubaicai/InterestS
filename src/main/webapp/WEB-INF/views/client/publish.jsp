@@ -21,10 +21,10 @@
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond./min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body style="padding-top: 70px;background-color: #eee;">
+<body style="padding-top: 70px;">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
          style="border-bottom: none;">
         <div class="container-fluid">
@@ -82,7 +82,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2 whitebackcolor smallshadow" style="padding-top: 10px;">
+            <div class="col-md-8 col-md-offset-2 white-back shards-shadow" style="padding-top: 10px;">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px" for="caption">标题：</label>
@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <p class="bg-primary roundedbox text16px">当前的选择的位置是：<b id="nowLocation">天津市</b></p>
+                    <p class="bg-primary rounded-box text16px">当前的选择的位置是：<b id="nowLocation">天津市</b></p>
                     <hr>
                 </div>
                 <div class="col-md-12">

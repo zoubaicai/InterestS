@@ -12,20 +12,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
-    <!-- Bootstrap -->
+    <title>内容</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/content.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond./min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body style="padding-top: 70px;background-color: #eee;">
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
      style="border-bottom: none;">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -36,18 +35,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">InterestS</a>
+            <a class="navbar-brand" href="#">ISharing</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">ONE</a>
-                </li>
-                <li>
-                    <a href="#">TWO</a>
-                </li>
-                <li>
-                    <a href="#">THREE</a>
+                    <a href="#">首页</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -82,74 +75,105 @@
 </nav>
     <div class="container">
         <div class="row">
-            <div class="col-md-9 thumbnail">
+            <div class="col-md-8 white-back shards-shadow ">
                 <header>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 class="text-center">标题</h2>
-                            <blockquote aria-label="summary">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a an</p>
-                            </blockquote>
-                        </div>
+                    <div class="col-md-12">
+                        <h2 class="text-center">画师saihate的作品 ​</h2>
+                        <blockquote aria-label="summary">
+                            <p>画师saihate的作品</p>
+                        </blockquote>
                     </div>
                 </header>
                 <hr>
-                <div aria-label="detailed content">
-                    <div class="row" aria-label="main content" style="min-height: 200px;">
-                        <div class="col-md-12">
-                            <p>Main Content</p>
-                        </div>
+                <article aria-label="detailed content">
+                    <div class="col-md-12" aria-label="main content" style="min-height: 200px;">
+                        <p>Main Content</p>
                     </div>
-                    <div class="row" aria-label="map" style="min-height: 100px;">
-                        <div class="col-md-12">
-                            <p>map</p>
-                        </div>
+                </article>
+                <!--地址信息-->
+                <div class="col-md-12">
+                    <hr>
+                    <label for="mapContainer">地点：</label>
+                    <div class="col-md-12 thumbnail" id="mapContainer" style="min-height: 200px;"></div>
+                </div>
+                <!--兴趣组成员-->
+                <div class="col-md-12" aria-label="participants" style="min-height: 50px;">
+                    <label><span>2</span>感兴趣</label>
+                    <div class="user-lists">
+                        <a href="#" class="user-item"><img src="/images/user.png" class="user-item-img img-rounded"></a>
+                        <a href="#" class="user-item"><img src="/images/user.png" class="user-item-img img-rounded"></a>
                     </div>
-                    <div class="row" aria-label="particpants" style="min-height: 50px;">
-                        <div class="col-md-12">
-                            <p>participants</p>
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="btn-group btn-group-justified marginT-10" role="group">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary" disabled>加入</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success">收藏</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <hr>
-                <footer>
-                    <div class="row" aria-label="comment area" style="min-height: 100px;">
-                        <div class="col-md-12">
-                            还有没有评论！
+                <div class="col-md-12" aria-label="input comment">
+                    <hr>
+                    <textarea class="form-control" placeholder="输入观点"></textarea>
+                    <div class="paddingT-5 clearfix">
+                        <button type="button" class="btn btn-primary btn-sm pull-right">发布</button>
+                    </div>
+                </div>
+                <div class="col-md-12" aria-label="comment area" style="min-height: 100px;">
+                    <div class="comment-lists clearfix marginT-10">
+                        <div class="comment-item clearfix">
+                            <div class="col-xs-2">
+                                <a href="#"><img src="/images/user.png" class="img-rounded"></a>
+                                <small>2018-1-7 15:26</small>
+                            </div>
+                            <div class="col-xs-10">
+                                <p>Disabled checkboxes and radios are supported, but to provide a "not-allowed" cursor on hover of the parent, you'll need to add the .disabled class to the parent .radio, .radio-inline, .checkbox, or .checkbox-inline</p>
+                            </div>
+                        </div>
+                        <div class="comment-item clearfix">
+                            <div class="col-xs-2">
+                                <a href="#"><img src="/images/user.png" class="img-rounded"></a>
+                                <small>2018-1-7 15:26</small>
+                            </div>
+                            <div class="col-xs-10">
+                                <p>Disabled checkboxes and radios are supported, but to provide a "not-allowed" cursor on hover of the parent, you'll need to add the .disabled class to the parent .radio, .radio-inline, .checkbox, or .checkbox-inline</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    <li>
-                                        <a href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li>
-                                        <a href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </footer>
+                </div>
+                <div class="col-md-12">
+                    <nav aria-label="lists navigation">
+                        <ul class="pager">
+                            <li class="previous"><a href="#">上一页</a></li>
+                            <li class="page-info">第1页,共1页</li>
+                            <li class="next"><a href="#">下一页</a></li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
             <div class="col-md-3 hidden-sm hidden-xs">
-                <aside class="thumbnail">
-                    组长信息
-                    <br>
-                    <br>
-                    <br>
-                </aside>
+                <div class="shards-shadow thumbnail clear-border clear-radius">
+                    <h5 class="text-center">组长</h5>
+                    <hr>
+                    <a href="#">
+                        <img src="/images/user.png" class="img-circle group-leader-img">
+                        <p class="text-center group-leader-name">ZBC</p>
+                    </a>
+                    <hr>
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default clear-radius clear-border"><span>1</span>发布</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default clear-radius clear-border"><span>0</span>加入</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default clear-radius clear-border"><span>0</span>收藏</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -159,5 +183,27 @@
     </footer>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+        //百度地图API功能
+        function loadJScript() {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "http://api.map.baidu.com/api?v=2.0&ak=Z6Sjk1PdxeUdExaBh3s56HDm2pTNSYhm&callback=mapInit";
+            document.body.appendChild(script);
+        }
+        function mapInit() {
+            var map = new BMap.Map("mapContainer");            // 创建Map实例
+            var point = new BMap.Point(117.29119, 39.055712); // 创建点坐标
+            map.centerAndZoom(point,15);
+            var marker = new BMap.Marker(point);
+            map.addOverlay(marker);    //添加标注
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        }
+        $(function () {
+            loadJScript();
+            // ---------------------------------------------------------------------------------------------------------
+
+        });
+    </script>
 </body>
 </html>

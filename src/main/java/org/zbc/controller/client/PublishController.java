@@ -1,0 +1,12 @@
+package org.zbc.controller.client;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class PublishController {
+    @RequestMapping(value = "/client/publish")
+    public String client_publish(){
+        return "client/publish";
+    }
+}

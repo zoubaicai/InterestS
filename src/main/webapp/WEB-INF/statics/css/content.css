@@ -1,0 +1,11 @@
+.user-lists{}
+.user-item{margin-right: 3px;}
+.user-item-img{height: 38px;width: 38px;background-color: #ddd;padding: 1px;}
+.comment-lists{background-color: #eee;margin-top: 10px;}
+.comment-item{border-bottom: solid 1px #fff;padding-top: 15px;}
+.comment-item a{display: block;text-align: center;}
+.comment-item img{height: 38px;width: 38px;background-color: #ddd;padding: 1px;}
+
+.group-leader-img{height: 64px;width: 64px;}
+.group-leader-name{font-weight: bold;font-size: 15px;}
+.group-leader-btn{}

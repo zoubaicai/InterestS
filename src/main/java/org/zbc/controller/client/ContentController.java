@@ -1,12 +1,14 @@
-package org.zbc.controller;
+package org.zbc.controller.client;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class PersonalController {
-    @RequestMapping(value = "/client/personal")
+public class ContentController {
+
+    @RequestMapping(value = "/client/content")
     public String client_content(){
-        return "client/personal";
+        return "client/content";
     }
+
 }
