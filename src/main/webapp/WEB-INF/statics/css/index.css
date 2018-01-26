@@ -1,7 +1,11 @@
-/*覆盖两个颜色*/
-.navbar-default .navbar-nav>li>a{color: #fff;}
-.navbar-default .navbar-brand{color: #fff;}
+.banner{height: 300px;margin-bottom: 10px;position: relative;margin-top: -70px;}
+.banner-bg{position: absolute;top: 0;left: 0;width: 100%;height: inherit;}
+.search-control{border-radius: 0;background-color: rgba(0,0,0,0.1);color: #ddd;}
 
+.recommend-lists{margin-top: 10px;}
+.recommend-item{}
+.recommend-item a:hover{text-decoration: none;}
+.recommend-item p{white-space: nowrap;text-overflow:ellipsis;overflow:hidden;}
 
 .latest-lists{margin-top: 10px;}
 .latest-item{}

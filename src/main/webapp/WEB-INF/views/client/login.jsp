@@ -36,17 +36,19 @@
                 <div class="col-md-12 white-back clearfix input-area">
                     <div class="form-group">
                         <label for="userEmail">电子邮箱</label>
-                        <input type="email" class="form-control input-color" id="userEmail">
+                        <input type="email" class="form-control input-color" id="userEmail" name="userEmail">
+                        <b><span class="text-danger"></span></b>
                     </div>
                     <div class="form-group">
                         <label for="userPwd">密码</label>
-                        <input type="password" class="form-control input-color" id="userPwd">
+                        <input type="password" class="form-control input-color" id="userPwd" name="userPwd">
+                        <b><span class="text-danger"></span></b>
                     </div>
-                    <button type="button" class="btn btn-primary pull-right">登录</button>
+                    <button type="button" class="btn btn-primary pull-right" id="loginSubmit">登录</button>
                 </div>
                 <div class="col-md-12">
                     <br>
-                    <a href="#">注册</a>&nbsp;|&nbsp;<a href="#">忘记密码?</a>
+                    <a href="/client/register">注册</a>&nbsp;|&nbsp;<a href="#">忘记密码?</a>
                 </div>
                 <div class="col-md-12">
                     <br>
@@ -57,5 +59,102 @@
     </div>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/simpleValidation.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            var validate = new simpleValidation();
+            var $username = $("#userEmail");
+            var $password = $("#userPwd");
+            var $input = $("input"); //所有input对象
+            var oGlobalFlag = {}; //全局验证对象，包含所有如 username:false
+            //-----转换json str
+            var i,jsonStr = '{';
+            for (i = 0;i<$input.length;i++){
+                jsonStr += '"' + $input[i]["name"] + '":false';
+                if (i < $input.length -1){
+                    jsonStr += ',';
+                } else {
+                    jsonStr += '}';
+                }
+            }
+            //-----转换json str结束
+            oGlobalFlag = JSON.parse(jsonStr);
+            jsonStr = null;
+            $input = null;
+            //改变#oGlobalFlag#指定名称的属性值
+            var reverseFlag = function (name,flag) {
+                if (typeof oGlobalFlag == "object" && oGlobalFlag.hasOwnProperty(name)){
+                    oGlobalFlag[name] = flag;
+                } else {
+                    console.log("error#" + oGlobalFlag);
+                }
+            };
+            //input的通用callback
+            var common_callback = function (input_obj,results) {
+                if (results.resultFlag == false){
+                    reverseFlag(input_obj.attr("name"),false);
+                    input_obj.parent().addClass("has-error");
+                    input_obj.parent().find(".text-danger").text(results.resutlMsg);
+                } else {
+                    reverseFlag(input_obj.attr("name"),true);
+                    input_obj.parent().addClass("has-success").removeClass("has-error");
+                }
+            };
+            //提交按钮
+            $("#loginSubmit").click(function () {
+                validate._validate("userEmail","电子邮箱","required|valid_email",function (results) {
+                    common_callback($username,results);
+                });
+                validate._validate("userPwd","密码","required|noIdeograph",function (results) {
+                    common_callback($password,results);
+                });
+                var ready2submit = true,prop;
+                for (prop in oGlobalFlag){
+                    ready2submit = ready2submit && oGlobalFlag[prop];
+                }
+                if (!ready2submit){
+                    // 验证失败
+                } else {
+                    var params = {
+                        userEmail : $username.val(),
+                        userPwd : $password.val()
+                    };
+                    $.post("/loginValidate?time=" + new Date().getTime(), params, function (result) {
+                        var res = JSON.parse(result);
+                        if (res.hasOwnProperty("error_des")){
+                            if (res.hasOwnProperty("error_id")){
+                                var r = {
+                                    resultFlag : false,
+                                    resutlMsg : res.error_des
+                                };
+                                common_callback($("#" + res.error_id),r);
+                                return;
+                            } else {
+                                alert(res.error_des);
+                                return;
+                            }
+                        }
+                        res.des != ""?alert(res.des):"";
+                        $.cookie("token",res.token,{expires : 1,path : '/'});
+                        if (typeof window.localStorage != "undefined"){
+                            localStorage.nickname = res.nickname;
+                            localStorage.portrait = res.portrait;
+                        } else {
+                            $.cookie("nickname",res.nickname,{expires : 1,path : '/'});
+                            $.cookie("portrait",res.portrait,{expires : 1,path : '/'});
+                        }
+                        window.location.href = "/";
+                    });
+                }
+            });
+            //输入框获取焦点时恢复原始状态
+            $("#userEmail,#userPwd").focus(function () {
+                var $this = $(this);
+                $this.parent().removeClass("has-error has-success");
+                $this.parent().find(".text-danger").text("");
+            });
+        });
+    </script>
 </body>
 </html>
