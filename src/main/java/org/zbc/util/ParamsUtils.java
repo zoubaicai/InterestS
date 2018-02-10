@@ -122,7 +122,7 @@ public final class ParamsUtils {
      * @return
      */
     public static boolean isRightPwd(String s){
-        if (s.length() > 30 || s.length() < 8){
+        if (s.length() > 30 || s.length() < 6){
             return false;
         }
         boolean bool = Pattern.matches("^[\u4e00-\u9fa5]*$",s);

@@ -47,9 +47,9 @@
             </ul>
             <!--登录/注册-->
             <div class="navbar-form navbar-right" id="loginArea" aria-label="login/register">
-                <a href="/client/register" class="btn btn-danger">注册</a>
+                <a href="/register" class="btn btn-danger">注册</a>
                 &nbsp;
-                <a href="/client/login" class="btn btn-default">登录</a>
+                <a href="/login" class="btn btn-default">登录</a>
                 &nbsp;
             </div>
             <!--搜索框-->

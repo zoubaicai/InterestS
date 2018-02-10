@@ -21,7 +21,7 @@ $(function () {
                 map.panTo(r.point);
                 addDefaultMarker(r.point);
                 pointToAddress(r.point,function (str) {
-                    setNowLocation(str);
+                    setNowLocation(str,r.point);
                 });
             }
             else {
@@ -71,7 +71,7 @@ $(function () {
             map.centerAndZoom(pp, 18);
             addDefaultMarker(pp);
             pointToAddress(pp,function (str) {
-                setNowLocation(str);
+                setNowLocation(str,pp);
             });
         }
         var local = new BMap.LocalSearch(map, { //智能搜索
@@ -87,7 +87,7 @@ $(function () {
         map.panTo(pt);
         addDefaultMarker(pt);
         pointToAddress(pt,function (str) {
-            setNowLocation(str);
+            setNowLocation(str,pt);
         });
     });
 
@@ -97,12 +97,14 @@ $(function () {
         myGeo.getLocation(point, function(rs){
             var addComp = rs.addressComponents;
             str = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-            callback(str);
+            callback(str,point);
         });
     };
 
-    var setNowLocation = function (str) {
+    var setNowLocation = function (str,point) {
         $nowLocation.html(str);
+        // console.log(point);
+        globalPoint = point;// 将point赋值给全局变量globalPoint
     };
 
     // 这里放置按钮等事件绑定
@@ -116,7 +118,7 @@ $(function () {
                 map.centerAndZoom(city,15);      // 用城市名设置地图中心点
                 addDefaultMarker(map.getCenter());
                 pointToAddress(map.getCenter(),function (str) {
-                    setNowLocation(str);
+                    setNowLocation(str,map.getCenter());
                 });
             }
         }

@@ -185,9 +185,7 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModified != null">
-        gmt_modified = now(),
-      </if>
+        gmt_modified = now()
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>

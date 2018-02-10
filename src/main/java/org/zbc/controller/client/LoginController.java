@@ -23,7 +23,7 @@ public class LoginController {
     @Autowired
     private JwtService jwtService; // jwt 生成和验证
 
-    @RequestMapping(value = "/client/login")
+    @RequestMapping(value = "/login")
     public String client_content(){
         return "client/login";
     }

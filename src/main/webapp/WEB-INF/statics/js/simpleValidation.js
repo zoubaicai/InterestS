@@ -78,38 +78,38 @@
             var result = {};
             var resultFlag = false;
             var resultMsg = "";
-            for(i = 0;i < _rules.length;i++){
+            for (i = 0;i < _rules.length;i++){
                 if(this._hooks.hasOwnProperty(_rules[i])){
-                    if(min && this._regex.numericRegex.test(min)){
+                    if (_rules[i] == "min_length"){
                         resultFlag = this._hooks[_rules[i]].call(this,_field,min);
-                    }else if(max && this._regex.numericRegex.test(max)){
+                    } else if(_rules[i] == "max_length"){
                         resultFlag = this._hooks[_rules[i]].call(this,_field,max);
-                    }else{
+                    } else {
                         resultFlag = this._hooks[_rules[i]].call(this,_field);
                     }
-                    if(resultFlag == false){
+                    if (!resultFlag){
                         break;
                     }
                 }
             }
-            if(resultFlag == false){
+            if (resultFlag == false){
                 if(this._messages.hasOwnProperty(_rules[i])){
                     resultMsg = this._messages[_rules[i]];
                 }
             }
             resultMsg = resultMsg != ""? resultMsg.replace("%s",display) : "No message has set.";
-            if(this._regex.numericRegex.test(min)){
+            if (_rules[i] == "min_length"){
                 resultMsg = resultMsg.replace("%n",min);
             }
-            if(this._regex.numericRegex.test(max)){
+            if (_rules[i] == "max_length"){
                 resultMsg = resultMsg.replace("%n",max);
             }
             result.resultFlag = resultFlag;
-            result.resutlMsg = resultMsg;
-            if(_callback && typeof _callback === "function"){
+            result.resultMsg = resultMsg;
+            if (_callback && typeof _callback === "function"){
                 _callback(result);
-            }else{
-                console.log(result.resultFlag + "|" + result.resutlMsg);
+            } else {
+                console.log(result.resultFlag + "|" + result.resultMsg);
                 console.log("Validation is finished,but no callback.")
             }
         },
@@ -125,16 +125,16 @@
                 return (this._regex.emailRegex.test(field.value));
             },
             min_length : function (field,length) {
-                if(!this._regex.numericRegex.test(length)){
+                if (!this._regex.numericRegex.test(length)){
                     return false;
                 }
-                return (field.value.length >= parseInt(length,10));
+                return (field.value.length >= parseInt(length));
             },
-            max_length: function(field, length) {
+            max_length : function(field, length) {
                 if (!this._regex.numericRegex.test(length)) {
                     return false;
                 }
-                return (field.value.length <= parseInt(length, 10));
+                return (field.value.length <= parseInt(length));
             },
             noIdeograph : function (field) {
                 return (!this._regex.noIdeographRegex.test(field.value));

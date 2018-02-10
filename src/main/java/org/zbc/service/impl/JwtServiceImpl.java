@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.zbc.service.JwtService;
 import org.zbc.util.HMACSHA256Utils;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -28,7 +29,7 @@ public class JwtServiceImpl implements JwtService {
      * @throws NoSuchAlgorithmException
      */
     @Override
-    public String getJwt() throws InvalidKeyException, NoSuchAlgorithmException {
+    public String getJwt() throws InvalidKeyException, NoSuchAlgorithmException, IOException {
         if (null == headerBuff || null == payloadBuff){
             throw new IllegalStateException("必须先调用genHeader和genPayload生成header和payload");
         }
@@ -46,7 +47,7 @@ public class JwtServiceImpl implements JwtService {
      * @return boolean
      */
     @Override
-    public boolean validateJwt(String jwtStr) throws InvalidKeyException, NoSuchAlgorithmException {
+    public boolean validateJwt(String jwtStr) throws InvalidKeyException, NoSuchAlgorithmException, IOException {
         if (!Pattern.matches("^[A-Za-z0-9./=+]+$",jwtStr)){
             return false;
         }
@@ -55,7 +56,6 @@ public class JwtServiceImpl implements JwtService {
             return false;
         }
         LocalDateTime timeNow = LocalDateTime.now();
-        System.out.println(timeNow);
         Long nowMillisecond = Timestamp.valueOf(timeNow).getTime();
         JSONObject jsonObject = JSON.parseObject(new String(base64Decoder.decode(token[1])));
         Long expirationTime = Long.parseLong(jsonObject.getString("exp"));

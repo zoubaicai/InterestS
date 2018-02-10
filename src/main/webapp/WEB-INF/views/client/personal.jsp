@@ -37,7 +37,7 @@
                     <p class="lead" style="display: inline;">zzbbcc</p>
                 </div>
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-link pull-right">帐号设置</button>
+                    <a href="/client/setting" class="btn btn-link pull-right">帐号设置</a>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 <div class="col-md-3 col-xs-12 paint padding-3">
                     <div class="thumbnail clear-border shards-shadow">
                         <div style="display: table;width: 100%;">
-                            <a class="btn btn-link" href="#" style="display: table-cell;width: inherit;height: 200px;text-align: center;vertical-align: middle;">
+                            <a class="btn btn-link" href="/client/publish" style="display: table-cell;width: inherit;height: 200px;text-align: center;vertical-align: middle;">
                                 <span class="glyphicon glyphicon-plus" style="font-size: 30px;"></span>
                                 <br>
                                 添加发布

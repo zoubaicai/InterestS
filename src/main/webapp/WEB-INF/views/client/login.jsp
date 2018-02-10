@@ -63,11 +63,8 @@
     <script src="/js/jquery.cookie.js"></script>
     <script>
         $(function () {
-            var validate = new simpleValidation();
-            var $username = $("#userEmail");
-            var $password = $("#userPwd");
-            var $input = $("input"); //所有input对象
-            var oGlobalFlag = {}; //全局验证对象，包含所有如 username:false
+            var $input = $("input"); // 所有input对象
+            var oGlobalFlag = {}; // 全局验证对象，包含所有如 username:false
             //-----转换json str
             var i,jsonStr = '{';
             for (i = 0;i<$input.length;i++){
@@ -78,11 +75,11 @@
                     jsonStr += '}';
                 }
             }
-            //-----转换json str结束
+            // 转换json str结束
             oGlobalFlag = JSON.parse(jsonStr);
             jsonStr = null;
             $input = null;
-            //改变#oGlobalFlag#指定名称的属性值
+            // 改变#oGlobalFlag#指定名称的属性值
             var reverseFlag = function (name,flag) {
                 if (typeof oGlobalFlag == "object" && oGlobalFlag.hasOwnProperty(name)){
                     oGlobalFlag[name] = flag;
@@ -90,23 +87,30 @@
                     console.log("error#" + oGlobalFlag);
                 }
             };
-            //input的通用callback
+            // input的通用callback
             var common_callback = function (input_obj,results) {
                 if (results.resultFlag == false){
                     reverseFlag(input_obj.attr("name"),false);
                     input_obj.parent().addClass("has-error");
-                    input_obj.parent().find(".text-danger").text(results.resutlMsg);
+                    input_obj.parent().find(".text-danger").text(results.resultMsg);
                 } else {
                     reverseFlag(input_obj.attr("name"),true);
                     input_obj.parent().addClass("has-success").removeClass("has-error");
                 }
             };
-            //提交按钮
+            // 提交按钮
             $("#loginSubmit").click(function () {
-                validate._validate("userEmail","电子邮箱","required|valid_email",function (results) {
+                var $username = $("#userEmail");
+                var $password = $("#userPwd");
+                var params = {
+                    userEmail : $username.val(),
+                    userPwd : $password.val()
+                };
+                var validator = new simpleValidation();
+                validator._validate("userEmail","电子邮箱","required|valid_email",function (results) {
                     common_callback($username,results);
                 });
-                validate._validate("userPwd","密码","required|noIdeograph",function (results) {
+                validator._validate("userPwd","密码","required|noIdeograph",function (results) {
                     common_callback($password,results);
                 });
                 var ready2submit = true,prop;
@@ -116,17 +120,13 @@
                 if (!ready2submit){
                     // 验证失败
                 } else {
-                    var params = {
-                        userEmail : $username.val(),
-                        userPwd : $password.val()
-                    };
                     $.post("/loginValidate?time=" + new Date().getTime(), params, function (result) {
                         var res = JSON.parse(result);
                         if (res.hasOwnProperty("error_des")){
                             if (res.hasOwnProperty("error_id")){
                                 var r = {
                                     resultFlag : false,
-                                    resutlMsg : res.error_des
+                                    resultMsg : res.error_des
                                 };
                                 common_callback($("#" + res.error_id),r);
                                 return;
@@ -148,7 +148,7 @@
                     });
                 }
             });
-            //输入框获取焦点时恢复原始状态
+            // 输入框获取焦点时恢复原始状态
             $("#userEmail,#userPwd").focus(function () {
                 var $this = $(this);
                 $this.parent().removeClass("has-error has-success");

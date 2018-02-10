@@ -15,8 +15,9 @@
     <title>发布新兴趣组</title>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="/iCheck/skins/line/blue.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/publish.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -32,34 +33,41 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px" for="caption">标题：</label>
-                        <input type="text" class="form-control" id="caption" placeholder="请输入标题">
-                        <span class="help-block">合适的标题更加吸引人，最长20个字符</span>
+                        <input type="text" class="form-control" id="caption" name="caption" placeholder="请输入标题">
+                        <b><span class="text-danger"></span></b>
+                        <span class="help-block">合适的标题更加吸引人，不得为空最长20个字符</span>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px" for="summary">简介：</label>
-                        <textarea class="form-control" id="summary" placeholder="请输入简介" aria-describedby="summary_help"></textarea>
-                        <span id="summary_help" class="help-block">一个合适的简介能够让别人更容易发现这里，最多120个字符</span>
+                        <textarea class="form-control" id="summary" name="summary" placeholder="请输入简介" aria-describedby="summary_help"></textarea>
+                        <b><span class="text-danger"></span></b>
+                        <span class="help-block">一个合适的简介能够让别人更容易发现这里，最多120个字符</span>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px">主要内容：</label>
                         <div class="" id="wandEditMenu"></div>
-                        <div class="form-control focusshadow" id="wangEditContent" style="min-height: 500px;"></div>
+                        <div class="form-control focusshadow" id="wangEditContent" name="wangEditContent" style="min-height: 500px;"></div>
+                        <b><span class="text-danger"></span></b>
+                        <span class="help-block">最多输入2000个字符</span>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-inline">
                         <div class="check-box">
-                            <label class="text20px" for="locationSwitch">是否添加一个位置：</label>
                             <input type="checkbox" checked id="locationSwitch"/>
+                            <label class="text20px" for="locationSwitch">是否添加一个位置</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
+                    <span class="help-block">添加一个位置，将分享您指定的地理</span>
                     <hr>
+                </div>
+                <div class="col-md-12">
                     <div class="form-inline">
                         <div class="form-group" style="position: relative;width: 60%;">
                             <label for="addressTxt" class="sr-only">输入地点搜索：</label>
@@ -70,19 +78,19 @@
                     </div>
                 </div>
                 <div class="col-md-12 paddingT-5">
-                    <div class="col-md-12 thumbnail" id="mapContainer" style="min-height: 350px;margin-bottom: 5px;">
-
-                    </div>
+                    <div class="col-md-12 thumbnail" id="mapContainer" style="min-height: 350px;margin-bottom: 5px;"></div>
                 </div>
                 <div class="col-md-12">
-                    <p class="bg-primary rounded-box text16px">当前的选择的位置是：<b id="nowLocation">天津市</b></p>
+                    <p class="bg-primary rounded-box text16px">当前的选择的位置是：
+                        <b id="nowLocation">天津市</b>
+                    </p>
                     <hr>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6" style="margin-bottom: 5px;">
                     <div class="form-inline">
                         <div class="check-box">
-                            <label class="text20px" for="invitationSwitch">是否添加一个邀请码：</label>
-                            <input type="checkbox" checked id="invitationSwitch"/>
+                            <input type="checkbox" id="invitationSwitch"/>
+                            <label for="invitationSwitch">是否添加一个邀请码</label>
                         </div>
                     </div>
                 </div>
@@ -90,26 +98,29 @@
                     <div class="form-inline">
                         <div class="form-group">
                             <label for="invitationCode">请输入邀请码：</label>
-                            <input type="text" class="form-control" id="invitationCode" placeholder="邀请码">
-                            <span id="invitation-help" class="help-block">邀请码可以限制随意的加入，固定为8位，只能包含英文和数字</span>
+                            <input type="text" class="form-control" id="invitationCode" name="invitationCode" placeholder="邀请码">
+                            <b><span class="text-danger"></span></b>
+                            <span class="help-block">邀请码可以限制随意的加入，固定为8位，只能包含英文和数字</span>
                         </div>
                     </div>
                     <hr>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-inline">
                         <div class="check-box">
-                            <label class="text20px" for="anonymousSwitch">是否允许非兴趣组查看详细内容：</label>
                             <input type="checkbox" checked id="anonymousSwitch"/>
-                            <span class="help-block">如果为'是'将阻止非加入的用户看到除了标题和摘要之外的内容</span>
+                            <label for="anonymousSwitch">是否允许非兴趣组用户查看详细内容</label>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-12">
+                    <span class="help-block">如果为'否'将阻止非兴趣组的用户看到除了标题和摘要之外的内容</span>
                     <hr>
                 </div>
                 <div class="col-md-6 col-md-offset-3 paddingB-5">
                     <div class="btn-group btn-group-justified" role="group" aria-label="submit">
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-primary">确认提交</button>
+                            <button type="button" class="btn btn-primary" id="sureSubmit">确认提交</button>
                         </div>
                     </div>
                 </div>
@@ -119,13 +130,66 @@
     <%@include file="footer.jsp"%>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/bootstrap-switch.min.js"></script>
     <script src="/js/wangEditor.js"></script>
+    <script src="/iCheck/icheck.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/client/common.js"></script>
     <script>
+        globalEditor = null;// 编辑器
+        globalPoint = null;// 每次定位获得的point
         $(function () {
             // wangedit
             var oWangEditor = window.wangEditor;
             var myEditor = new oWangEditor('#wandEditMenu','#wangEditContent');
+            myEditor.customConfig.uploadImgServer = '/client/publishImgUpload';// 图片上传路径
+            myEditor.customConfig.showLinkImg = false;// 隐藏网络图片按钮
+            myEditor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;// 图片大小限制为2M
+            myEditor.customConfig.uploadImgMaxLength = 1;
+            myEditor.customConfig.uploadImgHooks = {
+                before: function (xhr, editor, files) {
+                    // 图片上传之前触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
+
+                    // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                    // return {
+                    //     prevent: true,
+                    //     msg: '放弃上传'
+                    // }
+                },
+                success: function (xhr, editor, result) {
+                    // 图片上传并返回结果，图片插入成功之后触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                    alert(result + "\n" + xhr.statusText);
+                },
+                fail: function (xhr, editor, result) {
+                    // 图片上传并返回结果，但图片插入错误时触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                    alert(result + "\n" + xhr.statusText);
+                },
+                error: function (xhr, editor) {
+                    // 图片上传出错时触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                    alert("error" + xhr.statusText);
+
+                },
+                timeout: function (xhr, editor) {
+                    // 图片上传超时时触发
+                    // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                    alert("timeout" + xhr.statusText);
+                },
+                // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+                // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+                customInsert: function (insertImg, result, editor) {
+                    // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+                    // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+                    console.log(result);
+                    // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+                    var url = result.url;
+                    insertImg(url);
+
+                    // result 必须是一个 JSON 格式字符串！！！否则报错
+                }
+            };
             myEditor.customConfig.zIndex = 10;
             myEditor.customConfig.menus = [
                 'head',  // 标题
@@ -139,14 +203,140 @@
                 'video'  // 插入视频
             ];
             myEditor.create();
-            // 初始化BootStrap-switch按钮
-            $("#locationSwitch").bootstrapSwitch({onText:'是',offText:'否',size:'small'});
-            $("#invitationSwitch").bootstrapSwitch({onText:'是',offText:'否',size:'small'});
-            $("#anonymousSwitch").bootstrapSwitch({onText:'是',offText:'否',size:'small'});
+            globalEditor = myEditor;
+            // iCheck 插件
+            $("input[type='checkbox']").each(function(){
+                var self = $(this),
+                    label = self.next(),
+                    label_text = label.text();
+                label.remove();
+                self.iCheck({
+                    checkboxClass: 'icheckbox_line-blue',
+                    radioClass: 'iradio_line-blue',
+                    insert: '<div class="icheck_line-icon"></div>' + label_text
+                });
+                self.parent().attr("id",self.attr("id"));
+                self.attr("id","");
+            });
         });
     </script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Z6Sjk1PdxeUdExaBh3s56HDm2pTNSYhm"></script>
     <script src="/js/client/publish_map.js"></script>
+    <script src="/js/simpleValidation.js"></script>
+    <script>
+        $(function () {
+            // 全局验证对象
+            var oGlobalFlag = {
+                caption : false,
+                summary : false,
+                wangEditContent : false,
+                invitationCode : true
+            };
+            // 改变#oGlobalFlag#指定名称的属性值
+            var reverseFlag = function (name,flag) {
+                if (typeof oGlobalFlag == "object" && oGlobalFlag.hasOwnProperty(name)){
+                    oGlobalFlag[name] = flag;
+                } else {
+                    console.log("error#" + oGlobalFlag);
+                }
+            };
+            // input的通用callback
+            var common_callback = function (input_obj,results) {
+                if (!results.resultFlag){
+                    reverseFlag(input_obj.attr("name"),false);
+                    input_obj.parent().addClass("has-error");
+                    input_obj.parent().find(".text-danger").text(results.resultMsg);
+                } else {
+                    reverseFlag(input_obj.attr("name"),true);
+                    input_obj.parent().find(".text-danger").text("");
+                    input_obj.parent().addClass("has-success").removeClass("has-error");
+                }
+            };
 
+            var $caption = $("#caption");
+            var $summary = $("#summary");
+            var $invitationCode = $("#invitationCode");
+            var $locationSwitch = $("#locationSwitch");
+            var $invitationSwitch = $("#invitationSwitch");
+            var $anonymousSwitch = $("#anonymousSwitch");
+            $("#sureSubmit").click(function () {
+                var params = {
+                    caption : $caption.val(),
+                    summary : $summary.val(),
+                    cover : "",
+                    mainContent : globalEditor.txt.html(),
+                    locationSwitch : $locationSwitch.hasClass("checked") ? 1 : 0,
+                    location : "",
+                    invitationSwitch : $invitationSwitch.hasClass("checked") ? 1 : 0,
+                    invitationCode : "",
+                    anonymousSwitch : $anonymousSwitch.hasClass("checked") ? 1 : 0
+                };
+                // 获取用户上传图片的第一张，如果没有则cover为空
+                var temp_cover = $($(".upload-img")[0]).attr("src");
+                if (undefined !== temp_cover && /\.(jpg|jpeg|png|bmp|gif)$/i.test(temp_cover) !== false){
+                    params.cover = temp_cover;
+                }
+                // 获取地图的point，并拼接到location后面
+                if (params.locationSwitch){
+                    if (null === globalPoint){
+                        alert("定位还未完成");
+                        return;
+                    } else {
+                        params.location += $("#nowLocation").text() + "," + globalPoint.lng + "," + globalPoint.lat;
+                    }
+                }
+                var validator = new simpleValidation();// 验证器
+                validator._validate("caption","标题","required|max_length|min_length",function (results) {
+                    common_callback($caption,results);
+                },2,20);
+                validator._validate("summary","简介","max_length",function (results) {
+                    common_callback($summary,results);
+                },0,120);
+                // 判断是否添加一个邀请码
+                if (params.invitationSwitch){
+                    params.invitationCode = $("#invitationCode").val();
+                    validator._validate("invitationCode","邀请码","required|max_length|min_length|alpha_numeric",function (results) {
+                        common_callback($invitationCode,results);
+                    },8,8);
+                }
+                var res = {
+                    resultFlag : false,
+                    resultMsg : ""
+                };
+                // 这里单独判断主要内容是否满足条件
+                if (globalEditor.txt.text().length < 10 || globalEditor.txt.text().length > 2000){ // 不包含html标签在内
+                    res.resultMsg = "主要内容长度不能小于10且不能大于2000";
+                    common_callback($("#wangEditContent"),res);
+                } else {
+                    res.resultMsg = "";
+                    res.resultFlag = true;
+                    common_callback($("#wangEditContent"),res);
+                }
+
+                var ready2submit = true,prop;
+                for (prop in oGlobalFlag){
+                    ready2submit = ready2submit && oGlobalFlag[prop];
+                }
+                if (!ready2submit){
+                    // 验证失败
+                } else {
+                    $.post("/client/publishInfo?time=" + new Date().getTime(), params, function (result) {
+                        alert(result);
+                        // window.location.href = "/";
+                    });
+
+                    console.log(globalEditor.txt.html());
+                    console.log("-------------------------");
+                    console.log(globalEditor.txt.text());
+                }
+            });
+            // 输入框获取焦点时恢复原始状态
+            $(".form-control").focus(function () {
+                var $this = $(this);
+                $this.parent().removeClass("has-error has-success");
+                $this.parent().find(".text-danger").text("");
+            });
+        });
+    </script>
 </body>
 </html>
