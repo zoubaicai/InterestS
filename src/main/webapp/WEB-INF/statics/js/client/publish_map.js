@@ -16,16 +16,16 @@ $(function () {
     var geolocation = new BMap.Geolocation();
     // 浏览器定位
     var nowLocation = function () {
-        geolocation.getCurrentPosition(function(r){
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+        geolocation.getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
                 map.panTo(r.point);
                 addDefaultMarker(r.point);
-                pointToAddress(r.point,function (str) {
-                    setNowLocation(str,r.point);
+                pointToAddress(r.point, function (str) {
+                    setNowLocation(str, r.point);
                 });
             }
             else {
-                alert('failed'+this.getStatus());
+                alert('failed' + this.getStatus());
             }
         });
     };
@@ -37,43 +37,44 @@ $(function () {
     // 加载后调用一次定位
     nowLocation();
     // 建立一个自动完成的对象
-    var autocomplete = new BMap.Autocomplete({"input" : "addressTxt","location" : map});
+    var autocomplete = new BMap.Autocomplete({"input": "addressTxt", "location": map});
     // 鼠标放在下拉列表上的事件
-    autocomplete.addEventListener("onhighlight", function(e) {
+    autocomplete.addEventListener("onhighlight", function (e) {
         var str = "";
         var _value = e.fromitem.value;
         var value = "";
         if (e.fromitem.index > -1) {
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
         }
         str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
 
         value = "";
         if (e.toitem.index > -1) {
             _value = e.toitem.value;
-            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
         }
         str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
         $searchResultPanel.html(str);
     });
     var myValue;
     // 鼠标点击下拉列表后的事件
-    autocomplete.addEventListener("onconfirm", function(e) {
+    autocomplete.addEventListener("onconfirm", function (e) {
         var _value = e.item.value;
-        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
         $searchResultPanel.html("onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue);
         setPlace();
     });
-    var setPlace = function(){
+    var setPlace = function () {
         map.clearOverlays();    //清除地图上所有覆盖物
-        function myFun(){
+        function myFun() {
             var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
             map.centerAndZoom(pp, 18);
             addDefaultMarker(pp);
-            pointToAddress(pp,function (str) {
-                setNowLocation(str,pp);
+            pointToAddress(pp, function (str) {
+                setNowLocation(str, pp);
             });
         }
+
         var local = new BMap.LocalSearch(map, { //智能搜索
             onSearchComplete: myFun
         });
@@ -81,27 +82,27 @@ $(function () {
     };
 
     // 为地图添加单击事件
-    map.addEventListener("click", function(e){
+    map.addEventListener("click", function (e) {
         var pt = e.point;
         map.clearOverlays();
         map.panTo(pt);
         addDefaultMarker(pt);
-        pointToAddress(pt,function (str) {
-            setNowLocation(str,pt);
+        pointToAddress(pt, function (str) {
+            setNowLocation(str, pt);
         });
     });
 
     // 创建地址解析器实例
     var myGeo = new BMap.Geocoder();
-    var pointToAddress = function (point,callback) {
-        myGeo.getLocation(point, function(rs){
+    var pointToAddress = function (point, callback) {
+        myGeo.getLocation(point, function (rs) {
             var addComp = rs.addressComponents;
             str = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-            callback(str,point);
+            callback(str, point);
         });
     };
 
-    var setNowLocation = function (str,point) {
+    var setNowLocation = function (str, point) {
         $nowLocation.html(str);
         // console.log(point);
         globalPoint = point;// 将point赋值给全局变量globalPoint
@@ -110,15 +111,15 @@ $(function () {
     // 这里放置按钮等事件绑定
     $("#relocation").click(function () {
         map.clearOverlays();
-        if ($addressTxt.val() == ""){
+        if ($addressTxt.val() == "") {
             nowLocation();
         } else {
             var city = $addressTxt.val();
-            if(city != ""){
-                map.centerAndZoom(city,15);      // 用城市名设置地图中心点
+            if (city != "") {
+                map.centerAndZoom(city, 15);      // 用城市名设置地图中心点
                 addDefaultMarker(map.getCenter());
-                pointToAddress(map.getCenter(),function (str) {
-                    setNowLocation(str,map.getCenter());
+                pointToAddress(map.getCenter(), function (str) {
+                    setNowLocation(str, map.getCenter());
                 });
             }
         }

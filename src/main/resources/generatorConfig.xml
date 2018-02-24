@@ -22,7 +22,7 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
         <!-- 生成模型的包名和位置 -->
-        <javaModelGenerator targetPackage="org.zbc.pojo"
+        <javaModelGenerator targetPackage="com.zbc.pojo"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
@@ -34,13 +34,13 @@
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="org.zbc.dao"
+                             targetPackage="com.zbc.dao"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 要生成哪些表 -->
-        <table tableName="substance_content"
-               domainObjectName="SubstanceContent"
+        <table tableName="substance_comment"
+               domainObjectName="SubstanceComment"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

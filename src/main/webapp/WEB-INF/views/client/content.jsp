@@ -46,7 +46,7 @@
                     <!--地址信息-->
                     <div class="col-md-12">
                         <hr>
-                        <label for="mapContainer">地点：</label>
+                        <label for="mapContainer">地点：<span id="locationTxt"></span></label>
                         <div class="col-md-12 thumbnail" id="mapContainer" style="min-height: 200px;"></div>
                     </div>
                     <!--兴趣组成员-->
@@ -59,10 +59,10 @@
                         <div class="col-md-6 col-md-offset-3">
                             <div class="btn-group btn-group-justified marginT-10" role="group">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-primary" disabled>加入</button>
+                                    <button type="button" class="btn btn-primary">加入</button>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-success">收藏</button>
+                                    <button type="button" class="btn btn-primary">收藏</button>
                                 </div>
                             </div>
                         </div>
@@ -136,6 +136,8 @@
     <%@include file="footer.jsp"%>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/client/common.js"></script>
     <script>
         //百度地图API功能
         function loadJScript() {

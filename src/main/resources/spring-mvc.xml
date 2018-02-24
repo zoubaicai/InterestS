@@ -12,7 +12,7 @@
     <!--启用spring的一些annotation -->
     <context:annotation-config/>
     <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-    <context:component-scan base-package="org.zbc.controller" />
+    <context:component-scan base-package="com.zbc.controller" />
 
     <!--HandlerMapping 无需配置，springmvc可以默认启动-->
 
@@ -42,7 +42,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/client/**"/>
-            <bean class="org.zbc.interceptor.LoginInterceptor"></bean>
+            <bean class="com.zbc.interceptor.LoginInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 
