@@ -1,6 +1,13 @@
 package com.zbc.util;
 
-import java.util.regex.Pattern;
+import com.zbc.pojo.PagingInfo;
+import com.zbc.pojo.SubstanceCommentPO;
+import com.zbc.service.SubstanceCommentService;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.List;
 
 public class TestMain {
     public static void main(String[] args) throws Exception {
@@ -20,7 +27,18 @@ public class TestMain {
 //        Thumbnails.of(fromPic).size(400,400)
 //                .watermark(Positions.BOTTOM_LEFT, Thumbnails.of(waterPic).scale(0.1f).outputQuality(0.1f).asBufferedImage(),0.5f)
 //                .outputQuality(0.8f).toFile(toPic);
-       // ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        SubstanceCommentService substanceCommentService = (SubstanceCommentService)context.getBean("substanceCommentService");
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setId(3L);
+        pagingInfo.setOffset(0);
+        pagingInfo.setRows(1);
+        List<SubstanceCommentPO> pos = substanceCommentService.listBySubstanceId(pagingInfo);
+        System.out.println(substanceCommentService.countByPrimaryKey(3L));
+        for (SubstanceCommentPO po : pos){
+            System.out.println(po.getCommentContent() + " " + po.getUserInfoPO().getUserNickname());
+
+        }
 //        UserInfoService userInfoService = (UserInfoService) context.getBean("userInfoService");
 //        UserInfoPO temp = new UserInfoPO();
 //        temp.setId(2L);
@@ -31,6 +49,5 @@ public class TestMain {
        // SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
        // SubstanceInfoPO po = substanceInfoService.selectIncludeContent(2L);
        // System.out.println(po.getId() + "|" + po.getSubstanceContentPO().getContent());
-        System.out.println(Pattern.matches(".+(.jpg|.jpeg|.png|.bmp|.gif)$","/images/user_upload/1/1_20180210143217941.jpg"));
     }
 }

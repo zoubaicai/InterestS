@@ -61,6 +61,7 @@
       i.summary,
       i.cover,
       i.is_realistic,
+      i.locale,
       i.is_anonymous_permit,
       i.is_restricted,
       i.join_code,

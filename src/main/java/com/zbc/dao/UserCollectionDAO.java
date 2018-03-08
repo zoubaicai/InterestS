@@ -3,6 +3,8 @@ package com.zbc.dao;
 import org.mybatis.spring.annotation.MapperScan;
 import com.zbc.pojo.UserCollectionPO;
 
+import java.util.List;
+
 @MapperScan
 public interface UserCollectionDAO {
     /**
@@ -58,7 +60,7 @@ public interface UserCollectionDAO {
      * @param id
      * @return
      */
-    UserCollectionPO listByUserId(Long id);
+    List<UserCollectionPO> listByUserId(Long id);
 
     /**
      * 根据用户id查询该用户有多少条collection记录
@@ -66,4 +68,11 @@ public interface UserCollectionDAO {
      * @return
      */
     int countByUserId(Long id);
+
+    /**
+     * 根据用户id和substance id返回是否有收藏记录
+     * @param record
+     * @return
+     */
+    UserCollectionPO selectByBothId(UserCollectionPO record);
 }

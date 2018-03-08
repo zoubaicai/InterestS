@@ -58,9 +58,15 @@ public interface SubstanceCommentDAO {
 
     /**
      * 根据substanceId得到该内容有多少评论
-     * @param id
+     * @param pi
      * @return
      */
     List<SubstanceCommentPO> listBySubstanceId(PagingInfo pi);
-    // TODO 这个方法还没有测试过
+
+    /**
+     * 根据id获取总共有多少条评论
+     * @param id
+     * @return
+     */
+    int countByPrimaryKey(Long id);
 }

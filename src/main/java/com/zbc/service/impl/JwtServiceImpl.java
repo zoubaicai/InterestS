@@ -128,7 +128,7 @@ public final class JwtServiceImpl implements JwtService {
 
     /**
      * 根据name获得token中指定的字符串,如果是name=‘aud’则验证一下
-     * @param token
+     * @param token 已经经过decode，是正常的字符串
      * @param name
      * @return
      */

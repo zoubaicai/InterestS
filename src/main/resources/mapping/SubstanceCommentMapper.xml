@@ -52,10 +52,7 @@
     </select>
     <select id="listBySubstanceId" parameterType="com.zbc.pojo.PagingInfo" resultMap="IncludeUserInfo">
     SELECT
-      sc.comment_content,
-      sc.gmt_create,
-      u.user_nickname,
-      u.portrait
+      *
     FROM
       substance_comment sc
     JOIN
@@ -63,8 +60,11 @@
     ON
       sc.belong_user_id = u.id
     WHERE
-      sc.belong_substance_id = #{id,jdbcType=BIGINT} limit #{offset,jdbcType=INT} , #{rows,jdbcType=INT}
-  </select>
+      sc.id in (select ssc.id from (select id from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as ssc)
+    </select>
+    <select id="countByPrimaryKey" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(*) from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--
           WARNING - @mbg.generated

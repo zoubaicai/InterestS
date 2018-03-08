@@ -22,6 +22,11 @@ public class SubstanceCommentServiceImpl implements SubstanceCommentService {
 
     @Override
     public List<SubstanceCommentPO> listBySubstanceId(PagingInfo pi) {
-        return listBySubstanceId(pi);
+        return substanceCommentDAO.listBySubstanceId(pi);
+    }
+
+    @Override
+    public int countByPrimaryKey(Long id) {
+        return substanceCommentDAO.countByPrimaryKey(id);
     }
 }

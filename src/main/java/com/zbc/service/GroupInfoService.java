@@ -69,7 +69,7 @@ public interface GroupInfoService {
 
     /**
      * 根据用户id和substance id查询该用户是否加入了指定substance
-     * @param id
+     * @param record
      * @return
      */
     GroupInfoPO selectByBothId(GroupInfoPO record);
