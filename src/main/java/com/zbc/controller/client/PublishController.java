@@ -84,6 +84,7 @@ public class PublishController {
         } else {
             return "error";
         }
+        // TODO 优化没做
     }
 
     @RequestMapping(value = "/client/publishImgUpload",produces = {"text/html;charset=UTF-8;"})

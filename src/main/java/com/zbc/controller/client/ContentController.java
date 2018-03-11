@@ -39,6 +39,7 @@ public class ContentController {
     private JwtService jwtService; // jwt 生成和验证
 
     @RequestMapping(value = "/content")
+    // TODO 内容加载还缺少一个是否允许匿名用户查看的判断
     public ModelAndView client_content(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         if (null != id && !ParamsUtils.isPositiveInteger(id) || null == id){
@@ -51,19 +52,24 @@ public class ContentController {
         // 取得组长信息
         long userId = infoPO.getBelongUserId();
         UserInfoPO userInfoPO = userInfoService.selectByPrimaryKey(userId);
+        // 加入兴趣组的总数
         int joinCount = groupInfoService.countByUserId(userId);
+        // 收藏的总数
         int collectCount = userCollectionService.countByUserId(userId);
+        // 发布的总数
         int publishCount = substanceInfoService.countByUserId(userId);
-        ArrayList<GroupInfoPO> listGroupInfo = (ArrayList)groupInfoService.listBySubstanceId(substanceId);
+        // 根据substanceId获得所有加入用户的基本信息
+        ArrayList<GroupInfoPO> listGroupInfo = (ArrayList<GroupInfoPO>)groupInfoService.listBySubstanceId(substanceId);
         // 根据token判断是否有用户登录
-        String token = (String)request.getAttribute("token");
-        long loginId = -1;
-        if (null == token || !jwtService.validateJwt(token)){
-            // token验证失败，没有用户登录
-            System.out.println("no user login");
-        } else {
-            loginId = Long.parseLong(jwtService.getSpecificPayload(token,"aud"));
-            // TODO 判断该substance是否属于该登录用户
+        long loginId = hasUserLogin(request);
+        // 是否为匿名访问的标志
+        int isAnonymous = infoPO.getIsAnonymousPermit() == 1 ? 1 : -1;
+        for (GroupInfoPO po : listGroupInfo){
+            if (po.getUserInfoPO().getId() == loginId){
+                // 登录用户属于该用户组
+                isAnonymous = 1;
+                break;
+            }
         }
         // 地图在前台加载
         // 根据上面的判断返回指定的内容
@@ -75,6 +81,7 @@ public class ContentController {
         modelAndView.addObject("collectCount",collectCount);
         modelAndView.addObject("publishCount",publishCount);
         modelAndView.addObject("listGroupInfo",listGroupInfo);
+        modelAndView.addObject("isAnonymous",isAnonymous);
         return modelAndView;
     }
 
@@ -87,7 +94,7 @@ public class ContentController {
             return "-1";
         }
         String commentTxt = request.getParameter("commentContent");
-        // TODO 还没有对评论内容进行过滤
+        // 还没有对评论内容进行过滤
         String substanceId = request.getParameter("substanceId");
         SubstanceCommentPO po = new SubstanceCommentPO();
         po.setBelongSubstanceId(Long.parseLong(substanceId));
@@ -101,7 +108,7 @@ public class ContentController {
         }
     }
 
-    // 评论内容分页
+    // 评论内容分页，从 0 开始是第一页
     @RequestMapping(value = "/content/loadComments",produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public String loadComment(HttpServletRequest request){
@@ -128,8 +135,10 @@ public class ContentController {
         return res.toJSONString();
     }
 
-    // TODO 加入和收藏
-    @RequestMapping(value = "personJoin")
+    // 加入和收藏
+    // ！！！--没有限制自己发布的内容不可以加入或收藏
+    // TODO 加入还缺少一个是否输入邀请码的判断
+    @RequestMapping(value = "/content/personJoin")
     @ResponseBody
     public String personJoin(HttpServletRequest request) throws Exception {
         long userId = hasUserLogin(request);
@@ -152,7 +161,7 @@ public class ContentController {
         }
     }
 
-    @RequestMapping(value = "personCollect")
+    @RequestMapping(value = "/content/personCollect")
     @ResponseBody
     public String personCollect(HttpServletRequest request) throws Exception {
         long userId = hasUserLogin(request);
@@ -174,6 +183,7 @@ public class ContentController {
             return "-3";
         }
     }
+
     /**
      * 根据request中是否携带token，判断是否有用户登录，是则返回用户id
      * @param request
@@ -184,7 +194,7 @@ public class ContentController {
         // 根据token判断是否有用户登录
         String token = URLDecoder.decode(getTokenByCookie(request),"utf-8");
         long loginId = -1L;
-        if (null == token || !jwtService.validateJwt(token)){
+        if ("".equals(token) || !jwtService.validateJwt(token)){
             // token验证失败，没有用户登录
             return loginId;
         } else {
@@ -199,11 +209,17 @@ public class ContentController {
      * @return
      */
     private String getTokenByCookie(HttpServletRequest request){
-        String token = null;
+        String token = "";
         Cookie[] cookies = request.getCookies();
-        for (int i = 0;i < cookies.length;i++){
-            if ("token".equals(cookies[i].getName())){
-                token = cookies[i].getValue();
+//        for (int i = 0;i < cookies.length;i++){
+//            if ("token".equals(cookies[i].getName())){
+//                token = cookies[i].getValue();
+//                break;
+//            }
+//        }
+        for (Cookie cookie: cookies){
+            if ("token".equals(cookie.getName())){
+                token = cookie.getValue();
                 break;
             }
         }

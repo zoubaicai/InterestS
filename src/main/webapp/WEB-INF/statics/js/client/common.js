@@ -17,3 +17,25 @@ $(function () {
         $("#userNickname").text(nickname);
     }
 });
+// 各种 zeroModal 弹框
+// 无事件提示框
+var zmAlert = function (content) {
+    zeroModal.alert({
+        content : content,
+        overlayClose : true
+    });
+};
+// 无事件错误提示框
+var zmError = function (content) {
+    zeroModal.error({
+        content : content,
+        overlayClose : true
+    });
+};
+// 无事件成功提示框
+var zmSuccess = function (content) {
+    zeroModal.success({
+        content : content,
+        overlayClose : true
+    });
+};

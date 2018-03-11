@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>内容</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/content.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -26,7 +27,7 @@
 </head>
 <body style="padding-top: 70px;">
     <%@include file="header.jsp"%>
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="col-md-9 white-back shards-shadow ">
@@ -48,7 +49,9 @@
                     <!--地址信息-->
                     <div class="col-md-12" id="locationInfo">
                         <span class="hidden" id="isRealistic">${substanceInfo.isRealistic}</span>
-                        <span class="hidden" id="locale">${substanceInfo.locale}</span>
+                        <c:if test="${isAnonymous == 1}">
+                            <span class="hidden" id="locale">${substanceInfo.locale}</span>
+                        </c:if>
                         <%--<hr>--%>
                         <%--<label for="mapContainer">地点：<span id="locationTxt"></span></label>--%>
                         <%--<div class="col-md-12 thumbnail" id="mapContainer" style="min-height: 200px;"></div>--%>
@@ -56,69 +59,63 @@
                     <!--兴趣组成员-->
                     <div class="col-md-12" aria-label="participants" style="min-height: 50px;">
                         <hr>
-                        <label><span>${listGroupInfo.size()}</span>感兴趣</label>
-                        <div class="user-lists">
-                            <c:forEach items="${listGroupInfo}" var="item" varStatus="status">
-                                <a href="#" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
-                            </c:forEach>
-                            <c:if test="${listGroupInfo.size() < 1}">
-                                等待用户加入...!_!
-                            </c:if>
-                        </div>
+                        <c:if test="${isAnonymous == 1}">
+                            <label><span>${listGroupInfo.size()}</span>感兴趣</label>
+                            <div class="user-lists">
+                                <c:forEach items="${listGroupInfo}" var="item" varStatus="status">
+                                    <a href="#" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
+                                </c:forEach>
+                                <c:if test="${listGroupInfo.size() < 1}">
+                                    等待用户加入...!_!
+                                </c:if>
+                            </div>
+                        </c:if>
                     </div>
                     <div class="col-md-12">
                         <div class="btn-group btn-group-justified marginT-10" role="group">
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle"></span> 加入</button>
+                                <button type="button" class="btn btn-primary" id="personJoin"><span class="glyphicon glyphicon-ok-circle"></span> 加入</button>
                             </div>
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span> 收藏</button>
+                                <button type="button" class="btn btn-primary" id="personCollect"><span class="glyphicon glyphicon-star"></span> 收藏</button>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12" aria-label="input comment">
-                        <hr>
-                        <textarea class="form-control" placeholder="输入观点" id="userComment"></textarea>
-                        <div class="paddingT-5 clearfix">
-                            <button type="button" class="btn btn-primary btn-sm pull-right" id="commentSubmit">发布</button>
                         </div>
                     </div>
                     <!--评论区域-->
-                    <div class="col-md-12" aria-label="comment area" style="min-height: 100px;">
-                        <div class="comment-lists clearfix marginT-10">
-                            <div style="background-color: #fff">
-                                <img class="center-block" src="/images/loadingandword.gif">
+                    <c:choose>
+                        <c:when test="${isAnonymous == 1}">
+                            <div class="col-md-12" aria-label="input comment">
+                                <hr>
+                                <textarea class="form-control" placeholder="输入观点" id="userComment"></textarea>
+                                <div class="paddingT-5 clearfix">
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" id="commentSubmit">发布</button>
+                                </div>
                             </div>
-                            <%--<div class="comment-item clearfix">--%>
-                                <%--<div class="col-xs-2">--%>
-                                    <%--<a href="#"><img src="/images/user.png" class="img-rounded"></a>--%>
-                                    <%--<small>2018-1-7 15:26</small>--%>
-                                <%--</div>--%>
-                                <%--<div class="col-xs-10">--%>
-                                    <%--<p>Disabled checkboxes and radios are supported, but to provide a "not-allowed" cursor on hover of the parent, you'll need to add the .disabled class to the parent .radio, .radio-inline, .checkbox, or .checkbox-inline</p>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                            <%--<div class="comment-item clearfix">--%>
-                                <%--<div class="col-xs-2">--%>
-                                    <%--<a href="#"><img src="/images/user.png" class="img-rounded"></a>--%>
-                                    <%--<small>2018-1-7 15:26</small>--%>
-                                <%--</div>--%>
-                                <%--<div class="col-xs-10">--%>
-                                    <%--<p>Disabled checkboxes and radios are supported, but to provide a "not-allowed" cursor on hover of the parent, you'll need to add the .disabled class to the parent .radio, .radio-inline, .checkbox, or .checkbox-inline</p>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <nav aria-label="lists navigation">
-                            <ul class="pager">
-                                <li class="previous"><a href="#">上一页</a></li>
-                                <li class="page-info">第 <small id="offset">0</small> 页,共 <small id="sumPage">0</small> 页</li>
-                                <li class="next"><a href="#">下一页</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                            <div class="col-md-12" aria-label="comment area" style="min-height: 100px;">
+                                <div class="comment-lists clearfix marginT-10" id="commentLists">
+                                    <div style="background-color: #fff">
+                                        <img class="center-block" src="/images/loadingandword.gif">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <nav aria-label="lists navigation">
+                                    <ul class="pager">
+                                        <li class="previous"><a href="javascript:void(0)" id="commentPrevious" disabled >上一页</a></li>
+                                        <li class="page-info">第 <small id="offset">1</small> 页,共 <small id="sumPage">1</small> 页</li>
+                                        <li class="next"><a href="javascript:void(0)" id="commentNext">下一页</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="col-md-12 marginT-10">
+                                <p class="well well-lg">该兴趣组设置匿名访问限制，加入该兴趣组之后显示所有信息(o゜▽゜)o☆</p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
+                <span class="hidden" id="isAnonymous">${isAnonymous}</span><!--匿名标志，防君子不防小人-->
                 <!--发布者性息-->
                 <div class="col-md-3 hidden-sm hidden-xs">
                     <div class="shards-shadow thumbnail clear-border clear-radius">
@@ -143,16 +140,22 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
     <%@include file="footer.jsp"%>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
+        // 重载 footer 的margin top
+        var $footer = document.getElementsByTagName("footer")[0];
+        var bottomGap = window.screen.height - ($footer.offsetHeight + $footer.offsetTop);
+        if (bottomGap > 0){
+            $($footer).css("margin-top",bottomGap - $footer.offsetHeight);
+        }
         //百度地图API功能
         function loadBaiduMap() {
             var script = document.createElement("script");
@@ -177,60 +180,128 @@
             marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
         }
         $(function () {
-            // 加载地图
-            if ($("#isRealistic").text() === "1"){
+            // 加载地图，匿名标志为 1 时
+            if ($("#isRealistic").text() === "1" && $("#isAnonymous").text() === "1"){
                 loadBaiduMap();
             }
+            // 得到id
+            var getSubstanceId = function () {
+                var regex = /id=\w+/;
+                var substanceId = regex.exec(location.search)[0].substr(3);
+                return substanceId;
+            };
             // 提交评论
             $("#commentSubmit").click(function () {
                 if ($.cookie("token") === undefined){
-                    alert("请先登录0");
+                    zmAlert("请先登录0");
                     return;
                 }
-                var regex = /id=\w+/;
-                var substanceId = regex.exec(location.search)[0].substr(3);
                 var commentContent = $("#userComment").val();
                 if (commentContent.length < 3){
-                    alert("评论内容不能小于3");
+                    zmAlert("评论内容不能小于3");
                     return;
                 }
                 var params = {
-                    substanceId : substanceId,
+                    substanceId : getSubstanceId(),
                     commentContent : commentContent
                 };
                 $.post("/content/addComment?time" + new Date().getTime(),params,function (result) {
                     if (result === "-1"){
-                        alert("请先登录1");
+                        zmAlert("登录信息失效了，请重新登录！-1");
                     } else if (result === "-2"){
-                        alert("系统错误");
+                        zmError("系统错误2");
                     } else if (result === "1"){
                         // 刷新评论区
-                        alert("success");
+                        zmSuccess("添加评价成功！");
                         $("#userComment").val("");
                     } else {
                         // 没有处理
+                        zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
                     }
                 });
             });
             // 加载评论内容
+            var loadingDiv = "<div style=\"background-color: #fff\">\n" +
+                "<img class=\"center-block\" src=\"/images/loadingandword.gif\">\n" +
+                "</div>";
             var loadComments = function (offset,rows) {
-                var regex = /id=\w+/;
-                var substanceId = regex.exec(location.search)[0].substr(3);
-                var params = {
-                    substanceId : substanceId,
-                    offset : offset,
-                    rows : rows
-                };
-                $.post("/content/loadComments?time=" + new Date().getTime(),params,function (result) {
-                    var res = JSON.parse(result);
-                    $("#sumPage").text(res.sumPage);// 总页数
-                    var items = res.items;
-                    for (var i=0; i<items.length; i++){
-                        console.log(items[i].portrait + "-" + items[i].gmtCreate + "-" + items[i].content + "\n");
-                    }
-                });
+                // 如果匿名标志为 1 就加载评论内容
+                if ($("#isAnonymous").text() === "1"){
+                    var $commentLists = $("#commentLists");
+                    $commentLists.html(loadingDiv);
+                    var params = {
+                        substanceId : getSubstanceId(),
+                        offset : offset,
+                        rows : rows
+                    };
+                    $.post("/content/loadComments?time=" + new Date().getTime(),params,function (result) {
+                        var res = JSON.parse(result);
+                        var sumPage = res.sumPage;
+                        var nowPosition = $("#offset").text();
+                        if (sumPage == 0){
+                            $commentLists.html("<p class='text-center'>还没有评论(⊙ˍ⊙)</p>");
+                        } else {
+                            var itemsDiv = "";
+                            $("#sumPage").text(parseInt(sumPage / 10) + 1);// 总页数
+                            var items = res.items;
+                            for (var i=0; i<items.length; i++){
+                                // console.log(items[i].portrait + "-" + items[i].gmtCreate + "-" + items[i].content + "\n");
+                                itemsDiv += "<div class=\"comment-item clearfix\">" +
+                                    "<div class=\"col-xs-3 text-center\">" +
+                                    "<a href=\"#\"><img src=\"" + items[i].portrait + "\" class=\"img-rounded\"></a>" +
+                                    "<small>" + items[i].gmtCreate.substr(0,19) + "</small>" +
+                                    "</div>" +
+                                    "<div class=\"col-xs-9\">" +
+                                    "<p>" + items[i].content + "</p>" +
+                                    "</div>" +
+                                    "</div>";
+                            }
+                            $commentLists.html(itemsDiv);
+                        }
+                    });
+                }
             };
-            loadComments($("#offset").text() - 1,10); // 页面初始化调用
+            var $offset = $("#offset");
+            var $sumPage = $("#sumPage");
+            loadComments($offset.text() - 1,10); // 页面初始化调用
+            // 上一页
+            $("#commentPrevious").click(function () {
+                if ($offset.text() - 1 == 0){
+                    zmAlert("已经是第一页了");
+                } else {
+                    loadComments($offset.text() - 1,10);
+                }
+            });
+            // 下一页
+            $("#commentNext").click(function () {
+                if ($offset.text() == $sumPage.text()){
+                    zmAlert("已经是最后一页了");
+                } else {
+                    loadComments($offset.text(),10);
+                }
+            });
+            // 加入/收藏
+            $("#personJoin").click(function () {
+                if ($.cookie("token") === undefined){
+                    alert("请先登录0");
+                    return;
+                }
+                var params = {
+                    substanceId : getSubstanceId()
+                };
+                $.post("/content/personJoin?time" + new Date().getTime(),params,function (result) {
+                    switch (result){
+                        case 1:
+                            alert("加入成功");
+                            break;
+                        case -1:
+                            break;
+                        default:
+                            break;
+                    }
+                    // 未完成
+                })
+            });
         });
     </script>
 </body>
