@@ -1,12 +1,15 @@
 package com.zbc.util;
 
+import com.zbc.pojo.GroupInfoPO;
 import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.SubstanceCommentPO;
+import com.zbc.service.GroupInfoService;
 import com.zbc.service.SubstanceCommentService;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestMain {
@@ -28,16 +31,11 @@ public class TestMain {
 //                .watermark(Positions.BOTTOM_LEFT, Thumbnails.of(waterPic).scale(0.1f).outputQuality(0.1f).asBufferedImage(),0.5f)
 //                .outputQuality(0.8f).toFile(toPic);
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-        SubstanceCommentService substanceCommentService = (SubstanceCommentService)context.getBean("substanceCommentService");
-        PagingInfo pagingInfo = new PagingInfo();
-        pagingInfo.setId(3L);
-        pagingInfo.setOffset(0);
-        pagingInfo.setRows(1);
-        List<SubstanceCommentPO> pos = substanceCommentService.listBySubstanceId(pagingInfo);
-        System.out.println(substanceCommentService.countByPrimaryKey(3L));
-        for (SubstanceCommentPO po : pos){
-            System.out.println(po.getCommentContent() + " " + po.getUserInfoPO().getUserNickname());
-
+        GroupInfoService groupInfoService = (GroupInfoService)context.getBean("groupInfoService");
+        ArrayList<GroupInfoPO> listGroupInfo = (ArrayList<GroupInfoPO>)groupInfoService.listBySubstanceId(3L);
+        System.out.println(listGroupInfo.size());
+        for (GroupInfoPO po : listGroupInfo){
+            System.out.println(po.getUserInfoPO().getId());
         }
 //        UserInfoService userInfoService = (UserInfoService) context.getBean("userInfoService");
 //        UserInfoPO temp = new UserInfoPO();

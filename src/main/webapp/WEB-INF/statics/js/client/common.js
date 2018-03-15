@@ -16,6 +16,13 @@ $(function () {
         $("#userPortrait").attr("src",portrait);
         $("#userNickname").text(nickname);
     }
+
+    // 重载 footer 的margin top
+    var $footer = document.getElementsByTagName("footer")[0];
+    var bottomGap = window.screen.height - ($footer.offsetHeight + $footer.offsetTop);
+    if (bottomGap > 0){
+        $($footer).css("margin-top",bottomGap - $footer.offsetHeight);
+    }
 });
 // 各种 zeroModal 弹框
 // 无事件提示框

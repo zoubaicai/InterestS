@@ -19,6 +19,7 @@
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
         <collection property="userInfoPO" javaType="com.zbc.pojo.UserInfoPO">
+            <id column="id" jdbcType="BIGINT" property="id"/>
             <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
             <result column="user_pwd" jdbcType="VARCHAR" property="userPwd"/>
             <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
@@ -144,6 +145,7 @@
     <select id="listBySubstanceId" parameterType="java.lang.Long" resultMap="IncludeUserInfo">
         select
             g.belong_user_id,
+            u.id,
             u.portrait
         from
           group_info g join user_info u on g.belong_user_id = u.id

@@ -14,6 +14,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>内容</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
@@ -66,7 +68,7 @@
                                     <a href="#" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
                                 </c:forEach>
                                 <c:if test="${listGroupInfo.size() < 1}">
-                                    等待用户加入...!_!
+                                    等待加入...!_!
                                 </c:if>
                             </div>
                         </c:if>
@@ -115,7 +117,8 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-                <span class="hidden" id="isAnonymous">${isAnonymous}</span><!--匿名标志，防君子不防小人-->
+                <span class="hidden" id="isAnonymous">${isAnonymous}</span><!--匿名标志，防君子-->
+                <span class="hidden" id="isRestricted">${substanceInfo.isRestricted}</span>
                 <!--发布者性息-->
                 <div class="col-md-3 hidden-sm hidden-xs">
                     <div class="shards-shadow thumbnail clear-border clear-radius">
@@ -150,12 +153,6 @@
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
-        // 重载 footer 的margin top
-        var $footer = document.getElementsByTagName("footer")[0];
-        var bottomGap = window.screen.height - ($footer.offsetHeight + $footer.offsetTop);
-        if (bottomGap > 0){
-            $($footer).css("margin-top",bottomGap - $footer.offsetHeight);
-        }
         //百度地图API功能
         function loadBaiduMap() {
             var script = document.createElement("script");
@@ -214,6 +211,11 @@
                         // 刷新评论区
                         zmSuccess("添加评价成功！");
                         $("#userComment").val("");
+                        if ($("#offset").text() !== "1"){
+                            loadComments($offset.text() - 1,10);
+                        } else {
+                            loadComments(0,10);
+                        }
                     } else {
                         // 没有处理
                         zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
@@ -263,7 +265,7 @@
             };
             var $offset = $("#offset");
             var $sumPage = $("#sumPage");
-            loadComments($offset.text() - 1,10); // 页面初始化调用
+            loadComments(0,10); // 页面初始化调用
             // 上一页
             $("#commentPrevious").click(function () {
                 if ($offset.text() - 1 == 0){
@@ -283,24 +285,80 @@
             // 加入/收藏
             $("#personJoin").click(function () {
                 if ($.cookie("token") === undefined){
-                    alert("请先登录0");
+                    zmAlert("请先登录！");
+                    return;
+                }
+                var params = {};
+
+                if ($("#isRestricted").text() === "1"){
+                    zeroModal.show({
+                        title : "该用户组有加入限制\n请输入邀请码，可以通过组长获得",
+                        content : "<div class='from-group form-group-lg'><input class='form-control' type='text' id='invitationCode' placeholder='邀请码'></div>",
+                        overlayClose : true,
+                        ok : true,
+                        cancel : true,
+                        okFn : function () {
+                            params = {
+                                substanceId : getSubstanceId(),
+                                invitationCode : $("#invitationCode").val()
+                            };
+                            personJoinPost(params);
+                        }
+                    });
+                } else {
+                    params = {
+                        substanceId : getSubstanceId()
+                    };
+                    personJoinPost(params);
+                }
+                // 加入ajax提交
+                var personJoinPost = function (params) {
+                    $.post("/content/personJoin?time" + new Date().getTime(),params,function (result) {
+                        switch (result){
+                            case "1":
+                                zmAlert("加入成功！");
+                                break;
+                            case "-1":
+                                zmAlert("登录信息失效了，请重新登录！-1");
+                                break;
+                            case "-2":
+                                zmAlert("您已经加入该兴趣组了");
+                                break;
+                            case "-4":
+                                zmAlert("不是正确的邀请码");
+                                break;
+                            default:
+                                zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
+                                break;
+                        }
+                    });
+                };
+            });
+
+            $("#personCollect").click(function () {
+                if ($.cookie("token") === undefined){
+                    zmAlert("请先登录！");
                     return;
                 }
                 var params = {
                     substanceId : getSubstanceId()
                 };
-                $.post("/content/personJoin?time" + new Date().getTime(),params,function (result) {
+                $.post("/content/personCollect?time" + new Date().getTime(),params,function (result) {
                     switch (result){
-                        case 1:
-                            alert("加入成功");
+                        case "1":
+                            zmAlert("收藏成功！");
                             break;
-                        case -1:
+                        case "-1":
+                            zmAlert("登录信息失效了，请重新登录！-1");
+                            break;
+                        case "-2":
+                            zmAlert("您已经收藏过该兴趣组了");
                             break;
                         default:
+                            zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
                             break;
                     }
-                    // 未完成
-                })
+                });
             });
         });
     </script>

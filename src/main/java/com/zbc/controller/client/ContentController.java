@@ -39,7 +39,6 @@ public class ContentController {
     private JwtService jwtService; // jwt 生成和验证
 
     @RequestMapping(value = "/content")
-    // TODO 内容加载还缺少一个是否允许匿名用户查看的判断
     public ModelAndView client_content(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         if (null != id && !ParamsUtils.isPositiveInteger(id) || null == id){
@@ -137,7 +136,6 @@ public class ContentController {
 
     // 加入和收藏
     // ！！！--没有限制自己发布的内容不可以加入或收藏
-    // TODO 加入还缺少一个是否输入邀请码的判断
     @RequestMapping(value = "/content/personJoin")
     @ResponseBody
     public String personJoin(HttpServletRequest request) throws Exception {
@@ -146,11 +144,18 @@ public class ContentController {
             return "-1";
         }
         long substanceId = Long.parseLong(request.getParameter("substanceId"));
+        SubstanceInfoPO infoPO = substanceInfoService.selectIncludeContent(substanceId);
+        if (infoPO.getIsRestricted() == 1){
+            String invitationCode = request.getParameter("invitationCode");
+            if (!invitationCode.equals(infoPO.getJoinCode())){
+                return "-4";
+            }
+        }
         GroupInfoPO po = new GroupInfoPO();
         po.setBelongSubstanceId(substanceId);
         po.setBelongUserId(userId);
         GroupInfoPO po1 = groupInfoService.selectByBothId(po);
-        if (po1.getId() > 0){
+        if (null != po1.getId()){
             return "-2";
         }
         int res_insert = groupInfoService.insertSelective(po);
@@ -173,7 +178,7 @@ public class ContentController {
         po.setBelongUserId(userId);
         po.setTargetSubstanceId(substanceId);
         UserCollectionPO po1 = userCollectionService.selectByBothId(po);
-        if (po1.getId() > 0){
+        if (null != po1.getId()){
             return "-2";
         }
         int res_insert = userCollectionService.insertSelective(po);
@@ -211,12 +216,6 @@ public class ContentController {
     private String getTokenByCookie(HttpServletRequest request){
         String token = "";
         Cookie[] cookies = request.getCookies();
-//        for (int i = 0;i < cookies.length;i++){
-//            if ("token".equals(cookies[i].getName())){
-//                token = cookies[i].getValue();
-//                break;
-//            }
-//        }
         for (Cookie cookie: cookies){
             if ("token".equals(cookie.getName())){
                 token = cookie.getValue();
