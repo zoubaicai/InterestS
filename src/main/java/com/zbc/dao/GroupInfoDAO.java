@@ -1,6 +1,7 @@
 package com.zbc.dao;
 
 import com.zbc.pojo.GroupInfoPO;
+import com.zbc.pojo.PagingInfo;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -63,6 +64,13 @@ public interface GroupInfoDAO {
     List<GroupInfoPO> listBySubstanceId(Long id);
 
     /**
+     * 根据用户id 找出加入的group 信息
+     * @param pagingInfo
+     * @return
+     */
+    List<GroupInfoPO> listByBelongUserId(PagingInfo pagingInfo);
+
+    /**
      * 根据用户id获得该用户加入多少的兴趣组
      * @param id
      * @return
@@ -71,7 +79,7 @@ public interface GroupInfoDAO {
 
     /**
      * 根据用户id和substance id查询该用户是否加入了指定substance
-     * @param id
+     * @param record
      * @return
      */
     GroupInfoPO selectByBothId(GroupInfoPO record);

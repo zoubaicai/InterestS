@@ -16,7 +16,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = null;
+        String token = "";
         Cookie[] cookies = request.getCookies();
         for (int i = 0;i < cookies.length;i++){
             if ("token".equals(cookies[i].getName())){

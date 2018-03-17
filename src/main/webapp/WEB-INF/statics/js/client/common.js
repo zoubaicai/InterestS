@@ -21,7 +21,7 @@ $(function () {
     var $footer = document.getElementsByTagName("footer")[0];
     var bottomGap = window.screen.height - ($footer.offsetHeight + $footer.offsetTop);
     if (bottomGap > 0){
-        $($footer).css("margin-top",bottomGap - $footer.offsetHeight);
+        $($footer).css("margin-top",bottomGap);
     }
 });
 // 各种 zeroModal 弹框

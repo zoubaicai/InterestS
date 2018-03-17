@@ -1,5 +1,6 @@
 package com.zbc.service;
 
+import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.UserCollectionPO;
 
 import java.util.List;
@@ -73,4 +74,11 @@ public interface UserCollectionService {
      * @return
      */
     UserCollectionPO selectByBothId(UserCollectionPO record);
+
+    /**
+     * 根据belong user id 查询收藏信息
+     * @param pagingInfo
+     * @return
+     */
+    List<UserCollectionPO> listByBelongUserId(PagingInfo pagingInfo);
 }

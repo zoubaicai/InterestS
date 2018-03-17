@@ -1,6 +1,7 @@
 package com.zbc.service.impl;
 
 import com.zbc.dao.UserCollectionDAO;
+import com.zbc.pojo.PagingInfo;
 import com.zbc.service.UserCollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,10 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         } else {
             return temp;
         }
+    }
+
+    @Override
+    public List<UserCollectionPO> listByBelongUserId(PagingInfo pagingInfo) {
+        return userCollectionDAO.listByBelongUserId(pagingInfo);
     }
 }

@@ -7,7 +7,10 @@ import com.zbc.util.HMACSHA256Utils;
 import com.zbc.util.ParamsUtils;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -143,5 +146,43 @@ public final class JwtServiceImpl implements JwtService {
             }
         }
         return res;
+    }
+
+    /**
+     * 从cookie中取出token
+     * @param request
+     * @return
+     */
+    @Override
+    public String getTokenByCookie(HttpServletRequest request) {
+        String token = "";
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie: cookies){
+            if ("token".equals(cookie.getName())){
+                token = cookie.getValue();
+                break;
+            }
+        }
+        return token;
+    }
+
+    /**
+     * 根据request中是否携带token，判断是否有用户登录，是则返回用户id
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public long hasUserLogin(HttpServletRequest request) throws Exception {
+        // 根据token判断是否有用户登录
+        String token = URLDecoder.decode(getTokenByCookie(request),"utf-8");
+        long loginId = -1L;
+        if ("".equals(token) || !validateJwt(token)){
+            // token验证失败，没有用户登录
+            return loginId;
+        } else {
+            loginId = Long.parseLong(getSpecificPayload(token,"aud"));
+            return loginId;
+        }
     }
 }

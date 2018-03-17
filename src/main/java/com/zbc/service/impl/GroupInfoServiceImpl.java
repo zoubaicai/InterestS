@@ -1,6 +1,7 @@
 package com.zbc.service.impl;
 
 import com.zbc.pojo.GroupInfoPO;
+import com.zbc.pojo.PagingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zbc.dao.GroupInfoDAO;
@@ -21,6 +22,11 @@ public class GroupInfoServiceImpl implements GroupInfoService {
     @Override
     public List<GroupInfoPO> listBySubstanceId(Long id) {
         return groupInfoDAO.listBySubstanceId(id);
+    }
+
+    @Override
+    public List<GroupInfoPO> listByBelongUserId(PagingInfo pagingInfo) {
+        return groupInfoDAO.listByBelongUserId(pagingInfo);
     }
 
     @Override

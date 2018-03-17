@@ -1,7 +1,10 @@
 package com.zbc.dao;
 
+import com.zbc.pojo.PagingInfo;
 import org.mybatis.spring.annotation.MapperScan;
 import com.zbc.pojo.SubstanceInfoPO;
+
+import java.util.List;
 
 @MapperScan
 public interface SubstanceInfoDAO {
@@ -66,4 +69,11 @@ public interface SubstanceInfoDAO {
      * @return
      */
     int countByUserId(Long id);
+
+    /**
+     * 根据用户id获得指定 substance 列表
+     * @param pagingInfo
+     * @return
+     */
+    List<SubstanceInfoPO> listByBelongUserId(PagingInfo pagingInfo);
 }

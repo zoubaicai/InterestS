@@ -19,8 +19,8 @@
         <result column="people_restrict" jdbcType="SMALLINT" property="peopleRestrict"/>
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
-        <result column="is_verified" jdbcType="TINYINT" property="isVerified" />
-        <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor" />
+        <result column="is_verified" jdbcType="TINYINT" property="isVerified"/>
+        <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor"/>
     </resultMap>
     <resultMap id="infoIncludeContent" type="com.zbc.pojo.SubstanceInfoPO">
         <id column="id" jdbcType="BIGINT" property="id"/>
@@ -36,8 +36,8 @@
         <result column="people_restrict" jdbcType="SMALLINT" property="peopleRestrict"/>
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
-        <result column="is_verified" jdbcType="TINYINT" property="isVerified" />
-        <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor" />
+        <result column="is_verified" jdbcType="TINYINT" property="isVerified"/>
+        <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor"/>
         <collection property="substanceContentPO" javaType="com.zbc.pojo.SubstanceContentPO">
             <result column="belong_substance_id" jdbcType="BIGINT" property="belongSubstanceId"/>
             <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
@@ -54,32 +54,42 @@
         is_restricted, join_code, people_restrict, gmt_create, gmt_modified, is_verified, unverified_factor
     </sql>
     <select id="selectIncludeContent" parameterType="java.lang.Long" resultMap="infoIncludeContent">
-    SELECT
-      i.id,
-      i.belong_user_id,
-      i.subject,
-      i.summary,
-      i.cover,
-      i.is_realistic,
-      i.locale,
-      i.is_anonymous_permit,
-      i.is_restricted,
-      i.join_code,
-      i.people_restrict,
-      i.gmt_create,
-      i.gmt_modified,
-      i.is_verified,
-      i.unverified_factor,
-      s.content
-    FROM
-      substance_info i
-    LEFT JOIN
-      substance_content s
-    ON
-      s.belong_substance_id = i.id
-    WHERE
-      i.id = #{id,jdbcType=BIGINT}
-  </select>
+        SELECT
+          i.id,
+          i.belong_user_id,
+          i.subject,
+          i.summary,
+          i.cover,
+          i.is_realistic,
+          i.locale,
+          i.is_anonymous_permit,
+          i.is_restricted,
+          i.join_code,
+          i.people_restrict,
+          i.gmt_create,
+          i.gmt_modified,
+          i.is_verified,
+          i.unverified_factor,
+          s.content
+        FROM
+          substance_info i
+        LEFT JOIN
+          substance_content s
+        ON
+          s.belong_substance_id = i.id
+        WHERE
+          i.id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="listByBelongUserId" parameterType="com.zbc.pojo.PagingInfo" resultMap="BaseResultMap">
+        SELECT
+          *
+        FROM
+          substance_info
+        WHERE
+          id in (select si.id from (select id from substance_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows}) as si)
+        ORDER BY
+          id DESC
+    </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--
           WARNING - @mbg.generated

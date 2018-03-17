@@ -51,16 +51,18 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
     <select id="listBySubstanceId" parameterType="com.zbc.pojo.PagingInfo" resultMap="IncludeUserInfo">
-    SELECT
-      *
-    FROM
-      substance_comment sc
-    JOIN
-      user_info u
-    ON
-      sc.belong_user_id = u.id
-    WHERE
-      sc.id in (select ssc.id from (select id from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as ssc)
+        SELECT
+          *
+        FROM
+          substance_comment sc
+        JOIN
+          user_info u
+        ON
+          sc.belong_user_id = u.id
+        WHERE
+          sc.id in (select ssc.id from (select id from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows}) as ssc)
+        ORDER BY
+          sc.id DESC
     </select>
     <select id="countByPrimaryKey" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select count(*) from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT}

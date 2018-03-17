@@ -5,6 +5,7 @@
   Time: 15:00
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCUMENT html>
 <html lang="zh-cn">
@@ -13,6 +14,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>个人中心</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
@@ -31,13 +34,22 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-2">
-                    <img class="img-thumbnail clear-border shards-shadow" src="data:image/jpeg;base64,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" alt="头像">
+                    <c:choose>
+                        <c:when test="${userInfo.portrait == null || userInfo.portrait == ''}">
+                            <img class="img-thumbnail clear-border shards-shadow" src="/images/user.png" >
+                        </c:when>
+                        <c:otherwise>
+                            <img class="img-thumbnail clear-border shards-shadow" src="${userInfo.portrait}" >
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div class="col-md-7">
-                    <p class="lead" style="display: inline;">zzbbcc</p>
+                    <p class="lead" style="display: inline;padding: 6px;">${userInfo.userNickname}</p>
                 </div>
                 <div class="col-md-3">
-                    <a href="/client/setting" class="btn btn-link pull-right">帐号设置</a>
+                    <c:if test="${isVisitor == -1}">
+                        <a href="/client/setting" class="btn btn-link pull-right">帐号设置</a>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -46,13 +58,13 @@
             <div class="col-md-12" style="margin-top: 10px;">
                 <ul class="nav nav-tabs" aria-describedby="#masonry is tabcontent">
                     <li role="presentation" class="active">
-                        <a href="#panel-publish" data-toggle="tab"><span>5</span>发布</a>
+                        <a href="#panel-publish" data-toggle="tab" id="panelPublishBtn"><span>${publishNum}</span>发布</a>
                     </li>
                     <li role="presentation">
-                        <a href="#panel-join" data-toggle="tab"><span>0</span>加入</a>
+                        <a href="#panel-join" data-toggle="tab" id="panelJoinBtn"><span>${joinNum}</span>加入</a>
                     </li>
                     <li role="presentation">
-                        <a href="#panel-collection" data-toggle="tab"><span>0</span>收藏</a>
+                        <a href="#panel-collection" data-toggle="tab" id="panelCollectionBtn"><span>${collectNum}</span>收藏</a>
                     </li>
                 </ul>
             </div>
@@ -62,7 +74,7 @@
     <div class="container">
         <div class="row tab-content" id="masonry" style="min-height: 400px;background-color: #eee;padding-top: 10px;">
             <!--发布面板-->
-            <div class="tab-pane active" id="panel-publish">
+            <div class="tab-pane active clearfix" id="panel-publish">
                 <div class="col-md-3 col-xs-12 paint padding-3">
                     <div class="thumbnail clear-border shards-shadow">
                         <div style="display: table;width: 100%;">
@@ -74,87 +86,217 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 paint padding-3">
-                    <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                        <img src="/images/cat.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-default width100" role="button">编辑</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 paint padding-3">
-                    <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                        <img src="/images/queen.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-default width100" role="button">编辑</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 paint padding-3">
-                    <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                        <img src="/images/iu.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-default width100" role="button">编辑</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 paint padding-3">
-                    <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                        <img src="/images/cat.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-default width100" role="button">编辑</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 paint padding-3">
-                    <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-default width100" role="button">编辑</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="tab-pane" id="panel-join">
-                <p>这里是加入面板</p>
+            <div class="tab-pane clearfix" id="panel-join">
+                <%--<p>这里是加入面板</p>--%>
             </div>
-            <div class="tab-pane" id="panel-collection">
-                <p>这里是收藏面板</p>
+            <div class="tab-pane clearfix" id="panel-collection">
+                <%--<p>这里是收藏面板</p>--%>
             </div>
         </div>
+        <span class="hidden" id="offsetPublish">0</span>
+        <span class="hidden" id="offsetJoin">0</span>
+        <span class="hidden" id="offsetCollect">0</span>
+        <span class="hidden" id="isVisitor">${isVisitor}</span>
     </div>
     <%@include file="footer.jsp"%>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/masonry.pkgd.min.js"></script>
     <script src="/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/client/common.js"></script>
     <script>
         $(function () {
             // 这里是iamgeloaded和masonry
-            var $masonry = $("#masonry");
-            $masonry.imagesLoaded(function () {
-                $masonry.masonry({
-                    itemSelector : ".tab-pane > .paint"
+            // var $masonry = $("#masonry");
+            // 得到uid
+            var getUid = function () {
+                var regex = /uid=\w+/;
+                var uid = -1;
+                try {
+                    uid = regex.exec(location.search)[0].substr(4);
+                } catch (e){
+                    uid = -1;
+                }
+                return uid;
+            };
+            // 加载发布内容
+            var loadPublish = function () {
+                var $panel_publish = $("#panel-publish");
+                var $offsetPublish = $("#offsetPublish");
+                var isVisitor = $("#isVisitor").text();
+                var params = {
+                    offset : $offsetPublish.text(),
+                    uid : getUid()
+                };
+                $.post("/personal/loadPublish?time=" + new Date().getTime(),params,function (result) {
+                    var jsonRes = JSON.parse(result);
+                    if ($("#loadPublishBtn")){
+                        $("#loadPublishBtn").parent().remove();
+                        $panel_publish.children("h3:last-child").remove();
+                    }
+                    if (jsonRes.length === 0){
+                        $panel_publish.append("<h3 class='text-center' style='margin-top: "  + ($panel_publish.height()) + "px'><small>没有更多了</small></h3>");
+                    } else {
+                        for (var i =0;i<jsonRes.length;i++){
+                            if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
+                                jsonRes[i].cover = "/images/loadingandword.gif";
+                            }
+                            var div = "<div class=\"col-md-3 paint padding-3\">\n" +
+                                "                    <div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
+                                "                        <a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
+                                "                            <img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "                        </a>\n" +
+                                "                        <div class=\"caption\">\n" +
+                                "                            <h3>" + jsonRes[i].subject + "</h3>\n" +
+                                "                            <p>" + jsonRes[i].summary + "</p>\n";
+                            if (isVisitor === "-1"){
+                                div += "                            <p>\n" +
+                                    "                                <a href=\"#\" class=\"btn btn-default width100\" role=\"button\">编辑</a>\n" +
+                                    "                            </p>\n";
+                            }
+                            div += "                        </div>\n" +
+                                "                    </div>\n" +
+                                "                </div>";
+                            $panel_publish.append(div);
+                        }
+                        $panel_publish.append("<div class='col-xs-12 text-center paint'><button id='loadPublishBtn' type='button' class='btn btn-link'>加载更多</button></div>");
+                        var offset = parseInt($offsetPublish.text());
+                        $offsetPublish.text(++offset);
+                        $("#loadPublishBtn").click(function () {
+                            loadPublish();
+                        });
+                    }
+                    // 调用imagesLoaded
+                    $panel_publish.imagesLoaded(function () {
+                        $panel_publish.masonry({
+                            itemSelector : ".paint"
+                        });
+                    });
                 });
+            };
+            // 加载加入的兴趣组
+            var loadJoin = function () {
+                var $panel_join = $("#panel-join");
+                var $offsetJoin = $("#offsetJoin");
+                var isVisitor = $("#isVisitor").text();
+                var params = {
+                    offset : $offsetJoin.text(),
+                    uid : getUid()
+                };
+                $.post("/personal/loadJoin?time=" + new Date().getTime(),params,function (result) {
+                    var jsonRes = JSON.parse(result);
+                    if ($("#loadJoinBtn")){
+                        $("#loadJoinBtn").parent().remove();
+                        $panel_join.children("h3:last-child").remove();
+                    }
+                    if (jsonRes.length === 0){
+                        $panel_join.append("<h3 class='text-center' style='margin-top: "  + ($panel_join.height()) + "px'><small>没有更多了</small></h3>");
+                    } else {
+                        for (var i =0;i<jsonRes.length;i++){
+                            if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
+                                jsonRes[i].cover = "/images/loadingandword.gif";
+                            }
+                            var div = "<div class=\"col-md-3 paint padding-3\">\n" +
+                                "                    <div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
+                                "                        <a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
+                                "                            <img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "                        </a>\n" +
+                                "                        <div class=\"caption\">\n" +
+                                "                            <h3>" + jsonRes[i].subject + "</h3>\n" +
+                                "                            <p>" + jsonRes[i].summary + "</p>\n";
+                            if (isVisitor === "-1"){
+                                div += "                            <p>\n" +
+                                    "                                <a href=\"#\" class=\"btn btn-default width100\" role=\"button\">编辑</a>\n" +
+                                    "                            </p>\n";
+                            }
+                            div += "                        </div>\n" +
+                                "                    </div>\n" +
+                                "                </div>";
+                            $panel_join.append(div);
+                        }
+                        $panel_join.append("<div class='col-xs-12 text-center paint'><button id='loadJoinBtn' type='button' class='btn btn-link'>加载更多</button></div>");
+                        var offset = parseInt($offsetJoin.text());
+                        $offsetJoin.text(++offset);
+                        $("#loadJoinBtn").click(function () {
+                            loadJoin();
+                        });
+                    }
+                    // 调用imagesLoaded
+                    $panel_join.imagesLoaded(function () {
+                        $panel_join.masonry({
+                            itemSelector : ".paint"
+                        });
+                    });
+                });
+            };
+            // 加载收藏内容
+            var loadCollection = function () {
+                var $panel_collection = $("#panel-collection");
+                var $offsetCollection = $("#offsetCollect");
+                var isVisitor = $("#isVisitor").text();
+                var params = {
+                    offset : $offsetCollection.text(),
+                    uid : getUid()
+                };
+                $.post("/personal/loadCollection?time=" + new Date().getTime(),params,function (result) {
+                    var jsonRes = JSON.parse(result);
+                    if ($("#loadCollectionBtn")){
+                        $("#loadCollectionBtn").parent().remove();
+                        $panel_collection.children("h3:last-child").remove();
+                    }
+                    if (jsonRes.length === 0){
+                        $panel_collection.append("<h3 class='text-center' style='margin-top: "  + ($panel_collection.height()) + "px'><small>没有更多了</small></h3>");
+                    } else {
+                        for (var i =0;i<jsonRes.length;i++){
+                            if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
+                                jsonRes[i].cover = "/images/loadingandword.gif";
+                            }
+                            var div = "<div class=\"col-md-3 paint padding-3\">\n" +
+                                "                    <div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
+                                "                        <a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
+                                "                            <img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "                        </a>\n" +
+                                "                        <div class=\"caption\">\n" +
+                                "                            <h3>" + jsonRes[i].subject + "</h3>\n" +
+                                "                            <p>" + jsonRes[i].summary + "</p>\n";
+                            if (isVisitor === "-1"){
+                                div += "                            <p>\n" +
+                                    "                                <a href=\"#\" class=\"btn btn-default width100\" role=\"button\">编辑</a>\n" +
+                                    "                            </p>\n";
+                            }
+                            div += "                        </div>\n" +
+                                "                    </div>\n" +
+                                "                </div>";
+                            $panel_collection.append(div);
+                        }
+                        $panel_collection.append("<div class='col-xs-12 text-center paint'><button id='loadCollectionBtn' type='button' class='btn btn-link'>加载更多</button></div>");
+                        var offset = parseInt($offsetCollection.text());
+                        $offsetCollection.text(++offset);
+                        $("#loadCollectionBtn").click(function () {
+                            loadCollection();
+                        });
+                    }
+                    // 调用imagesLoaded
+                    $panel_collection.imagesLoaded(function () {
+                        $panel_collection.masonry({
+                            itemSelector : ".paint"
+                        });
+                    });
+                });
+            };
+
+            loadPublish();
+
+            $("#panelJoinBtn").click(function () {
+                loadJoin();
+            });
+            $("#panelCollectionBtn").click(function () {
+               loadCollection();
+            });
+            $("#panelPublishBtn").click(function () {
+               loadPublish();
             });
 
         });

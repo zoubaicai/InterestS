@@ -32,6 +32,30 @@
             <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
         </collection>
     </resultMap>
+    <resultMap id="IncludeSubstanceInfo" type="com.zbc.pojo.GroupInfoPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="belong_substance_id" jdbcType="BIGINT" property="belongSubstanceId"/>
+        <result column="belong_user_id" jdbcType="BIGINT" property="belongUserId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <collection property="substanceInfoPO" javaType="com.zbc.pojo.SubstanceInfoPO">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="belong_user_id" jdbcType="BIGINT" property="belongUserId"/>
+            <result column="subject" jdbcType="VARCHAR" property="subject"/>
+            <result column="summary" jdbcType="VARCHAR" property="summary"/>
+            <result column="cover" jdbcType="VARCHAR" property="cover"/>
+            <result column="is_realistic" jdbcType="TINYINT" property="isRealistic"/>
+            <result column="locale" jdbcType="VARCHAR" property="locale"/>
+            <result column="is_anonymous_permit" jdbcType="TINYINT" property="isAnonymousPermit"/>
+            <result column="is_restricted" jdbcType="TINYINT" property="isRestricted"/>
+            <result column="join_code" jdbcType="VARCHAR" property="joinCode"/>
+            <result column="people_restrict" jdbcType="SMALLINT" property="peopleRestrict"/>
+            <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+            <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+            <result column="is_verified" jdbcType="TINYINT" property="isVerified"/>
+            <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor"/>
+        </collection>
+    </resultMap>
     <sql id="Base_Column_List">
         <!--
           WARNING - @mbg.generated
@@ -151,6 +175,16 @@
           group_info g join user_info u on g.belong_user_id = u.id
         where
           g.belong_substance_id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="listByBelongUserId" parameterType="com.zbc.pojo.PagingInfo" resultMap="IncludeSubstanceInfo">
+        SELECT
+          *
+        FROM
+          group_info g join substance_info s on g.belong_substance_id = s.id
+        WHERE
+          g.id in (select gg.id from (select id from group_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows}) as gg)
+        ORDER BY
+          g.id DESC
     </select>
     <select id="countByUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select count(*) from group_info where belong_user_id = #{id,jdbcType=BIGINT}

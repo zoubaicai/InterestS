@@ -1,6 +1,9 @@
 package com.zbc.service;
 
+import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.SubstanceInfoPO;
+
+import java.util.List;
 
 public interface SubstanceInfoService {
 
@@ -42,6 +45,13 @@ public interface SubstanceInfoService {
      * @return
      */
     int countByUserId(Long id);
+
+    /**
+     * 根据用户id获得指定 substance 列表
+     * @param pagingInfo
+     * @return
+     */
+    List<SubstanceInfoPO> listByBelongUserId(PagingInfo pagingInfo);
 
     //SubstanceInfoPO selectByPrimaryKey(Long id);
 

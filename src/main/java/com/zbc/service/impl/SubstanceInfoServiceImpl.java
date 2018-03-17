@@ -1,6 +1,7 @@
 package com.zbc.service.impl;
 
 import com.zbc.dao.SubstanceInfoDAO;
+import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.SubstanceInfoPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zbc.dao.SubstanceContentDAO;
 import com.zbc.pojo.SubstanceContentPO;
 import com.zbc.service.SubstanceInfoService;
+
+import java.util.List;
 
 @Service("substanceInfoService")
 public class SubstanceInfoServiceImpl implements SubstanceInfoService {
@@ -51,5 +54,10 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     @Override
     public int countByUserId(Long id) {
         return substanceInfoDAO.countByUserId(id);
+    }
+
+    @Override
+    public List<SubstanceInfoPO> listByBelongUserId(PagingInfo pagingInfo) {
+        return substanceInfoDAO.listByBelongUserId(pagingInfo);
     }
 }

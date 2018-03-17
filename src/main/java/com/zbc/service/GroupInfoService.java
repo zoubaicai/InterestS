@@ -1,6 +1,7 @@
 package com.zbc.service;
 
 import com.zbc.pojo.GroupInfoPO;
+import com.zbc.pojo.PagingInfo;
 
 import java.util.List;
 
@@ -59,6 +60,13 @@ public interface GroupInfoService {
      * @return
      */
     List<GroupInfoPO> listBySubstanceId(Long id);
+
+    /**
+     * 根据用户id 找出加入的group 信息
+     * @param pagingInfo
+     * @return
+     */
+    List<GroupInfoPO> listByBelongUserId(PagingInfo pagingInfo);
 
     /**
      * 根据用户id获得该用户加入多少的兴趣组

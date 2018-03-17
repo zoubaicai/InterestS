@@ -64,13 +64,15 @@
                 <h2 class="text-center"><small style="color: #fff;">搜索</small></h2>
             </div>
             <div class="col-md-4 col-md-offset-4">
-                <div class="input-group">
-                    <input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">
-                    <span class="input-group-btn">
+                <div>
+                    <div class="input-group" style="max-width: 500px;margin: 0 auto;">
+                        <input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">
+                        <span class="input-group-btn">
                         <a href="#" class="btn btn-default search-control" role="button" style="background-color: rgba(0,0,0,0.1);border-left: none;">
                             &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
                         </a>
                     </span>
+                    </div>
                 </div>
             </div>
         </div>

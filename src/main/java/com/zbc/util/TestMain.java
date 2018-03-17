@@ -1,10 +1,10 @@
 package com.zbc.util;
 
-import com.zbc.pojo.GroupInfoPO;
-import com.zbc.pojo.PagingInfo;
-import com.zbc.pojo.SubstanceCommentPO;
+import com.zbc.pojo.*;
 import com.zbc.service.GroupInfoService;
 import com.zbc.service.SubstanceCommentService;
+import com.zbc.service.SubstanceInfoService;
+import com.zbc.service.UserCollectionService;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -31,11 +31,15 @@ public class TestMain {
 //                .watermark(Positions.BOTTOM_LEFT, Thumbnails.of(waterPic).scale(0.1f).outputQuality(0.1f).asBufferedImage(),0.5f)
 //                .outputQuality(0.8f).toFile(toPic);
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-        GroupInfoService groupInfoService = (GroupInfoService)context.getBean("groupInfoService");
-        ArrayList<GroupInfoPO> listGroupInfo = (ArrayList<GroupInfoPO>)groupInfoService.listBySubstanceId(3L);
-        System.out.println(listGroupInfo.size());
-        for (GroupInfoPO po : listGroupInfo){
-            System.out.println(po.getUserInfoPO().getId());
+        UserCollectionService userCollectionService = (UserCollectionService)context.getBean("userCollectionService");
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setId(1L);
+        pagingInfo.setOffset(0);
+        pagingInfo.setRows(10);
+        List<UserCollectionPO> infoPOS = userCollectionService.listByBelongUserId(pagingInfo);
+        for (UserCollectionPO po : infoPOS){
+            System.out.println(po.getBelongUserId());
+            System.out.println(po.getSubstanceInfoPO().getSummary());
         }
 //        UserInfoService userInfoService = (UserInfoService) context.getBean("userInfoService");
 //        UserInfoPO temp = new UserInfoPO();

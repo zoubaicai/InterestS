@@ -39,7 +39,7 @@
                         <span id="userNickname"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/client/personal">个人中心</a></li>
+                        <li><a href="/personal">个人中心</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">退出</a></li>
                     </ul>

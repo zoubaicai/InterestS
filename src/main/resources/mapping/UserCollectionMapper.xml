@@ -12,6 +12,30 @@
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
+    <resultMap id="IncludeSubstanceInfo" type="com.zbc.pojo.UserCollectionPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="target_substance_id" jdbcType="BIGINT" property="targetSubstanceId"/>
+        <result column="belong_user_id" jdbcType="BIGINT" property="belongUserId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <collection property="substanceInfoPO" javaType="com.zbc.pojo.SubstanceInfoPO">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="belong_user_id" jdbcType="BIGINT" property="belongUserId"/>
+            <result column="subject" jdbcType="VARCHAR" property="subject"/>
+            <result column="summary" jdbcType="VARCHAR" property="summary"/>
+            <result column="cover" jdbcType="VARCHAR" property="cover"/>
+            <result column="is_realistic" jdbcType="TINYINT" property="isRealistic"/>
+            <result column="locale" jdbcType="VARCHAR" property="locale"/>
+            <result column="is_anonymous_permit" jdbcType="TINYINT" property="isAnonymousPermit"/>
+            <result column="is_restricted" jdbcType="TINYINT" property="isRestricted"/>
+            <result column="join_code" jdbcType="VARCHAR" property="joinCode"/>
+            <result column="people_restrict" jdbcType="SMALLINT" property="peopleRestrict"/>
+            <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+            <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+            <result column="is_verified" jdbcType="TINYINT" property="isVerified"/>
+            <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor"/>
+        </collection>
+    </resultMap>
     <sql id="Base_Column_List">
         <!--
           WARNING - @mbg.generated
@@ -34,6 +58,16 @@
           <include refid="Base_Column_List"/>
         FROM user_collection
         WHERE target_substance_id = #{targetSubstanceId,jdbcType=BIGINT} and belong_user_id = #{belongUserId,jdbcType=BIGINT}
+    </select>
+    <select id="listByBelongUserId" parameterType="com.zbc.pojo.PagingInfo" resultMap="IncludeSubstanceInfo">
+        SELECT
+          *
+        FROM
+          user_collection uc JOIN substance_info s ON uc.target_substance_id = s.id
+        WHERE
+          uc.id in (select uuc.id from (select id from user_collection where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows}) as uuc)
+        ORDER BY
+          uc.id DESC
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--
@@ -132,6 +166,6 @@
     select * from user_collection where belong_user_id = id = #{id,jdbcType=BIGINT}
   </select>
     <select id="countByUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
-    select count(*) from user_collection where belong_user_id = id = #{id,jdbcType=BIGINT}
+    select count(*) from user_collection where belong_user_id = #{id,jdbcType=BIGINT}
   </select>
 </mapper>

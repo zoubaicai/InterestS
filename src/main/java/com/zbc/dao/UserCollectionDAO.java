@@ -1,5 +1,6 @@
 package com.zbc.dao;
 
+import com.zbc.pojo.PagingInfo;
 import org.mybatis.spring.annotation.MapperScan;
 import com.zbc.pojo.UserCollectionPO;
 
@@ -61,6 +62,13 @@ public interface UserCollectionDAO {
      * @return
      */
     List<UserCollectionPO> listByUserId(Long id);
+
+    /**
+     * 根据belong user id 查询收藏信息
+     * @param pagingInfo
+     * @return
+     */
+    List<UserCollectionPO> listByBelongUserId(PagingInfo pagingInfo);
 
     /**
      * 根据用户id查询该用户有多少条collection记录
