@@ -16,6 +16,11 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     private UserCollectionDAO userCollectionDAO;
 
     @Override
+    public int deleteByPrimaryKey(Long id) {
+        return userCollectionDAO.deleteByPrimaryKey(id);
+    }
+
+    @Override
     public int insertSelective(UserCollectionPO record) {
         return userCollectionDAO.insertSelective(record);
     }

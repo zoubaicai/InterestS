@@ -90,7 +90,7 @@
                                 <hr>
                                 <textarea class="form-control" placeholder="输入观点" id="userComment"></textarea>
                                 <div class="paddingT-5 clearfix">
-                                    <button type="button" class="btn btn-primary btn-sm pull-right" id="commentSubmit">发布</button>
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" id="commentSubmit"><i class="glyphicon glyphicon-ok"></i> 发布</button>
                                 </div>
                             </div>
                             <div class="col-md-12" aria-label="comment area" style="min-height: 100px;">
@@ -124,7 +124,7 @@
                     <div class="shards-shadow thumbnail clear-border clear-radius">
                         <h5 class="text-center">组长</h5>
                         <hr>
-                        <a href="#">
+                        <a href="/personal?uid=${userInfo.id}" target="_blank">
                             <img src="${userInfo.portrait}" class="img-circle group-leader-img">
                             <p class="text-center group-leader-name">${userInfo.userNickname}</p>
                         </a>
@@ -282,7 +282,7 @@
                     loadComments($offset.text(),10);
                 }
             });
-            // 加入/收藏
+            // 加入
             $("#personJoin").click(function () {
                 if ($.cookie("token") === undefined){
                     zmAlert("请先登录！");
@@ -334,7 +334,7 @@
                     });
                 };
             });
-
+            // 收藏
             $("#personCollect").click(function () {
                 if ($.cookie("token") === undefined){
                     zmAlert("请先登录！");

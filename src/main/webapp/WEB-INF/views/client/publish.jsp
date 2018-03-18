@@ -13,9 +13,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>发布新兴趣组</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/iCheck/skins/line/blue.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/publish.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -132,6 +135,7 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/wangEditor.js"></script>
     <script src="/iCheck/icheck.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>

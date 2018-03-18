@@ -55,9 +55,10 @@
     </select>
     <select id="selectByBothId" parameterType="com.zbc.pojo.UserCollectionPO" resultMap="BaseResultMap">
         SELECT
-          <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         FROM user_collection
-        WHERE target_substance_id = #{targetSubstanceId,jdbcType=BIGINT} and belong_user_id = #{belongUserId,jdbcType=BIGINT}
+        WHERE target_substance_id = #{targetSubstanceId,jdbcType=BIGINT} and belong_user_id =
+        #{belongUserId,jdbcType=BIGINT}
     </select>
     <select id="listByBelongUserId" parameterType="com.zbc.pojo.PagingInfo" resultMap="IncludeSubstanceInfo">
         SELECT
@@ -166,6 +167,6 @@
     select * from user_collection where belong_user_id = id = #{id,jdbcType=BIGINT}
   </select>
     <select id="countByUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
-    select count(*) from user_collection where belong_user_id = #{id,jdbcType=BIGINT}
-  </select>
+      select count(*) from user_collection where belong_user_id = #{id,jdbcType=BIGINT}
+    </select>
 </mapper>

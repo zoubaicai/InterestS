@@ -38,6 +38,13 @@ public class ContentController {
     @Autowired
     private JwtService jwtService; // jwt 生成和验证
 
+    // TODO 百度地图的覆盖无单击事件还没有添加
+    /**
+     * 根据 substanceId 返回 substance_info 中的一条记录，并根据规则显示指定的信息
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/content")
     public ModelAndView client_content(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
@@ -84,7 +91,12 @@ public class ContentController {
         return modelAndView;
     }
 
-    // 登录用户添加评论
+    /**
+     * 登录用户添加评论
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/content/addComment")
     @ResponseBody
     public String addComment(HttpServletRequest request) throws Exception {
@@ -107,7 +119,11 @@ public class ContentController {
         }
     }
 
-    // 评论内容分页，从 0 开始是第一页
+    /**
+     * 评论内容分页，从 0 开始是第一页
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/content/loadComments",produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public String loadComment(HttpServletRequest request){
@@ -134,21 +150,27 @@ public class ContentController {
         return res.toJSONString();
     }
 
-    // 加入和收藏
-    // ！！！--没有限制自己发布的内容不可以加入或收藏
+    // TODO 加入成功后发送一条消息给组长
+    /**
+     * 加入兴趣组
+     * ！！！--没有限制自己发布的内容不可以加入或收藏
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/content/personJoin")
     @ResponseBody
     public String personJoin(HttpServletRequest request) throws Exception {
         long userId = hasUserLogin(request);
         if (userId == -1L){
-            return "-1";
+            return "-1"; // 登录信息无效
         }
         long substanceId = Long.parseLong(request.getParameter("substanceId"));
         SubstanceInfoPO infoPO = substanceInfoService.selectIncludeContent(substanceId);
         if (infoPO.getIsRestricted() == 1){
             String invitationCode = request.getParameter("invitationCode");
             if (!invitationCode.equals(infoPO.getJoinCode())){
-                return "-4";
+                return "-4"; // 邀请码不正确
             }
         }
         GroupInfoPO po = new GroupInfoPO();
@@ -156,16 +178,22 @@ public class ContentController {
         po.setBelongUserId(userId);
         GroupInfoPO po1 = groupInfoService.selectByBothId(po);
         if (null != po1.getId()){
-            return "-2";
+            return "-2"; // 重复加入
         }
         int res_insert = groupInfoService.insertSelective(po);
         if (res_insert > 0){
-            return "1";
+            return "1"; // 成功
         } else {
-            return "-3";
+            return "-3"; // 数据库操作失败
         }
     }
 
+    /**
+     * 收藏兴趣组
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/content/personCollect")
     @ResponseBody
     public String personCollect(HttpServletRequest request) throws Exception {

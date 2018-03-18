@@ -3,6 +3,7 @@ package com.zbc.controller.client;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zbc.pojo.SubstanceInfoPO;
+import com.zbc.service.JwtService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,14 +29,27 @@ public class PublishController {
     @Autowired
     private SubstanceInfoService substanceInfoService;
 
+    @Autowired
+    private JwtService jwtService;
+    /**
+     * 如果没有登录，会被拦截器拦截
+     * @return
+     */
     @RequestMapping(value = "/client/publish")
     public String client_publish(){
         return "client/publish";
     }
 
+    // TODO 提交成功后发一条消息给用户
+    /**
+     * 添加用户提交的新内容到 substance_info
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/client/publishInfo",produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
-    public String publishInfo(HttpServletRequest request){
+    public String publishInfo(HttpServletRequest request) throws Exception {
         String caption = request.getParameter("caption");
         String summary = request.getParameter("summary");
         String cover = request.getParameter("cover");
@@ -61,10 +75,13 @@ public class PublishController {
         if (!Pattern.matches(".+(.jpg|.jpeg|.png|.bmp|.gif)$",cover)){
             cover = ""; // 如果不是合法的图片地址，直接赋值为空
         }
+        long id = jwtService.hasUserLogin(request);
+        if (id == -1){
+            return packErrorDes(res,"无效的登录信息！","").toJSONString();
+        }
         SubstanceInfoPO po = new SubstanceInfoPO();
         po.setSubject(caption);
         po.setSummary(summary);
-        long id = Long.parseLong(getAud((String)request.getAttribute("token")));
         po.setBelongUserId(id);
         po.setCover(cover);
         if ("1".equals(locationSwitch)){
@@ -80,20 +97,27 @@ public class PublishController {
         }
         int insert_res = substanceInfoService.insertSelective(po,mainContent);
         if (insert_res > 0){
-            return "success";
+            return packErrorDes(res,"添加成功！\n请等待审核。","").toJSONString();
         } else {
-            return "error";
+            return packErrorDes(res,"系统错误！","").toJSONString();
         }
-        // TODO 优化没做
     }
 
+    /**
+     * 图片上传
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/client/publishImgUpload",produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
-    // 用户图片上传
-    public String publishImgUpload(HttpServletRequest request) throws IOException {
+    public String publishImgUpload(HttpServletRequest request) throws Exception {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
         Map<String,MultipartFile> files = multipartHttpServletRequest.getFileMap();
-        long id = Long.parseLong(getAud((String)request.getAttribute("token")));
+        long id = jwtService.hasUserLogin(request);
+        if (id == -1){
+            return packErrorDes(new JSONObject(),"无效的登录信息！","").toJSONString();
+        }
         String targetPath = request.getSession().getServletContext().getRealPath("/") + "WEB-INF\\statics\\images\\user_upload\\" + id + "\\";
     //System.out.println(targetPath);
         File temp = new File(targetPath);
@@ -106,44 +130,27 @@ public class PublishController {
             String originName = file.getOriginalFilename();
             String ext = originName.substring(originName.lastIndexOf(".") + 1);
             if (file.getSize() > 1024 * 1024 * 2){
-                res.put("err_des","图片大小限制位2");
+                res.put("des","图片大小限制位2M");
                 return res.toJSONString();
             }
             if (!Pattern.matches("jpg|jpeg|png|gif|bmp",ext)){
-                res.put("err_des","不是正确的图片格式");
+                res.put("des","不是正确的图片格式");
                 return res.toJSONString();
             }
             String targetName = id + "_" + dateTimeFormatter.format(LocalDateTime.now()) + "." + ext;
             File toFile = new File(targetPath + targetName);
             file.transferTo(toFile);
-            Thumbnails.of(toFile).size(800, 600).toFile(toFile);// 强制压缩为140x140
-        System.out.println("保存成功 " + toFile.getAbsolutePath());
-            res.put("err_des","上传成功");
+            Thumbnails.of(toFile).size(800, 600).toFile(toFile);// 强制压缩为800x600
+        //System.out.println("保存成功 " + toFile.getAbsolutePath());
+            res.put("des","上传成功");
             res.put("url","/images/user_upload/" + id + "/" + targetName);
             return res.toJSONString();
         }
-        res.put("err_des","没有文件被接收");
+        res.put("des","没有文件被接收");
         return res.toJSONString();
     }
 
-    /**
-     * 将token字符串中payload的aud取出来，即用户id
-     * note：这里的token已经经过URLDecoder
-     * @param token
-     * @return
-     */
-    private String getAud(String token){
-        String  base64_pl = token.split("\\.")[1];
-        Base64.Decoder base64Decoder = Base64.getDecoder();
-        JSONObject payload = JSON.parseObject(new String(base64Decoder.decode(base64_pl)));
-        String aud = payload.getString("aud");
-        // 判断‘aud’是否是一个数字
-        if (!ParamsUtils.isPositiveInteger(aud)){
-            throw new IllegalArgumentException("it is not a legal user_id");
-        }
-        return aud;
-    }
-
+    // TODO 前端页面错误提示还没有使用zeroModal
     /**
      * 将出错描述和错误标识打包
      * @param o
@@ -152,8 +159,8 @@ public class PublishController {
      * @return
      */
     private JSONObject packErrorDes(JSONObject o,String des,String id){
-        o.put("error_des",des);
-        o.put("error_id",id);
+        o.put("des",des);
+        o.put("id",id);
         return o;
     }
 }

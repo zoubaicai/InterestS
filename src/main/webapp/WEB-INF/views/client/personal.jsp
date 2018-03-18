@@ -18,6 +18,8 @@
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/personal.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -104,6 +106,7 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/masonry.pkgd.min.js"></script>
     <script src="/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -144,21 +147,33 @@
                                 jsonRes[i].cover = "/images/loadingandword.gif";
                             }
                             var div = "<div class=\"col-md-3 paint padding-3\">\n" +
-                                "                    <div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
-                                "                        <a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
-                                "                            <img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
-                                "                        </a>\n" +
-                                "                        <div class=\"caption\">\n" +
-                                "                            <h3>" + jsonRes[i].subject + "</h3>\n" +
-                                "                            <p>" + jsonRes[i].summary + "</p>\n";
+                                "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
+                                "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
+                                "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "</a>\n" +
+                                "<div class=\"caption\">\n" +
+                                "<h3>" + jsonRes[i].subject + "</h3>\n" +
+                                "<p>" + jsonRes[i].summary + "</p>\n";
                             if (isVisitor === "-1"){
-                                div += "                            <p>\n" +
-                                    "                                <a href=\"#\" class=\"btn btn-default width100\" role=\"button\">编辑</a>\n" +
-                                    "                            </p>\n";
+                                div += "<p>\n" +
+                                    "<a href='/content?id=" + jsonRes[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
+                                    "<a href=\"javascript:void(0)\" class=\"btn btn-default btn-sm\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
+                                    "</p>\n";
                             }
-                            div += "                        </div>\n" +
-                                "                    </div>\n" +
-                                "                </div>";
+                            switch (jsonRes[i].isVerified){
+                                case 0:
+                                    div += "<div><small class='text-info'><i class='fa fa-circle'></i> 未审核</small></div>";
+                                    break;
+                                case 1:
+                                    div += "<div><small class='text-success'><i class='fa fa-circle'></i> 通过审核</small></div>";
+                                    break;
+                                case 2:
+                                    div += "<div><small class='text-danger'><i class='fa fa-circle'></i> 未通过审核</small></div>";
+                                    break;
+                            }
+                            div += "</div>\n" +
+                                "</div>\n" +
+                                "</div>";
                             $panel_publish.append(div);
                         }
                         $panel_publish.append("<div class='col-xs-12 text-center paint'><button id='loadPublishBtn' type='button' class='btn btn-link'>加载更多</button></div>");
@@ -198,22 +213,23 @@
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
                                 jsonRes[i].cover = "/images/loadingandword.gif";
                             }
-                            var div = "<div class=\"col-md-3 paint padding-3\">\n" +
-                                "                    <div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
-                                "                        <a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
-                                "                            <img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
-                                "                        </a>\n" +
-                                "                        <div class=\"caption\">\n" +
-                                "                            <h3>" + jsonRes[i].subject + "</h3>\n" +
-                                "                            <p>" + jsonRes[i].summary + "</p>\n";
+                            var div = "<div class=\"col-md-2 paint padding-3\">\n" +
+                                "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
+                                "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
+                                "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "</a>\n" +
+                                "<div class=\"caption\">\n" +
+                                "<h3>" + jsonRes[i].subject + "</h3>\n" +
+                                "<p>" + jsonRes[i].summary + "</p>\n";
                             if (isVisitor === "-1"){
-                                div += "                            <p>\n" +
-                                    "                                <a href=\"#\" class=\"btn btn-default width100\" role=\"button\">编辑</a>\n" +
-                                    "                            </p>\n";
+                                div += "<p>\n" +
+                                    "<a href='/content?id=" + jsonRes[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
+                                    "<a href=\"javascript:void(0)\" class=\"btn btn-default btn-sm quitGroup\" role=\"button\" aria-label='" + jsonRes[i].substanceId + "'><i class='fa fa-close'></i>退出</a>\n" +
+                                    "</p>\n";
                             }
-                            div += "                        </div>\n" +
-                                "                    </div>\n" +
-                                "                </div>";
+                            div += "</div>\n" +
+                                "</div>\n" +
+                                "</div>";
                             $panel_join.append(div);
                         }
                         $panel_join.append("<div class='col-xs-12 text-center paint'><button id='loadJoinBtn' type='button' class='btn btn-link'>加载更多</button></div>");
@@ -223,6 +239,29 @@
                             loadJoin();
                         });
                     }
+                    $(".quitGroup").click(function () {
+                        var $this = $(this);
+                        var id = $this.attr("aria-label");
+                        zeroModal.confirm("确认退出该兴趣组吗？",function () {
+                            $.post("/personal/quitGroup?time=" + new Date().getTime(),{substanceId : id},function (result) {
+                                switch (result){
+                                    case "-1":
+                                        zmAlert("登录信息失效了，请重新登录！-1");
+                                        break;
+                                    case "-5":
+                                        zmAlert("您没有加入该兴趣组！-5");
+                                        break;
+                                    case "1":
+                                        zmSuccess("您已成功退出该兴趣组");
+                                        $this.parent().parent().parent().parent().remove();
+                                        break;
+                                    default:
+                                        zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
+                                        break;
+                                }
+                            });
+                        });
+                    });
                     // 调用imagesLoaded
                     $panel_join.imagesLoaded(function () {
                         $panel_join.masonry({
@@ -253,22 +292,23 @@
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
                                 jsonRes[i].cover = "/images/loadingandword.gif";
                             }
-                            var div = "<div class=\"col-md-3 paint padding-3\">\n" +
-                                "                    <div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
-                                "                        <a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
-                                "                            <img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
-                                "                        </a>\n" +
-                                "                        <div class=\"caption\">\n" +
-                                "                            <h3>" + jsonRes[i].subject + "</h3>\n" +
-                                "                            <p>" + jsonRes[i].summary + "</p>\n";
+                            var div = "<div class=\"col-md-2 paint padding-3\">\n" +
+                                "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
+                                "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
+                                "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "</a>\n" +
+                                "<div class=\"caption\">\n" +
+                                "<h3>" + jsonRes[i].subject + "</h3>\n" +
+                                "<p>" + jsonRes[i].summary + "</p>\n";
                             if (isVisitor === "-1"){
-                                div += "                            <p>\n" +
-                                    "                                <a href=\"#\" class=\"btn btn-default width100\" role=\"button\">编辑</a>\n" +
-                                    "                            </p>\n";
+                                div += "<p>\n" +
+                                    "<a href='/content?id=" + jsonRes[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
+                                    "<a href=\"javascript:void(0)\" class=\"btn btn-default btn-sm cancelCollection\" role=\"button\" aria-label='" + jsonRes[i].substanceId + "'><i class='fa fa-close'></i>取消收藏</a>\n" +
+                                    "</p>\n";
                             }
-                            div += "                        </div>\n" +
-                                "                    </div>\n" +
-                                "                </div>";
+                            div += "</div>\n" +
+                                "</div>\n" +
+                                "</div>";
                             $panel_collection.append(div);
                         }
                         $panel_collection.append("<div class='col-xs-12 text-center paint'><button id='loadCollectionBtn' type='button' class='btn btn-link'>加载更多</button></div>");
@@ -278,6 +318,29 @@
                             loadCollection();
                         });
                     }
+                    $(".cancelCollection").click(function () {
+                        var $this = $(this);
+                        var id = $this.attr("aria-label");
+                        zeroModal.confirm("确认取消该兴趣组的收藏吗？",function () {
+                            $.post("/personal/cancelCollection?time=" + new Date().getTime(),{substanceId : id},function (result) {
+                                switch (result){
+                                    case "-1":
+                                        zmAlert("登录信息失效了，请重新登录！-1");
+                                        break;
+                                    case "-5":
+                                        zmAlert("您没有收藏该兴趣组！-5");
+                                        break;
+                                    case "1":
+                                        zmSuccess("取消收藏成功！");
+                                        $this.parent().parent().parent().parent().remove();
+                                        break;
+                                    default:
+                                        zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
+                                        break;
+                                }
+                            });
+                        });
+                    });
                     // 调用imagesLoaded
                     $panel_collection.imagesLoaded(function () {
                         $panel_collection.masonry({
@@ -287,16 +350,21 @@
                 });
             };
 
+            // 页面加载后自动加载发布面板
             loadPublish();
-
+            // 当这个标志为0时，下面两个单击事件才有效果
+            var joinBenFlag = 0,collectionBtnFlag = 0;
             $("#panelJoinBtn").click(function () {
-                loadJoin();
+                if (joinBenFlag === 0){
+                    loadJoin();
+                    joinBenFlag = 1;
+                }
             });
             $("#panelCollectionBtn").click(function () {
-               loadCollection();
-            });
-            $("#panelPublishBtn").click(function () {
-               loadPublish();
+               if (collectionBtnFlag === 0){
+                   loadCollection();
+                   collectionBtnFlag = 1;
+               }
             });
 
         });

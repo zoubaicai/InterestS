@@ -15,6 +15,11 @@ public class GroupInfoServiceImpl implements GroupInfoService {
     private GroupInfoDAO groupInfoDAO;
 
     @Override
+    public int deleteByPrimaryKey(Long id) {
+        return groupInfoDAO.deleteByPrimaryKey(id);
+    }
+
+    @Override
     public int insertSelective(GroupInfoPO record) {
         return groupInfoDAO.insertSelective(record);
     }
