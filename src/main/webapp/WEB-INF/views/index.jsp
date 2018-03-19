@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>自由分享ლ(╹◡╹ლ)</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/index.css" rel="stylesheet">
@@ -57,7 +59,7 @@
         <%--</div>--%>
     <%--</nav>--%>
     <%@include file="client/header.jsp"%>
-    <div class="container-fluid banner" role="banner">
+    <div class="container-fluid banner" role="banner" style="display:none">
         <div class="row clearfix">
             <div class="col-md-12" style="height: 80px;"></div>
             <div class="col-md-4 col-md-offset-4">
@@ -80,8 +82,26 @@
         <div class="banner-bg" style="z-index: -9;background: #000;filter: alpha(Opacity=30);opacity: 0.3;" aria-label="bg mask"></div>
     </div>
 
-    <div class="container" style="display: none">
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <div class="container banner" style="margin-top: -20px;position: relative;">
+        <div class="row clearfix">
+            <div class="col-md-12" style="height: 80px;"></div>
+            <div class="col-md-4 col-md-offset-4" style="z-index: 10;">
+                <h2 class="text-center"><small style="color: #fff;">搜索</small></h2>
+            </div>
+            <div class="col-md-4 col-md-offset-4" style="z-index:10;">
+                <div>
+                    <div class="input-group" style="max-width: 500px;margin: 0 auto;">
+                        <input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">
+                        <span class="input-group-btn">
+                        <a href="#" class="btn btn-default search-control" role="button" style="border-left: none;">
+                            &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
+                        </a>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="carousel-example-generic" class="carousel slide shards-shadow" data-ride="carousel" style="position: absolute;top: 0;left: 0;width: 98%;height: 100%;margin-left: 1%;">
             <!-- Indicators -->
             <ol class="carousel-indicators">
                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -89,31 +109,34 @@
             </ol>
 
             <!-- Wrapper for slides -->
-            <div class="carousel-inner" style="height: 300px;" role="listbox">
+            <div class="carousel-inner" style="height: 100%;position: relative;" role="listbox">
                 <a href="#" class="item active listBox-item">
-                    <img src="/images/cat.jfif" class="img-responsive">
+                    <img src="/images/gradual_green.jpg">
+                    <div class="banner-bg"></div>
                     <div class="carousel-caption">
-                        nihao
+                        Test
                     </div>
                 </a>
                 <a href="#" class="item listBox-item clearfix">
-                    <img src="/images/queen.jfif">
+                    <img src="/images/Saturday.jpg">
+                    <div class="banner-bg"></div>
                     <div class="carousel-caption">
-                        ...
+                        Test
                     </div>
                 </a>
             </div>
 
             <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+            <%--<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">--%>
+            <%--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>--%>
+            <%--<span class="sr-only">Previous</span>--%>
+            <%--</a>--%>
+            <%--<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">--%>
+            <%--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>--%>
+            <%--<span class="sr-only">Next</span>--%>
+            <%--</a>--%>
         </div>
+
     </div>
 
     <div class="container" style="margin-top: 20px;" aria-label="latest contents">
@@ -123,42 +146,22 @@
             </div>
         </div>
         <div class="row clearfix recommend-lists">
-            <div class="col-md-3 col-xs-12 recommend-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
+            <div class="col-md-6 col-xs-12 recommend-item">
+                <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
                     <a href="#">
-                        <img src="/images/cat.jfif" alt="cat" style="width: 100%;height: 150px;">
+                        <img src="/images/loadingandword.gif" alt="cat" style="height: 150px;">
                         <div class="caption">
-                            <p>catdfsdfddddddddddddddddddddddddddfsfsdfsdfsd</p>
+                            <p>Test</p>
                         </div>
                     </a>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 recommend-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
+            <div class="col-md-6 col-xs-12 recommend-item">
+                <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
                     <a href="#">
-                        <img src="/images/cat.jfif" alt="cat" style="width: 100%;height: 150px;">
+                        <img src="/images/loadingandword.gif" alt="cat" style="height: 150px;">
                         <div class="caption">
-                            <p>catdfsdfddddddddddddddddddddddddddfsfsdfsdfsd</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12 recommend-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <img src="/images/queen.jfif" alt="cat" style="width: 100%;height: 150px;">
-                        <div class="caption">
-                            <p>catdfsdfddddddddddddddddddddddddddfsfsdfsdfsd</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12 recommend-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <img src="/images/iu.jfif" alt="cat" style="width: 100%;height: 150px;">
-                        <div class="caption">
-                            <p>catdfsdfddddddddddddddddddddddddddfsfsdfsdfsd</p>
+                            <p>Test</p>
                         </div>
                     </a>
                 </div>

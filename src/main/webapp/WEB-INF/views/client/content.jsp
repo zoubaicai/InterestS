@@ -289,28 +289,6 @@
                     return;
                 }
                 var params = {};
-
-                if ($("#isRestricted").text() === "1"){
-                    zeroModal.show({
-                        title : "该用户组有加入限制\n请输入邀请码，可以通过组长获得",
-                        content : "<div class='from-group form-group-lg'><input class='form-control' type='text' id='invitationCode' placeholder='邀请码'></div>",
-                        overlayClose : true,
-                        ok : true,
-                        cancel : true,
-                        okFn : function () {
-                            params = {
-                                substanceId : getSubstanceId(),
-                                invitationCode : $("#invitationCode").val()
-                            };
-                            personJoinPost(params);
-                        }
-                    });
-                } else {
-                    params = {
-                        substanceId : getSubstanceId()
-                    };
-                    personJoinPost(params);
-                }
                 // 加入ajax提交
                 var personJoinPost = function (params) {
                     $.post("/content/personJoin?time" + new Date().getTime(),params,function (result) {
@@ -333,6 +311,28 @@
                         }
                     });
                 };
+                if ($("#isRestricted").text() === "1"){
+                    zeroModal.show({
+                        title : "该用户组有加入限制\n请输入邀请码，可以通过组长获得",
+                        content : "<div class='from-group form-group-lg'><input class='form-control' type='text' id='invitationCode' placeholder='邀请码'></div>",
+                        overlayClose : true,
+                        ok : true,
+                        cancel : true,
+                        okFn : function () {
+                            params = {
+                                substanceId : getSubstanceId(),
+                                invitationCode : $("#invitationCode").val()
+                            };
+                            personJoinPost(params);
+                        }
+                    });
+                } else {
+                    params = {
+                        substanceId : getSubstanceId()
+                    };
+                    personJoinPost(params);
+                }
+
             });
             // 收藏
             $("#personCollect").click(function () {

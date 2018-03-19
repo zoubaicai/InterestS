@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.zbc.service.SubstanceInfoService;
 import com.zbc.util.ParamsUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -31,13 +32,38 @@ public class PublishController {
 
     @Autowired
     private JwtService jwtService;
+
     /**
-     * 如果没有登录，会被拦截器拦截
+     * 没有登录返回404，如果携带id参数则进一步判断
+     * @param request
      * @return
+     * @throws Exception
      */
     @RequestMapping(value = "/client/publish")
-    public String client_publish(){
-        return "client/publish";
+    public ModelAndView client_publish(HttpServletRequest request) throws Exception {
+        long substanceId = -1;
+        try {
+            String temp = request.getParameter("id");
+            substanceId = !"".equals(temp) ? Long.parseLong(temp) : -1;
+        } catch (NumberFormatException e){
+            substanceId = -1;
+        }
+        ModelAndView modelAndView = new ModelAndView("client/publish");
+        if (substanceId == -1){
+            modelAndView.addObject("substanceInfo",new SubstanceInfoPO());
+            return modelAndView;
+        } else {
+            SubstanceInfoPO po = substanceInfoService.selectIncludeContent(substanceId);
+            if (null == po.getId()){
+                return new ModelAndView("404 page");
+            }
+            long userId = jwtService.hasUserLogin(request);
+            if (userId != po.getBelongUserId()){
+                return new ModelAndView("404 page");
+            }
+            modelAndView.addObject("substanceInfo",po);
+            return modelAndView;
+        }
     }
 
     // TODO 提交成功后发一条消息给用户

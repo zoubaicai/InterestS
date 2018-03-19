@@ -5,6 +5,7 @@
   Time: 14:29
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCUMENT html>
 <html lang="zh-cn">
@@ -36,7 +37,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px" for="caption">标题：</label>
-                        <input type="text" class="form-control" id="caption" name="caption" placeholder="请输入标题">
+                        <input type="text" class="form-control" id="caption" name="caption" placeholder="请输入标题" value="${substanceInfo.subject}">
                         <b><span class="text-danger"></span></b>
                         <span class="help-block">合适的标题更加吸引人，不得为空最长20个字符</span>
                     </div>
@@ -44,7 +45,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px" for="summary">简介：</label>
-                        <textarea class="form-control" id="summary" name="summary" placeholder="请输入简介" aria-describedby="summary_help"></textarea>
+                        <textarea class="form-control" id="summary" name="summary" placeholder="请输入简介" aria-describedby="summary_help">${substanceInfo.subject}</textarea>
                         <b><span class="text-danger"></span></b>
                         <span class="help-block">一个合适的简介能够让别人更容易发现这里，最多120个字符</span>
                     </div>
@@ -58,10 +59,20 @@
                         <span class="help-block">最多输入2000个字符</span>
                     </div>
                 </div>
+                <div class="hidden" id="contentHidden">
+                    ${substanceInfo.substanceContentPO.content}
+                </div>
                 <div class="col-md-6">
                     <div class="form-inline">
                         <div class="check-box">
-                            <input type="checkbox" checked id="locationSwitch"/>
+                            <c:choose>
+                                <c:when test="${substanceInfo.isRealistic == 1}">
+                                    <input type="checkbox" checked id="locationSwitch"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox"  id="locationSwitch"/>
+                                </c:otherwise>
+                            </c:choose>
                             <label class="text20px" for="locationSwitch">是否添加一个位置</label>
                         </div>
                     </div>
@@ -69,6 +80,10 @@
                 <div class="col-md-12">
                     <span class="help-block">添加一个位置，将分享您指定的地理</span>
                     <hr>
+                </div>
+                <!--这里可能出错，出错将导致地图加载错误-->
+                <div class="hidden" id="localeHidden">
+                    ${substanceInfo.locale}
                 </div>
                 <div class="col-md-12">
                     <div class="form-inline">
@@ -92,7 +107,14 @@
                 <div class="col-md-6" style="margin-bottom: 5px;">
                     <div class="form-inline">
                         <div class="check-box">
-                            <input type="checkbox" id="invitationSwitch"/>
+                            <c:choose>
+                                <c:when test="${substanceInfo.isRestricted == 1}">
+                                    <input type="checkbox" checked id="invitationSwitch"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" id="invitationSwitch"/>
+                                </c:otherwise>
+                            </c:choose>
                             <label for="invitationSwitch">是否添加一个邀请码</label>
                         </div>
                     </div>
@@ -101,9 +123,9 @@
                     <div class="form-inline">
                         <div class="form-group">
                             <label for="invitationCode">请输入邀请码：</label>
-                            <input type="text" class="form-control" id="invitationCode" name="invitationCode" placeholder="邀请码">
+                            <input type="text" class="form-control" id="invitationCode" name="invitationCode" placeholder="邀请码" value="${substanceInfo.joinCode}">
                             <b><span class="text-danger"></span></b>
-                            <span class="help-block">邀请码可以限制随意的加入，固定为8位，只能包含英文和数字</span>
+                            <span class="help-block">邀请码可以限制加入，固定为8位，只能包含英文和数字</span>
                         </div>
                     </div>
                     <hr>
@@ -111,7 +133,14 @@
                 <div class="col-md-6">
                     <div class="form-inline">
                         <div class="check-box">
-                            <input type="checkbox" checked id="anonymousSwitch"/>
+                            <c:choose>
+                                <c:when test="${substanceInfo.isAnonymousPermit == 1}">
+                                    <input type="checkbox" checked id="anonymousSwitch"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" id="anonymousSwitch"/>
+                                </c:otherwise>
+                            </c:choose>
                             <label for="anonymousSwitch">是否允许非兴趣组用户查看详细内容</label>
                         </div>
                     </div>
@@ -208,6 +237,11 @@
             ];
             myEditor.create();
             globalEditor = myEditor;
+
+            // 如果id=contentHidden 的dom内容不为空
+            if ($("#contentHidden").text() !== ""){
+                myEditor.txt.html($("#contentHidden").html());
+            }
             // iCheck 插件
             $("input[type='checkbox']").each(function(){
                 var self = $(this),
@@ -263,6 +297,7 @@
             var $locationSwitch = $("#locationSwitch");
             var $invitationSwitch = $("#invitationSwitch");
             var $anonymousSwitch = $("#anonymousSwitch");
+
             $("#sureSubmit").click(function () {
                 var params = {
                     caption : $caption.val(),
@@ -293,7 +328,7 @@
                 validator._validate("caption","标题","required|max_length|min_length",function (results) {
                     common_callback($caption,results);
                 },2,20);
-                validator._validate("summary","简介","max_length",function (results) {
+                validator._validate("summary","简介","required|max_length",function (results) {
                     common_callback($summary,results);
                 },0,120);
                 // 判断是否添加一个邀请码
@@ -307,8 +342,9 @@
                     resultFlag : false,
                     resultMsg : ""
                 };
+
                 // 这里单独判断主要内容是否满足条件
-                if (globalEditor.txt.text().length < 10 || globalEditor.txt.text().length > 2000){ // 不包含html标签在内
+                if (globalEditor.txt.text().trim().length < 10 || globalEditor.txt.text().trim().length > 2000){
                     res.resultMsg = "主要内容长度不能小于10且不能大于2000";
                     common_callback($("#wangEditContent"),res);
                 } else {

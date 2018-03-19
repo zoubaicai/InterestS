@@ -29,13 +29,39 @@ $(function () {
             }
         });
     };
+
+    // 为指定point 添加默认标注
     var addDefaultMarker = function (point) {
         var marker = new BMap.Marker(point);
         map.addOverlay(marker);    //添加标注
         marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
     };
+
+    // 创建地址解析器实例
+    var myGeo = new BMap.Geocoder();
+    var pointToAddress = function (point, callback) {
+        myGeo.getLocation(point, function (rs) {
+            var addComp = rs.addressComponents;
+            str = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+            callback(str, point);
+        });
+    };
+
     // 加载后调用一次定位
-    nowLocation();
+    var localeHidden = $("#localeHidden").text(); // 如果这个值能匹配成 string,string,string，说明已经需要加载指定位置
+    if (/.+,.+,.+/i.test(localeHidden)){
+        var a = localeHidden.split(",");
+        var pt = new BMap.Point(parseFloat(a[1]), parseFloat(a[2]));
+        map.clearOverlays();
+        map.panTo(pt);
+        addDefaultMarker(pt);
+        pointToAddress(pt, function (str) {
+            setNowLocation(a[0], pt);
+        });
+    } else {
+        nowLocation();
+    }
+
     // 建立一个自动完成的对象
     var autocomplete = new BMap.Autocomplete({"input": "addressTxt", "location": map});
     // 鼠标放在下拉列表上的事件
@@ -56,7 +82,9 @@ $(function () {
         str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
         $searchResultPanel.html(str);
     });
+
     var myValue;
+
     // 鼠标点击下拉列表后的事件
     autocomplete.addEventListener("onconfirm", function (e) {
         var _value = e.item.value;
@@ -92,16 +120,7 @@ $(function () {
         });
     });
 
-    // 创建地址解析器实例
-    var myGeo = new BMap.Geocoder();
-    var pointToAddress = function (point, callback) {
-        myGeo.getLocation(point, function (rs) {
-            var addComp = rs.addressComponents;
-            str = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-            callback(str, point);
-        });
-    };
-
+    // 将指定dom显示为定位文本
     var setNowLocation = function (str, point) {
         $nowLocation.html(str);
         // console.log(point);
@@ -111,11 +130,11 @@ $(function () {
     // 这里放置按钮等事件绑定
     $("#relocation").click(function () {
         map.clearOverlays();
-        if ($addressTxt.val() == "") {
+        if ($addressTxt.val() === "") {
             nowLocation();
         } else {
             var city = $addressTxt.val();
-            if (city != "") {
+            if (city !== "") {
                 map.centerAndZoom(city, 15);      // 用城市名设置地图中心点
                 addDefaultMarker(map.getCenter());
                 pointToAddress(map.getCenter(), function (str) {

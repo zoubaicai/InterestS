@@ -48,7 +48,12 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
 
     @Override
     public SubstanceInfoPO selectIncludeContent(Long id) {
-        return substanceInfoDAO.selectIncludeContent(id);
+        SubstanceInfoPO temp = substanceInfoDAO.selectIncludeContent(id);
+        if (null == temp){
+            return new SubstanceInfoPO();
+        } else {
+            return temp;
+        }
     }
 
     @Override
