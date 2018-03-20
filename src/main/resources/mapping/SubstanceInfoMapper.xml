@@ -90,6 +90,24 @@
         ORDER BY
           id DESC
     </select>
+    <select id="listBySearchStr" parameterType="com.zbc.pojo.PagingInfo" resultMap="BaseResultMap">
+        SELECT
+          *
+        FROM
+          substance_info
+        WHERE
+          id in (select s.id from (select id from substance_info where subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} limit #{offset} , #{rows}) as s )
+        ORDER BY
+          id DESC
+    </select>
+    <select id="countBySearchStr" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+          count(*)
+        FROM
+          substance_info
+        where
+          subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR}
+    </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--
           WARNING - @mbg.generated

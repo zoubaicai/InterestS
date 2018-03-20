@@ -23,6 +23,12 @@ $(function () {
     if (bottomGap > 0){
         $($footer).css("margin-top",bottomGap);
     }
+
+    // header 上面的搜索按钮
+    $("#headerSearchBtn").click(function () {
+        var s = window.decodeURIComponent($("#headerSearch").val());
+        window.location.href = "/search?p=1&s=" + s;
+    });
 });
 // 各种 zeroModal 弹框
 // 无事件提示框

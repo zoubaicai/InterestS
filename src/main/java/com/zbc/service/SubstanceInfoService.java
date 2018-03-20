@@ -55,7 +55,21 @@ public interface SubstanceInfoService {
 
     //SubstanceInfoPO selectByPrimaryKey(Long id);
 
-    //int updateByPrimaryKeySelective(SubstanceInfoPO record);
+    int updateByPrimaryKeySelective(SubstanceInfoPO record,String content);
 
     //int updateByPrimaryKey(SubstanceInfoPO record);
+
+    /**
+     * 根据输入的字符串，在 substance_info 中查找相应的匹配项
+     * @param pagingInfo
+     * @return
+     */
+    List<SubstanceInfoPO> listBySearchStr(PagingInfo pagingInfo);
+
+    /**
+     * 根据搜索字符串，查找数据库中公有多少条数据
+     * @param searchStr
+     * @return
+     */
+    int countBySearchStr(String searchStr);
 }

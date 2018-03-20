@@ -20,4 +20,9 @@ public class SubstanceContentServiceImpl implements SubstanceContentService {
     public int insertSelective(SubstanceContentPO record) {
         return substanceContentDAO.insertSelective(record);
     }
+
+    @Override
+    public int updateByBelongSubstanceIdSelective(SubstanceContentPO record) {
+        return substanceContentDAO.updateByBelongSubstanceIdSelective(record);
+    }
 }

@@ -51,6 +51,7 @@ public class PublishController {
         ModelAndView modelAndView = new ModelAndView("client/publish");
         if (substanceId == -1){
             modelAndView.addObject("substanceInfo",new SubstanceInfoPO());
+            modelAndView.addObject("isUpdate","0");
             return modelAndView;
         } else {
             SubstanceInfoPO po = substanceInfoService.selectIncludeContent(substanceId);
@@ -62,6 +63,7 @@ public class PublishController {
                 return new ModelAndView("404 page");
             }
             modelAndView.addObject("substanceInfo",po);
+            modelAndView.addObject("isUpdate","1");
             return modelAndView;
         }
     }
@@ -76,15 +78,17 @@ public class PublishController {
     @RequestMapping(value = "/client/publishInfo",produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public String publishInfo(HttpServletRequest request) throws Exception {
-        String caption = request.getParameter("caption");
-        String summary = request.getParameter("summary");
-        String cover = request.getParameter("cover");
-        String mainContent = request.getParameter("mainContent");
-        String locationSwitch = request.getParameter("locationSwitch");
-        String location = request.getParameter("location");
-        String invitationSwitch = request.getParameter("invitationSwitch");
-        String invitationCode = request.getParameter("invitationCode");
-        String anonymousSwitch = request.getParameter("anonymousSwitch");
+        String caption = request.getParameter("caption").trim();
+        String summary = request.getParameter("summary").trim();
+        String cover = request.getParameter("cover").trim();
+        String mainContent = request.getParameter("mainContent").trim();
+        String locationSwitch = request.getParameter("locationSwitch").trim();
+        String location = request.getParameter("location").trim();
+        String invitationSwitch = request.getParameter("invitationSwitch").trim();
+        String invitationCode = request.getParameter("invitationCode").trim();
+        String anonymousSwitch = request.getParameter("anonymousSwitch").trim();
+        String isUpdate = request.getParameter("isUpdate").trim();
+        String substanceId = request.getParameter("substanceId").trim();
         JSONObject res = new JSONObject();
         if (caption.length() < 2 || caption.length() > 20){
             return packErrorDes(res,"标题长度不能小于2或大于20","").toJSONString();
@@ -113,17 +117,32 @@ public class PublishController {
         if ("1".equals(locationSwitch)){
             po.setIsRealistic((byte)1);
             po.setLocale(location);
+        } else {
+            po.setIsRealistic((byte)0);
+            po.setLocale("");
         }
         if ("1".equals(invitationSwitch)){
             po.setIsRestricted((byte)1);
             po.setJoinCode(invitationCode);
+        } else {
+            po.setIsRestricted((byte)0);
+            po.setJoinCode("");
         }
         if (!"1".equals(anonymousSwitch)){
             po.setIsAnonymousPermit((byte)0);
+        } else {
+            po.setIsAnonymousPermit((byte)1);
         }
-        int insert_res = substanceInfoService.insertSelective(po,mainContent);
-        if (insert_res > 0){
-            return packErrorDes(res,"添加成功！\n请等待审核。","").toJSONString();
+        int int_res = -1;
+        if ("0".equals(isUpdate)){
+            int_res = substanceInfoService.insertSelective(po,mainContent);
+        } else if ("1".equals(isUpdate)){
+            long temp_id = Long.parseLong(substanceId);
+            po.setId(temp_id);
+            int_res = substanceInfoService.updateByPrimaryKeySelective(po,mainContent);
+        }
+        if (int_res > 0){
+            return packErrorDes(res,"操作成功！请等待审核。","1").toJSONString();
         } else {
             return packErrorDes(res,"系统错误！","").toJSONString();
         }

@@ -157,7 +157,7 @@
                             if (isVisitor === "-1"){
                                 div += "<p>\n" +
                                     "<a href='/content?id=" + jsonRes[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
-                                    "<a href=\"javascript:void(0)\" class=\"btn btn-default btn-sm\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
+                                    "<a href='/client/publish?id=" + jsonRes[i].substanceId + "' target='_blank' class=\"btn btn-default btn-sm\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
                                     "</p>\n";
                             }
                             switch (jsonRes[i].isVerified){

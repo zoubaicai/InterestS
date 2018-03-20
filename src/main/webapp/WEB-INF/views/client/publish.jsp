@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>发布新兴趣组</title>
+    <title>兴趣组 ${substanceInfo.subject}</title>
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
@@ -156,6 +156,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="hidden" id="isUpdate">
+                    ${isUpdate}
+                </div>
             </div>
         </div>
     </div>
@@ -164,7 +167,6 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/wangEditor.js"></script>
     <script src="/iCheck/icheck.min.js"></script>
-    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -223,7 +225,7 @@
                     // result 必须是一个 JSON 格式字符串！！！否则报错
                 }
             };
-            myEditor.customConfig.zIndex = 10;
+            myEditor.customConfig.zIndex = 1;
             myEditor.customConfig.menus = [
                 'head',  // 标题
                 'bold',  // 粗体
@@ -261,6 +263,7 @@
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Z6Sjk1PdxeUdExaBh3s56HDm2pTNSYhm"></script>
     <script src="/js/client/publish_map.js"></script>
     <script src="/js/simpleValidation.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script>
         $(function () {
             // 全局验证对象
@@ -297,78 +300,99 @@
             var $locationSwitch = $("#locationSwitch");
             var $invitationSwitch = $("#invitationSwitch");
             var $anonymousSwitch = $("#anonymousSwitch");
-
+            // 得到id
+            var getSubstanceId = function () {
+                var regex = /id=\w+/;
+                var substanceId = "-1";
+                try {
+                    substanceId = regex.exec(location.search)[0].substr(3);
+                } catch (e){
+                    substanceId = "-1";
+                }
+                return substanceId;
+            };
             $("#sureSubmit").click(function () {
-                var params = {
-                    caption : $caption.val(),
-                    summary : $summary.val(),
-                    cover : "",
-                    mainContent : globalEditor.txt.html(),
-                    locationSwitch : $locationSwitch.hasClass("checked") ? 1 : 0,
-                    location : "",
-                    invitationSwitch : $invitationSwitch.hasClass("checked") ? 1 : 0,
-                    invitationCode : "",
-                    anonymousSwitch : $anonymousSwitch.hasClass("checked") ? 1 : 0
-                };
-                // 获取用户上传图片的第一张，如果没有则cover为空
-                var temp_cover = $($(".upload-img")[0]).attr("src");
-                if (undefined !== temp_cover && /\.(jpg|jpeg|png|bmp|gif)$/i.test(temp_cover) !== false){
-                    params.cover = temp_cover;
-                }
-                // 获取地图的point，并拼接到location后面
-                if (params.locationSwitch){
-                    if (null === globalPoint){
-                        alert("定位还未完成");
-                        return;
-                    } else {
-                        params.location += $("#nowLocation").text() + "," + globalPoint.lng + "," + globalPoint.lat;
-                    }
-                }
-                var validator = new simpleValidation();// 验证器
-                validator._validate("caption","标题","required|max_length|min_length",function (results) {
-                    common_callback($caption,results);
-                },2,20);
-                validator._validate("summary","简介","required|max_length",function (results) {
-                    common_callback($summary,results);
-                },0,120);
-                // 判断是否添加一个邀请码
-                if (params.invitationSwitch){
-                    params.invitationCode = $("#invitationCode").val();
-                    validator._validate("invitationCode","邀请码","required|max_length|min_length|alpha_numeric",function (results) {
-                        common_callback($invitationCode,results);
-                    },8,8);
-                }
-                var res = {
-                    resultFlag : false,
-                    resultMsg : ""
-                };
+                zeroModal.confirm({
+                    content : "确认提交吗？",
+                    okFn : function () {
+                        var params = {
+                            caption : $caption.val(),
+                            summary : $summary.val(),
+                            cover : "",
+                            mainContent : globalEditor.txt.html(),
+                            locationSwitch : $locationSwitch.hasClass("checked") ? 1 : 0,
+                            location : "",
+                            invitationSwitch : $invitationSwitch.hasClass("checked") ? 1 : 0,
+                            invitationCode : "",
+                            anonymousSwitch : $anonymousSwitch.hasClass("checked") ? 1 : 0,
+                            isUpdate : $("#isUpdate").text(),
+                            substanceId : getSubstanceId()
+                        };
+                        // 获取用户上传图片的第一张，如果没有则cover为空
+                        var temp_cover = $($(".upload-img")[0]).attr("src");
+                        if (undefined !== temp_cover && /\.(jpg|jpeg|png|bmp|gif)$/i.test(temp_cover) !== false){
+                            params.cover = temp_cover;
+                        }
+                        // 获取地图的point，并拼接到location后面
+                        if (params.locationSwitch){
+                            if (null === globalPoint){
+                                alert("定位还未完成");
+                                return;
+                            } else {
+                                params.location += $("#nowLocation").text() + "," + globalPoint.lng + "," + globalPoint.lat;
+                            }
+                        }
+                        var validator = new simpleValidation();// 验证器
+                        validator._validate("caption","标题","required|max_length|min_length",function (results) {
+                            common_callback($caption,results);
+                        },2,20);
+                        validator._validate("summary","简介","required|max_length",function (results) {
+                            common_callback($summary,results);
+                        },0,120);
+                        // 判断是否添加一个邀请码
+                        if (params.invitationSwitch){
+                            params.invitationCode = $("#invitationCode").val();
+                            validator._validate("invitationCode","邀请码","required|max_length|min_length|alpha_numeric",function (results) {
+                                common_callback($invitationCode,results);
+                            },8,8);
+                        }
+                        var res = {
+                            resultFlag : false,
+                            resultMsg : ""
+                        };
 
-                // 这里单独判断主要内容是否满足条件
-                if (globalEditor.txt.text().trim().length < 10 || globalEditor.txt.text().trim().length > 2000){
-                    res.resultMsg = "主要内容长度不能小于10且不能大于2000";
-                    common_callback($("#wangEditContent"),res);
-                } else {
-                    res.resultMsg = "";
-                    res.resultFlag = true;
-                    common_callback($("#wangEditContent"),res);
-                }
+                        // 这里单独判断主要内容是否满足条件
+                        if (globalEditor.txt.text().trim().length < 10 || globalEditor.txt.text().trim().length > 2000){
+                            res.resultMsg = "主要内容长度不能小于10且不能大于2000";
+                            common_callback($("#wangEditContent"),res);
+                        } else {
+                            res.resultMsg = "";
+                            res.resultFlag = true;
+                            common_callback($("#wangEditContent"),res);
+                        }
 
-                var ready2submit = true,prop;
-                for (prop in oGlobalFlag){
-                    ready2submit = ready2submit && oGlobalFlag[prop];
-                }
-                if (!ready2submit){
-                    // 验证失败
-                } else {
-                    $.post("/client/publishInfo?time=" + new Date().getTime(), params, function (result) {
-                        alert(result);
-                        // window.location.href = "/";
-                    });
-
-                    console.log(globalEditor.txt.html());
-                    console.log("-------------------------");
-                    console.log(globalEditor.txt.text());
-                }
+                        var ready2submit = true,prop;
+                        for (prop in oGlobalFlag){
+                            ready2submit = ready2submit && oGlobalFlag[prop];
+                        }
+                        if (!ready2submit){
+                            // 验证失败
+                        } else {
+                            // 验证成功就提交
+                            $.post("/client/publishInfo?time=" + new Date().getTime(), params, function (result) {
+                                //alert(result);
+                                var res = JSON.parse(result);
+                                zeroModal.alert({
+                                    content : res.des,
+                                    okFn : function () {
+                                        window.location.href = "/personal";
+                                    }
+                                })
+                            });
+                        }
+                    },
+                    top : "50%"
+                }); // confirm
             });
             // 输入框获取焦点时恢复原始状态
             $(".form-control").focus(function () {

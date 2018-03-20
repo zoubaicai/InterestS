@@ -65,4 +65,25 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     public List<SubstanceInfoPO> listByBelongUserId(PagingInfo pagingInfo) {
         return substanceInfoDAO.listByBelongUserId(pagingInfo);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class,timeout = 1,isolation = Isolation.DEFAULT)
+    public int updateByPrimaryKeySelective(SubstanceInfoPO record,String content) {
+        int res = substanceInfoDAO.updateByPrimaryKeySelective(record);
+        SubstanceContentPO po = new SubstanceContentPO();
+        po.setBelongSubstanceId(record.getId());
+        po.setContent(content);
+        res += substanceContentDAO.updateByBelongSubstanceIdSelective(po);
+        return res;
+    }
+
+    @Override
+    public List<SubstanceInfoPO> listBySearchStr(PagingInfo pagingInfo) {
+        return substanceInfoDAO.listBySearchStr(pagingInfo);
+    }
+
+    @Override
+    public int countBySearchStr(String searchStr) {
+        return substanceInfoDAO.countBySearchStr(searchStr);
+    }
 }

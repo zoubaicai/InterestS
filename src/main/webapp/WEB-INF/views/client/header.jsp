@@ -55,9 +55,9 @@
             <!--搜索框-->
             <div class="navbar-form navbar-right" role="search">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="搜索你感兴趣的内容"/>
+                    <input type="text" class="form-control" placeholder="搜索你感兴趣的内容" id="headerSearch"/>
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" aria-label="search button">
+                        <button class="btn btn-default" id="headerSearchBtn" type="button" aria-label="search button">
                             &nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;
                         </button>
                     </span>
