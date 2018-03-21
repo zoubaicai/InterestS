@@ -18,6 +18,8 @@
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/search.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -29,7 +31,6 @@
 </head>
 <body style="padding-top: 70px;background-color: #eee;">
     <%@include file="header.jsp"%>
-
     <div class="container" style="min-height: 320px;">
         <div class="row">
             <div class="col-md-8">
@@ -47,7 +48,7 @@
                                     <article class="result-item row">
                                         <h4 class="item-title"><a href="/content?id=${list.id}" target="_blank">${list.subject}</a> </h4>
                                         <p class="item-meta">
-                                            <span class="glyphicon glyphicozn-time"></span> ${list.gmtCreate}
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i><span> ${list.gmtCreate}</span>
                                         </p>
                                         <div class="col-xs-7">
                                             <c:choose>
@@ -67,26 +68,11 @@
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
-                        <%--<article class="result-item row">--%>
-                            <%--<h4 class="item-title"><a href="#">[C91东方音乐]Re:Volte – 東方入眠抄13 太陽燦々、幽香さんが花を愛でるように愛してくれる入眠音声</a> </h4>--%>
-                            <%--<p class="item-meta">--%>
-                                <%--<span class="glyphicon glyphicon-user"></span>zbc--%>
-                                <%--<span class="glyphicon glyphicon-time"></span>2018年1月2号--%>
-                            <%--</p>--%>
-                            <%--<div class="col-xs-7">--%>
-                                <%--<img style="background: url(/images/queen.jfif) no-repeat center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;"--%>
-                                     <%--class="item-img" src="/images/nc-efi-placeholder-310x165.png" alt="[C91东方音乐]Re:Volte – 東方入眠抄13 太陽燦々、幽香さんが花を愛でるように愛してくれる入眠音声">--%>
-                            <%--</div>--%>
-                            <%--<div class="col-xs-5">--%>
-                                <%--<p>東方入眠抄13 太陽燦々、幽香さんが花を愛でるように愛してくれる入眠音声 – Re:Volte 项目名称 東方入眠抄13 太陽燦々、幽香さんが花を愛でるように愛してくれる入眠音声 社团/作者 Re:Volte 项目类别 音乐CD 展会 …</p>--%>
-                                <%--<a href="#" class="btn btn-link">查看更多>></a>--%>
-                            <%--</div>--%>
-                        <%--</article>--%>
                         <nav aria-label="lists navigation">
                             <ul class="pager">
-                                <li class="previous"><a href="javascript:void(0)">上一页</a></li>
-                                <li class="page-info">第 <small id="currentPage">1</small> 页,共 <small>${sum}</small> 页</li>
-                                <li class="next"><a href="javascript:void(0)">下一页</a></li>
+                                <li class="previous"><a href="javascript:void(0)" id="previousPage">上一页</a></li>
+                                <li class="page-info">第 <small id="currentPage">1</small> 页,共 <small id="sumPage">${sum}</small> 页</li>
+                                <li class="next"><a href="javascript:void(0)" id="nextPage">下一页</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -108,6 +94,7 @@
     <%@include file="footer.jsp"%>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -120,9 +107,35 @@
            // 得到当前查询字符串
            var getCurrentSearchStr = function () {
                var regex = /s=.+$/i;
-               var s = regex.exec(location.search)[0].substr(2);
-               return window.decodeURIComponent(s);
+               return regex.exec(location.search)[0].substr(2);
            };
+            // 上一页
+           $("#previousPage").click(function () {
+               var p = parseInt(getCurrentPageNum());
+               if (p > 1){
+                   p--;
+                   window.location.href = window.location.host + "/search?p=" + p + "&s=" + getCurrentSearchStr();
+               } else {
+                   zeroModal.alert({
+                       content : "已经是首页了",
+                       top : "20%"
+                   });
+               }
+           });
+           // 下一页
+           $("#nextPage").click(function () {
+               var p = parseInt(getCurrentPageNum());
+               var sum = parseInt($("#sumPage").text());
+               if (p < sum){
+                   p++;
+                   window.location.href = window.location.host + "/search?p=" + p + "&s=" + getCurrentSearchStr();
+               } else {
+                   zeroModal.alert({
+                       content : "已经是最后一页了",
+                       top : "20%"
+                   });
+               }
+           });
         });
     </script>
 </body>

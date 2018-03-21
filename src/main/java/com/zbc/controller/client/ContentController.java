@@ -36,6 +36,9 @@ public class ContentController {
     private UserCollectionService userCollectionService;
 
     @Autowired
+    private MsgInfoService msgInfoService;
+
+    @Autowired
     private JwtService jwtService; // jwt 生成和验证
 
     // TODO 百度地图的覆盖无单击事件还没有添加
@@ -132,7 +135,7 @@ public class ContentController {
         Long substanceId = Long.parseLong(request.getParameter("substanceId"));
         PagingInfo pagingInfo = new PagingInfo();
         pagingInfo.setId(substanceId);
-        pagingInfo.setOffset(Integer.parseInt(offset));
+        pagingInfo.setOffset(Integer.parseInt(offset)*10);
         pagingInfo.setRows(Integer.parseInt(rows));
         List<SubstanceCommentPO> commentPOS = substanceCommentService.listBySubstanceId(pagingInfo);
         int sumPage = substanceCommentService.countByPrimaryKey(substanceId);
@@ -182,6 +185,12 @@ public class ContentController {
         }
         int res_insert = groupInfoService.insertSelective(po);
         if (res_insert > 0){
+            // 添加消息到msg_info 表
+            MsgInfoPO msgInfoPO = new MsgInfoPO();
+            msgInfoPO.setBelongUserId(infoPO.getBelongUserId());
+            msgInfoPO.setMsgContent("有新用户加入兴趣组（" + infoPO.getSubject() + "）");
+            msgInfoService.insertSelective(msgInfoPO);
+
             return "1"; // 成功
         } else {
             return "-3"; // 数据库操作失败

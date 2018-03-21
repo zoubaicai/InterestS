@@ -10,6 +10,16 @@ public class PagingInfo {
 
     private String searchStr;
 
+    private byte verifyFlag;
+
+    public byte getVerifyFlag() {
+        return verifyFlag;
+    }
+
+    public void setVerifyFlag(byte verifyFlag) {
+        this.verifyFlag = verifyFlag;
+    }
+
     public String getSearchStr() {
         return searchStr;
     }

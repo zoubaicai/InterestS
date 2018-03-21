@@ -86,4 +86,14 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     public int countBySearchStr(String searchStr) {
         return substanceInfoDAO.countBySearchStr(searchStr);
     }
+
+    @Override
+    public List<SubstanceInfoPO> listIncludeContent(PagingInfo pagingInfo) {
+        return substanceInfoDAO.listIncludeContent(pagingInfo);
+    }
+
+    @Override
+    public int countAll(byte isVerified) {
+        return substanceInfoDAO.countAll(isVerified);
+    }
 }

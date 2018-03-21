@@ -72,4 +72,18 @@ public interface SubstanceInfoService {
      * @return
      */
     int countBySearchStr(String searchStr);
+
+    /**
+     * 分页查询，如果有searchStr 就添加模糊搜索
+     * @param pagingInfo
+     * @return
+     */
+    List<SubstanceInfoPO> listIncludeContent(PagingInfo pagingInfo);
+
+    /**
+     * 根据is_verified 返回行数
+     * @param isVerified
+     * @return
+     */
+    int countAll(byte isVerified);
 }

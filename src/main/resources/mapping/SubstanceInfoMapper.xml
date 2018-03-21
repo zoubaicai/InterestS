@@ -86,7 +86,7 @@
         FROM
           substance_info
         WHERE
-          id in (select si.id from (select id from substance_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows}) as si)
+          id in (select si.id from (select id from substance_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows} order by id desc) as si)
         ORDER BY
           id DESC
     </select>
@@ -96,9 +96,29 @@
         FROM
           substance_info
         WHERE
-          id in (select s.id from (select id from substance_info where subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} limit #{offset} , #{rows}) as s )
+          id in (select s.id from (select id from substance_info where subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} limit #{offset} , #{rows} order by id desc) as s )
         ORDER BY
           id DESC
+    </select>
+    <select id="listIncludeContent" parameterType="com.zbc.pojo.PagingInfo" resultMap="infoIncludeContent">
+        SELECT *
+        FROM substance_info s LEFT JOIN substance_content sc ON sc.belong_substance_id = s.id
+        WHERE
+        <choose>
+            <when test="searchStr != null">
+                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} and subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} limit #{offset} , #{rows} order by id desc) as ss)
+            </when>
+            <otherwise>
+                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} limit #{offset} , #{rows} order by id desc) as ss)
+            </otherwise>
+        </choose>
+        ORDER BY
+        s.id DESC
+    </select>
+    <select id="countAll" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM substance_info
+        WHERE is_verified = #{isVerified,jdbcType=TINYINT}
     </select>
     <select id="countBySearchStr" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT

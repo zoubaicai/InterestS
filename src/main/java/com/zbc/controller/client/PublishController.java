@@ -195,7 +195,6 @@ public class PublishController {
         return res.toJSONString();
     }
 
-    // TODO 前端页面错误提示还没有使用zeroModal
     /**
      * 将出错描述和错误标识打包
      * @param o

@@ -39,8 +39,8 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 要生成哪些表 -->
-        <table tableName="substance_comment"
-               domainObjectName="SubstanceComment"
+        <table tableName="msg_info"
+               domainObjectName="MsgInfo"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

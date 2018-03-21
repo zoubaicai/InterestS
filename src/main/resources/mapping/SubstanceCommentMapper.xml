@@ -60,7 +60,7 @@
         ON
           sc.belong_user_id = u.id
         WHERE
-          sc.id in (select ssc.id from (select id from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows}) as ssc)
+          sc.id in (select ssc.id from (select id from substance_comment where belong_substance_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows} order by id desc) as ssc)
         ORDER BY
           sc.id DESC
     </select>
