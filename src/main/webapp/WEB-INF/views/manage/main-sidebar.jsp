@@ -64,9 +64,9 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/manage/substance_no_verify"><i class="fa fa-circle-o"></i> 未审核
-                        <span class="pull-right-container">
-                          <span class="label label-primary pull-right">13</span>
-                        </span>
+                        <%--<span class="pull-right-container">--%>
+                          <%--<span class="label label-primary pull-right">13</span>--%>
+                        <%--</span>--%>
                     </a></li>
                     <li><a href="/manage/substance_verified"><i class="fa fa-circle-o"></i> 已通过</a></li>
                     <li><a href="/manage/substance_fail_verified"><i class="fa fa-circle-o"></i> 未通过</a></li>

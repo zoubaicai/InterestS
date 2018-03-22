@@ -39,6 +39,7 @@
         <result column="is_verified" jdbcType="TINYINT" property="isVerified"/>
         <result column="unverified_factor" jdbcType="VARCHAR" property="unverifiedFactor"/>
         <collection property="substanceContentPO" javaType="com.zbc.pojo.SubstanceContentPO">
+            <id column="id" jdbcType="BIGINT" property="id"/>
             <result column="belong_substance_id" jdbcType="BIGINT" property="belongSubstanceId"/>
             <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
             <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
@@ -86,9 +87,8 @@
         FROM
           substance_info
         WHERE
-          id in (select si.id from (select id from substance_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows} order by id desc) as si)
-        ORDER BY
-          id DESC
+          id in (select si.id from (select id from substance_info where belong_user_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as si)
+        ORDER BY id DESC
     </select>
     <select id="listBySearchStr" parameterType="com.zbc.pojo.PagingInfo" resultMap="BaseResultMap">
         SELECT
@@ -96,7 +96,7 @@
         FROM
           substance_info
         WHERE
-          id in (select s.id from (select id from substance_info where subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} limit #{offset} , #{rows} order by id desc) as s )
+          id in (select s.id from (select id from substance_info where subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} order by id desc limit #{offset} , #{rows}) as s )
         ORDER BY
           id DESC
     </select>
@@ -106,10 +106,10 @@
         WHERE
         <choose>
             <when test="searchStr != null">
-                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} and subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} limit #{offset} , #{rows} order by id desc) as ss)
+                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} and subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} order by id desc limit #{offset} , #{rows}) as ss)
             </when>
             <otherwise>
-                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} limit #{offset} , #{rows} order by id desc) as ss)
+                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} order by id desc limit #{offset} , #{rows}) as ss)
             </otherwise>
         </choose>
         ORDER BY

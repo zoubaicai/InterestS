@@ -9,6 +9,7 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.awt.print.Pageable;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,16 @@ public class TestMain {
 //        Thumbnails.of(fromPic).size(400,400)
 //                .watermark(Positions.BOTTOM_LEFT, Thumbnails.of(waterPic).scale(0.1f).outputQuality(0.1f).asBufferedImage(),0.5f)
 //                .outputQuality(0.8f).toFile(toPic);
-//        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setOffset(0);
+        pagingInfo.setRows(20);
+        pagingInfo.setVerifyFlag((byte)0);
+        List<SubstanceInfoPO> lists = substanceInfoService.listIncludeContent(pagingInfo);
+        for (SubstanceInfoPO po : lists){
+            System.out.println(po.getSummary() + " " + po.getGmtCreate());
+        }
 //        UserCollectionService userCollectionService = (UserCollectionService)context.getBean("userCollectionService");
 //        PagingInfo pagingInfo = new PagingInfo();
 //        pagingInfo.setId(1L);
@@ -42,8 +52,6 @@ public class TestMain {
 //            System.out.println(po.getBelongUserId());
 //            System.out.println(po.getSubstanceInfoPO().getSummary());
 //        }
-        String s = URLDecoder.decode("%E4%BD%A0%E5%A5%BD%24(*%23(%25(*%25(%23*%25(%23)%2B%2B%2B!!!sdf","utf-8");
-        System.out.println(s);
 //        UserInfoService userInfoService = (UserInfoService) context.getBean("userInfoService");
 //        UserInfoPO temp = new UserInfoPO();
 //        temp.setId(2L);
