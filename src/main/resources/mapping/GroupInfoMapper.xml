@@ -182,7 +182,7 @@
         FROM
           group_info g join substance_info s on g.belong_substance_id = s.id
         WHERE
-          g.id in (select gg.id from (select id from group_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows} order by id desc) as gg)
+          g.id in (select gg.id from (select id from group_info where belong_user_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as gg)
         ORDER BY
           g.id DESC
     </select>

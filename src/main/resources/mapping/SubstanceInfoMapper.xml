@@ -106,7 +106,7 @@
         WHERE
         <choose>
             <when test="searchStr != null">
-                s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} and subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR} order by id desc limit #{offset} , #{rows}) as ss)
+                s.id in (select ss.id from (select id from substance_info where (subject like #{searchStr,jdbcType=VARCHAR} or summary like #{searchStr,jdbcType=VARCHAR} or locale like #{searchStr,jdbcType=VARCHAR}) and is_verified = #{verifyFlag,jdbcType=TINYINT} order by id desc limit #{offset} , #{rows}) as ss)
             </when>
             <otherwise>
                 s.id in (select ss.id from (select id from substance_info where is_verified = #{verifyFlag,jdbcType=TINYINT} order by id desc limit #{offset} , #{rows}) as ss)
@@ -266,7 +266,7 @@
                 #{isVerified,jdbcType=TINYINT},
             </if>
             <if test="unverifiedFactor != null">
-                #{unverifedFactor,jdbcType=VARCHAR},
+                #{unverifiedFactor,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -314,10 +314,10 @@
                 gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
             </if>
             <if test="isVerified != null">
-                #{isVerified,jdbcType=TINYINT},
+                is_verified = #{isVerified,jdbcType=TINYINT},
             </if>
             <if test="unverifiedFactor != null">
-                #{unverifedFactor,jdbcType=VARCHAR},
+                unverified_factor = #{unverifiedFactor,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

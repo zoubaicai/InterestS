@@ -67,7 +67,7 @@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
-                                <table class="table table-hover">
+                                <table class="table table-hover" style="font-size: 1em;">
                                     <tbody>
                                         <tr>
                                             <th>编号</th>
@@ -144,7 +144,7 @@
                                                         <td>
                                                             <c:choose>
                                                                 <c:when test="${list.isVerified == 1}">
-                                                                    <i class="fa fa-circle text-green"></i>以通过
+                                                                    <i class="fa fa-circle text-green"></i>已通过
                                                                 </c:when>
                                                                 <c:when test="${list.isVerified == 2}">
                                                                     <i class="fa fa-circle text-red"></i>未通过
@@ -165,7 +165,7 @@
                                                             </c:choose>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="btn btn-success btn-flat btn-sm">查看</a>
+                                                            <a href="/manage/content_detail?id=${list.id}" target="_blank" class="btn btn-success btn-flat btn-sm">查看</a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>未审核内容</title>
+    <title>详细内容 ${po.subject}</title>
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -55,7 +55,7 @@
                                 <i class="fa fa-bookmark text-primary"></i> 主题
                             </div>
                             <div class="box-body">
-                                20180317
+                                ${po.subject}
                             </div>
                         </div>
                         <div class="box box-solid">
@@ -63,7 +63,7 @@
                                 <i class="fa fa-tag"></i> 简介
                             </div>
                             <div class="box-body">
-                                20180317
+                                ${po.summary}
                             </div>
                         </div>
                         <div class="box box-solid">
@@ -71,8 +71,7 @@
                                 <i class="fa fa-sticky-note"></i> 内容
                             </div>
                             <div class="box-body">
-                                <p><img class="upload-img" src="/images/user_upload/1/1_20180317110537455.jpg" style="max-width:100%;"></p>
-                                <p>今天星期六，需要敲一天代码</p>
+                               ${po.substanceContentPO.content}
                             </div>
                         </div>
                         <div class="box box-solid">
@@ -80,7 +79,14 @@
                                 <i class="fa fa-map-marker text-primary"></i> 定位地址
                             </div>
                             <div class="box-body">
-                                浙江省温州市永嘉县,120.670288,28.145985
+                                <c:choose>
+                                    <c:when test="${po.locale == '' || null == po.locale}">
+                                        空
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${po.locale}
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                         <div class="box box-solid">
@@ -88,7 +94,14 @@
                                 <i class="fa fa-user text-gray"></i> 是否允许匿名访问
                             </div>
                             <div class="box-body">
-                                <i class="fa fa-circle text-green"></i> 是
+                                <c:choose>
+                                    <c:when test="${po.isAnonymousPermit == 1}">
+                                        <i class="fa fa-circle text-green"></i> 是
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fa fa-circle text-gray"></i> 否
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                         <div class="box box-solid">
@@ -96,7 +109,17 @@
                                 <i class="fa fa-circle-o text-gray"></i> 审核状态
                             </div>
                             <div class="box-body">
-                                <i class="fa fa-circle text-gray"></i> 未审核
+                                <c:choose>
+                                    <c:when test="${po.isVerified == 0}">
+                                        <i class="fa fa-circle text-gray"></i> 未审核
+                                    </c:when>
+                                    <c:when test="${po.isVerified == 1}">
+                                        <i class="fa fa-circle text-green"></i> 通过
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fa fa-circle text-red"></i> 未通过
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                         <div class="box box-solid">
@@ -104,23 +127,37 @@
                                 审核结果描述
                             </div>
                             <div class="box-body">
-                                空
+                                <c:choose>
+                                    <c:when test="${po.unverifiedFactor == '' || null == po.unverifiedFactor}">
+                                        空
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${po.unverifiedFactor}
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <div class="form-group">
-                            <label>审核结果</label>
-                            <select class="form-control">
-                                <option value="通过">通过</option>
-                                <option value="不通过">不通过</option>
-                            </select>
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <i class="fa fa-edit"></i> 操作中心
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label>审核结果</label>
+                                    <select class="form-control" id="stateSelect">
+                                        <option value="通过">通过</option>
+                                        <option value="不通过">不通过</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="stateStr">审核结果描述</label>
+                                    <input type="text" class="form-control"  placeholder="请输入原因" id="stateStr">
+                                </div>
+                                <button class="btn btn-primary btn-flat btn-block" id="updateBen">确认更改</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">审核结果描述</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入原因">
-                        </div>
-                        <button type="button" class="btn btn-primary btn-flat btn-block">确认更改</button>
                     </div>
                 </div>
             </section>
@@ -134,7 +171,38 @@
     <script src="/js/jquery.slimscroll.min.js"></script>
     <script src="/js/manage/common.js"></script>
     <script>
+        $(function () {
+            // 得到id
+            var getSubstanceId = function () {
+                var regex = /id=\w+/;
+                return regex.exec(location.search)[0].substr(3);
+            };
 
+            // 提交更改
+            $("#updateBen").click(function () {
+                var state = $("#stateSelect").val();
+                var stateStr = $("#stateStr").val();
+                if (stateStr === ""){
+                    alert("审核结果描述不能为空");
+                    return;
+                }
+                var params = {
+                    id : getSubstanceId(),
+                    state : encodeURIComponent(state),
+                    stateStr : encodeURIComponent(stateStr)
+                };
+                $.post("/manage/verifyContent?time=" + new Date().getTime(),params,function (result) {
+                    //alert(result);
+                    if (result === "1"){
+                        alert("更改成功！");
+                    } else if (result === "-2"){
+                        alert("系统错误-2");
+                    } else {
+                        alert("意外的崩溃了");
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>

@@ -22,9 +22,35 @@ public class PublishManageController {
     @Autowired
     private SubstanceInfoService substanceInfoService;
 
+    /**
+     * ！！！代码出现冗余
+     * 返回审核通过的内容
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value = "/manage/substance_verified")
-    public String substance_verified(){
-        return "manage/substance_verified";
+    public ModelAndView substance_verified(HttpServletRequest request) throws UnsupportedEncodingException {
+        String offsetStr = request.getParameter("p");
+        String searchStr = request.getParameter("s");
+        if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
+            offsetStr = "1";
+        }
+        int offset = Integer.parseInt(offsetStr);
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setRows(20);
+        pagingInfo.setOffset((offset - 1) * 20);
+        pagingInfo.setVerifyFlag((byte)1);
+        if (!"".equals(searchStr) && null != searchStr){
+            searchStr = URLDecoder.decode(searchStr,"utf-8");
+            pagingInfo.setSearchStr("%" + searchStr + "%");
+        }
+        List<SubstanceInfoPO> lists = substanceInfoService.listIncludeContent(pagingInfo);
+        int sum = substanceInfoService.countAll((byte)0);
+        ModelAndView modelAndView = new ModelAndView("manage/substance_verified");
+        modelAndView.addObject("lists",lists);
+        modelAndView.addObject("sum",(sum / 20) % 20 +1);
+        return modelAndView;
     }
 
     /**
@@ -56,13 +82,83 @@ public class PublishManageController {
         return modelAndView;
     }
 
+    /**
+     * 根据id 返回指定内容的详细内容
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/manage/content_detail")
-    public String content_detail(HttpServletRequest request){
-        return "manage/content_detail";
+    public ModelAndView content_detail(HttpServletRequest request){
+        String id = request.getParameter("id");
+        if (null == id || !Pattern.matches("^[1-9]+$",id)){
+            return new ModelAndView("404 page");
+        }
+        long substanceId = Long.parseLong(id);
+        SubstanceInfoPO po = substanceInfoService.selectIncludeContent(substanceId);
+        ModelAndView modelAndView = new ModelAndView("manage/content_detail");
+        modelAndView.addObject("po",po);
+        return modelAndView;
     }
 
+    /**
+     * 更改内容的审核结果，并添加审核结果的原因
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping(value = "/manage/verifyContent",produces = {"text/html;charset=UTF-8;"})
+    @ResponseBody
+    public String verifyContent(HttpServletRequest request) throws UnsupportedEncodingException {
+        String state = URLDecoder.decode(request.getParameter("state"),"utf-8");
+        String stateStr = URLDecoder.decode(request.getParameter("stateStr"),"utf-8");
+        long substanceId = Long.parseLong(request.getParameter("id"));
+        SubstanceInfoPO po = new SubstanceInfoPO();
+        po.setId(substanceId);
+        if ("通过".equals(state)){
+            po.setIsVerified((byte)1);
+        } else if("不通过".equals(state)){
+            po.setIsVerified((byte)2);
+        } else {
+            po.setIsVerified((byte)0);
+        }
+        po.setUnverifiedFactor(stateStr);
+        int res = substanceInfoService.updateByPrimaryKeySelectiveOnly(po);
+        if (res > 0){
+            return "1";
+        } else {
+            return "-2";
+        }
+    }
+
+
+    /**
+     * ！！！代码出现冗余
+     * 返回审核未通过的内容
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value = "/manage/substance_fail_verified")
-    public String substance_fail_verified(){
-        return "manage/substance_fail_verified";
+    public ModelAndView substance_fail_verified(HttpServletRequest request) throws UnsupportedEncodingException {
+        String offsetStr = request.getParameter("p");
+        String searchStr = request.getParameter("s");
+        if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
+            offsetStr = "1";
+        }
+        int offset = Integer.parseInt(offsetStr);
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setRows(20);
+        pagingInfo.setOffset((offset - 1) * 20);
+        pagingInfo.setVerifyFlag((byte)2);
+        if (!"".equals(searchStr) && null != searchStr){
+            searchStr = URLDecoder.decode(searchStr,"utf-8");
+            pagingInfo.setSearchStr("%" + searchStr + "%");
+        }
+        List<SubstanceInfoPO> lists = substanceInfoService.listIncludeContent(pagingInfo);
+        int sum = substanceInfoService.countAll((byte)0);
+        ModelAndView modelAndView = new ModelAndView("manage/substance_fail_verified");
+        modelAndView.addObject("lists",lists);
+        modelAndView.addObject("sum",(sum / 20) % 20 +1);
+        return modelAndView;
     }
 }

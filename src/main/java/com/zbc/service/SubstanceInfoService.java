@@ -57,6 +57,8 @@ public interface SubstanceInfoService {
 
     int updateByPrimaryKeySelective(SubstanceInfoPO record,String content);
 
+
+    int updateByPrimaryKeySelectiveOnly(SubstanceInfoPO record);
     //int updateByPrimaryKey(SubstanceInfoPO record);
 
     /**

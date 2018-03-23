@@ -34,14 +34,11 @@ public class TestMain {
 //                .outputQuality(0.8f).toFile(toPic);
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
         SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
-        PagingInfo pagingInfo = new PagingInfo();
-        pagingInfo.setOffset(0);
-        pagingInfo.setRows(20);
-        pagingInfo.setVerifyFlag((byte)0);
-        List<SubstanceInfoPO> lists = substanceInfoService.listIncludeContent(pagingInfo);
-        for (SubstanceInfoPO po : lists){
-            System.out.println(po.getSummary() + " " + po.getGmtCreate());
-        }
+        SubstanceInfoPO po = new SubstanceInfoPO();
+        po.setId(1L);
+        po.setIsVerified((byte)1);
+        po.setUnverifiedFactor("符合规定");
+        System.out.println(substanceInfoService.updateByPrimaryKeySelectiveOnly(po));
 //        UserCollectionService userCollectionService = (UserCollectionService)context.getBean("userCollectionService");
 //        PagingInfo pagingInfo = new PagingInfo();
 //        pagingInfo.setId(1L);

@@ -78,6 +78,12 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     }
 
     @Override
+    public int updateByPrimaryKeySelectiveOnly(SubstanceInfoPO record) {
+        return substanceInfoDAO.updateByPrimaryKeySelective(record);
+    }
+
+
+    @Override
     public List<SubstanceInfoPO> listBySearchStr(PagingInfo pagingInfo) {
         return substanceInfoDAO.listBySearchStr(pagingInfo);
     }

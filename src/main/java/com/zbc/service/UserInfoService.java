@@ -1,6 +1,9 @@
 package com.zbc.service;
 
+import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.UserInfoPO;
+
+import java.util.List;
 
 public interface UserInfoService {
     /**
@@ -44,5 +47,18 @@ public interface UserInfoService {
      * @return
      */
     int insertSelective(UserInfoPO record);
+
+    /**
+     * 返回所有用户信息，如果有 查询字符串，就执行模糊查询
+     * @param pagingInfo
+     * @return
+     */
+    List<UserInfoPO> listUserInfo(PagingInfo pagingInfo);
+
+    /**
+     * 返回所有用户个数
+     * @return
+     */
+    int countAll();
 
 }
