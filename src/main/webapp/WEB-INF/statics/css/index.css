@@ -1,6 +1,6 @@
 .banner{height: 350px;margin-bottom: 10px;position: relative;margin-top: -70px;}
 .banner-bg{position: absolute;top: 0;left: 0;width: 100%;height: inherit;z-index: 5;background: #fff;filter: alpha(Opacity=50);opacity: 0.5;}
-.search-control{border-radius: 0;}
+.search-control{border-radius: 20px;}
 
 .recommend-lists{margin-top: 10px;}
 .recommend-item{}

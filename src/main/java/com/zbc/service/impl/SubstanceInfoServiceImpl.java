@@ -1,8 +1,10 @@
 package com.zbc.service.impl;
 
 import com.zbc.dao.SubstanceInfoDAO;
+import com.zbc.dao.SubstanceLocationDAO;
 import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.SubstanceInfoPO;
+import com.zbc.pojo.SubstanceLocationPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -24,6 +26,10 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     // 这个DAO用来插入内容对应的text列，开启事务执行
     private SubstanceContentDAO substanceContentDAO;
 
+    @Autowired
+    // 这个DAO用来额外插入地址信息到location表
+    private SubstanceLocationDAO substanceLocationDAO;
+
     @Override
     public int insert(SubstanceInfoPO record) {
         return substanceInfoDAO.insert(record);
@@ -43,6 +49,13 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
         po.setBelongSubstanceId(record.getId());
         po.setContent(content);
         res += substanceContentDAO.insert(po);
+        SubstanceLocationPO po2 = new SubstanceLocationPO();
+        po2.setBelongSubstanceId(record.getId());
+        String[] locationInfo = record.getLocale().split(",");
+        po2.setLocationText(locationInfo[0]);
+        po2.setLongitude(Double.parseDouble(locationInfo[1]));
+        po2.setLatitude(Double.parseDouble(locationInfo[2]));
+        res += substanceLocationDAO.insertSelective(po2);
         return res;
     }
 
@@ -74,6 +87,13 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
         po.setBelongSubstanceId(record.getId());
         po.setContent(content);
         res += substanceContentDAO.updateByBelongSubstanceIdSelective(po);
+        SubstanceLocationPO po2 = new SubstanceLocationPO();
+        po2.setBelongSubstanceId(record.getId());
+        String[] locationInfo = record.getLocale().split(",");
+        po2.setLocationText(locationInfo[0]);
+        po2.setLongitude(Double.parseDouble(locationInfo[1]));
+        po2.setLatitude(Double.parseDouble(locationInfo[2]));
+        res += substanceLocationDAO.updateByPrimaryKeySelective(po2);
         return res;
     }
 

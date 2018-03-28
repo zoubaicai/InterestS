@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation"
      style="border-bottom: none;">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
@@ -59,7 +59,7 @@
                 &nbsp;
             </div>
             <!--搜索框-->
-            <div class="navbar-form navbar-right" role="search">
+            <div class="navbar-form navbar-right mHidden" role="search" id="headerSearchArea">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="搜索你感兴趣的内容" id="headerSearch"/>
                     <span class="input-group-btn">

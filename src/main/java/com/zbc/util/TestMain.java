@@ -1,10 +1,7 @@
 package com.zbc.util;
 
 import com.zbc.pojo.*;
-import com.zbc.service.GroupInfoService;
-import com.zbc.service.SubstanceCommentService;
-import com.zbc.service.SubstanceInfoService;
-import com.zbc.service.UserCollectionService;
+import com.zbc.service.*;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,6 +10,7 @@ import java.awt.print.Pageable;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TestMain {
     public static void main(String[] args) throws Exception {
@@ -33,12 +31,22 @@ public class TestMain {
 //                .watermark(Positions.BOTTOM_LEFT, Thumbnails.of(waterPic).scale(0.1f).outputQuality(0.1f).asBufferedImage(),0.5f)
 //                .outputQuality(0.8f).toFile(toPic);
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-        SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
-        SubstanceInfoPO po = new SubstanceInfoPO();
-        po.setId(1L);
-        po.setIsVerified((byte)1);
-        po.setUnverifiedFactor("符合规定");
-        System.out.println(substanceInfoService.updateByPrimaryKeySelectiveOnly(po));
+        SubstanceLocationService substanceLocationService = (SubstanceLocationService)context.getBean("substanceLocationService");
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setOffset(0);
+        pagingInfo.setRows(10);
+        pagingInfo.setLatitude(28.159780);
+        pagingInfo.setLongitude(120.678871);
+        List<SubstanceLocationPO> lists = substanceLocationService.listByDistance(pagingInfo);
+        for (SubstanceLocationPO po : lists){
+            System.out.println(po.getDistance());
+        }
+//        SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
+//        SubstanceInfoPO po = new SubstanceInfoPO();
+//        po.setId(1L);
+//        po.setIsVerified((byte)1);
+//        po.setUnverifiedFactor("符合规定");
+//        System.out.println(substanceInfoService.updateByPrimaryKeySelectiveOnly(po));
 //        UserCollectionService userCollectionService = (UserCollectionService)context.getBean("userCollectionService");
 //        PagingInfo pagingInfo = new PagingInfo();
 //        pagingInfo.setId(1L);

@@ -53,7 +53,7 @@
                                         <div class="col-xs-7">
                                             <c:choose>
                                                 <c:when test="${list.cover == '' || list.cover == null}">
-                                                    <img class="item-img" src="/images/spaceholder.gif" alt="${list.subject}">
+                                                    <img class="item-img" src="/images/interestshare.jpg" alt="${list.subject}">
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img class="item-img" src="${list.cover}" alt="${list.subject}">
@@ -65,6 +65,7 @@
                                             <a href="/content?id=${list.id}" class="btn btn-link" target="_blank">查看更多>></a>
                                         </div>
                                     </article>
+                                    <hr>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>

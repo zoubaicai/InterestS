@@ -144,7 +144,7 @@
                     } else {
                         for (var i =0;i<jsonRes.length;i++){
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
-                                jsonRes[i].cover = "/images/loadingandword.gif";
+                                jsonRes[i].cover = "/images/interestshare.jpg";
                             }
                             var div = "<div class=\"col-md-3 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
@@ -211,7 +211,7 @@
                     } else {
                         for (var i =0;i<jsonRes.length;i++){
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
-                                jsonRes[i].cover = "/images/loadingandword.gif";
+                                jsonRes[i].cover = "/images/interestshare.jpg";
                             }
                             var div = "<div class=\"col-md-2 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
@@ -290,7 +290,7 @@
                     } else {
                         for (var i =0;i<jsonRes.length;i++){
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
-                                jsonRes[i].cover = "/images/loadingandword.gif";
+                                jsonRes[i].cover = "/images/interestshare.jpg";
                             }
                             var div = "<div class=\"col-md-2 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +

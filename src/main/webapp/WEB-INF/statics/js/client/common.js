@@ -1,4 +1,9 @@
 $(function () {
+    // 判断是否为首页，先择是否显示导航上搜索
+    if ($("#isHomePage").text() !== "1"){
+        $("#headerSearchArea").show();
+    }
+
     // 查看是否存在token，判断用户是否以登录，默认cookie生存期1天
     var token = $.cookie("token");
     if (null != token && token != "undefined"){
@@ -27,6 +32,10 @@ $(function () {
     // header 上面的搜索按钮
     $("#headerSearchBtn").click(function () {
         var s = window.decodeURIComponent($("#headerSearch").val());
+        if (s === "" || s === undefined){
+            zmAlert("搜索内容不能为空");
+            return;
+        }
         window.location.href = "/search?p=1&s=" + s;
     });
 });

@@ -59,34 +59,92 @@
         <%--</div>--%>
     <%--</nav>--%>
     <%@include file="client/header.jsp"%>
-    <div class="container-fluid banner" role="banner" style="display:none">
-        <div class="row clearfix">
-            <div class="col-md-12" style="height: 80px;"></div>
-            <div class="col-md-4 col-md-offset-4">
-                <h2 class="text-center"><small style="color: #fff;">搜索</small></h2>
-            </div>
-            <div class="col-md-4 col-md-offset-4">
-                <div>
-                    <div class="input-group" style="max-width: 500px;margin: 0 auto;">
-                        <input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">
-                        <span class="input-group-btn">
-                        <a href="#" class="btn btn-default search-control" role="button" style="background-color: rgba(0,0,0,0.1);border-left: none;">
-                            &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
-                        </a>
-                    </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <img src="/images/gradual_green.jpg" class="banner-bg" style="z-index: -10;" aria-label="banner image">
-        <div class="banner-bg" style="z-index: -9;background: #000;filter: alpha(Opacity=30);opacity: 0.3;" aria-label="bg mask"></div>
-    </div>
+    <%--<div class="container-fluid banner" role="banner" style="display:none">--%>
+        <%--<div class="row clearfix">--%>
+            <%--<div class="col-md-12" style="height: 80px;"></div>--%>
+            <%--<div class="col-md-4 col-md-offset-4">--%>
+                <%--<h2 class="text-center"><small style="color: #fff;">搜索</small></h2>--%>
+            <%--</div>--%>
+            <%--<div class="col-md-4 col-md-offset-4">--%>
+                <%--<div>--%>
+                    <%--<div class="input-group" style="max-width: 500px;margin: 0 auto;">--%>
+                        <%--<input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">--%>
+                        <%--<span class="input-group-btn">--%>
+                        <%--<a href="#" class="btn btn-default search-control" role="button" style="background-color: rgba(0,0,0,0.1);border-left: none;">--%>
+                            <%--&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;--%>
+                        <%--</a>--%>
+                    <%--</span>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<img src="/images/gradual_green.jpg" class="banner-bg" style="z-index: -10;" aria-label="banner image">--%>
+        <%--<div class="banner-bg" style="z-index: -9;background: #000;filter: alpha(Opacity=30);opacity: 0.3;" aria-label="bg mask"></div>--%>
+    <%--</div>--%>
 
-    <div class="container banner" style="margin-top: -20px;position: relative;">
+    <%--<div class="container banner" style="margin-top: -20px;position: relative;">--%>
+        <%--<div class="row clearfix">--%>
+            <%--<div class="col-md-12" style="height: 80px;"></div>--%>
+            <%--<div class="col-md-4 col-md-offset-4" style="z-index: 10;">--%>
+                <%--<h2 class="text-center"><small style="color: #fff;">搜索</small></h2>--%>
+            <%--</div>--%>
+            <%--<div class="col-md-4 col-md-offset-4" style="z-index:10;">--%>
+                <%--<div>--%>
+                    <%--<div class="input-group" style="max-width: 500px;margin: 0 auto;">--%>
+                        <%--<input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">--%>
+                        <%--<span class="input-group-btn">--%>
+                        <%--<a href="#" class="btn btn-default search-control" role="button" style="border-left: none;">--%>
+                            <%--&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;--%>
+                        <%--</a>--%>
+                    <%--</span>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div id="carousel-example-generic" class="carousel slide shards-shadow" data-ride="carousel" style="position: absolute;top: 0;left: 0;width: 98%;height: 100%;margin-left: 1%;">--%>
+            <%--<!-- Indicators -->--%>
+            <%--<ol class="carousel-indicators">--%>
+                <%--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>--%>
+                <%--<li data-target="#carousel-example-generic" data-slide-to="1"></li>--%>
+            <%--</ol>--%>
+
+            <%--<!-- Wrapper for slides -->--%>
+            <%--<div class="carousel-inner" style="height: 100%;position: relative;" role="listbox">--%>
+                <%--<a href="#" class="item active listBox-item">--%>
+                    <%--<img src="/images/gradual_green.jpg">--%>
+                    <%--<div class="banner-bg"></div>--%>
+                    <%--<div class="carousel-caption">--%>
+                        <%--Test--%>
+                    <%--</div>--%>
+                <%--</a>--%>
+                <%--<a href="#" class="item listBox-item clearfix">--%>
+                    <%--<img src="/images/Saturday.jpg">--%>
+                    <%--<div class="banner-bg"></div>--%>
+                    <%--<div class="carousel-caption">--%>
+                        <%--Test--%>
+                    <%--</div>--%>
+                <%--</a>--%>
+            <%--</div>--%>
+
+            <%--<!-- Controls -->--%>
+            <%--&lt;%&ndash;<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<span class="sr-only">Previous</span>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<span class="sr-only">Next</span>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
+        <%--</div>--%>
+
+    <%--</div>--%>
+
+    <div class="container banner" style="position: relative;">
+        <img src="/images/500305956_banner.jpg" class="shards-shadow" style="height: 400px;width: 98%;position: absolute;top: 0;left: 1%;z-index: -1;">
         <div class="row clearfix">
-            <div class="col-md-12" style="height: 80px;"></div>
+            <div class="col-md-12" style="height: 150px;"></div>
             <div class="col-md-4 col-md-offset-4" style="z-index: 10;">
-                <h2 class="text-center"><small style="color: #fff;">搜索</small></h2>
+                <h2 class="text-center"><small style="font-size: 1.1em;color: #666;">兴趣共享</small></h2>
             </div>
             <div class="col-md-4 col-md-offset-4" style="z-index:10;">
                 <div>
@@ -101,45 +159,9 @@
                 </div>
             </div>
         </div>
-        <div id="carousel-example-generic" class="carousel slide shards-shadow" data-ride="carousel" style="position: absolute;top: 0;left: 0;width: 98%;height: 100%;margin-left: 1%;">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" style="height: 100%;position: relative;" role="listbox">
-                <a href="#" class="item active listBox-item">
-                    <img src="/images/gradual_green.jpg">
-                    <div class="banner-bg"></div>
-                    <div class="carousel-caption">
-                        Test
-                    </div>
-                </a>
-                <a href="#" class="item listBox-item clearfix">
-                    <img src="/images/Saturday.jpg">
-                    <div class="banner-bg"></div>
-                    <div class="carousel-caption">
-                        Test
-                    </div>
-                </a>
-            </div>
-
-            <!-- Controls -->
-            <%--<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">--%>
-            <%--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>--%>
-            <%--<span class="sr-only">Previous</span>--%>
-            <%--</a>--%>
-            <%--<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">--%>
-            <%--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>--%>
-            <%--<span class="sr-only">Next</span>--%>
-            <%--</a>--%>
-        </div>
-
     </div>
 
-    <div class="container" style="margin-top: 20px;" aria-label="latest contents">
+    <div class="container" style="margin-top: 60px;">
         <div class="row">
             <div class="col-md-12">
                 <p class="text-center paddingAll"><strong>---推荐---</strong></p>
@@ -149,7 +171,7 @@
             <div class="col-md-6 col-xs-12 recommend-item">
                 <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
                     <a href="#">
-                        <img src="/images/loadingandword.gif" alt="cat" style="height: 150px;">
+                        <img src="/images/interestshare.jpg" alt="cat" style="height: 150px;">
                         <div class="caption">
                             <p>Test</p>
                         </div>
@@ -159,7 +181,7 @@
             <div class="col-md-6 col-xs-12 recommend-item">
                 <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
                     <a href="#">
-                        <img src="/images/loadingandword.gif" alt="cat" style="height: 150px;">
+                        <img src="/images/interestshare.jpg" alt="cat" style="height: 150px;">
                         <div class="caption">
                             <p>Test</p>
                         </div>
@@ -234,7 +256,7 @@
             </div>
         </div>
     </div>
-
+    <div class="hidden" id="isHomePage">1</div>
     <footer style="padding-top: 50px;padding-bottom: 50px;margin-top: 50px; color: rgb(153, 151, 156);background-color: rgb(42, 39, 48);text-align: center;">
         EMAIL:&nbsp;<a href="mailto:#"><abbr title="zoubaicai@126.com">zbc</abbr></a>
     </footer>

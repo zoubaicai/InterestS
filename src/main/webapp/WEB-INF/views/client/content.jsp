@@ -44,9 +44,11 @@
                     </header>
                     <hr>
                     <article aria-label="detailed content">
-                        <div class="col-md-12" aria-label="main content" style="min-height: 200px;">
-                            <p>${substanceInfo.substanceContentPO.content}</p>
-                        </div>
+                        <c:if test="${isAnonymous == 1}">
+                            <div class="col-md-12" aria-label="main content" style="min-height: 200px;">
+                                <p>${substanceInfo.substanceContentPO.content}</p>
+                            </div>
+                        </c:if>
                     </article>
                     <!--地址信息-->
                     <div class="col-md-12" id="locationInfo">
@@ -61,17 +63,15 @@
                     <!--兴趣组成员-->
                     <div class="col-md-12" aria-label="participants" style="min-height: 50px;">
                         <hr>
-                        <c:if test="${isAnonymous == 1}">
-                            <label><span>${listGroupInfo.size()}</span>感兴趣</label>
-                            <div class="user-lists">
-                                <c:forEach items="${listGroupInfo}" var="item" varStatus="status">
-                                    <a href="#" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
-                                </c:forEach>
-                                <c:if test="${listGroupInfo.size() < 1}">
-                                    等待加入...!_!
-                                </c:if>
-                            </div>
-                        </c:if>
+                        <label><span>${listGroupInfo.size()}</span>感兴趣</label>
+                        <div class="user-lists">
+                            <c:forEach items="${listGroupInfo}" var="item" varStatus="status">
+                                <a href="#" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
+                            </c:forEach>
+                            <c:if test="${listGroupInfo.size() < 1}">
+                                等待加入...!_!
+                            </c:if>
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <div class="btn-group btn-group-justified marginT-10" role="group">
@@ -112,7 +112,7 @@
                         </c:when>
                         <c:otherwise>
                             <div class="col-md-12 marginT-10">
-                                <p class="well well-lg">该兴趣组设置匿名访问限制，加入该兴趣组之后显示所有信息(o゜▽゜)o☆</p>
+                                <p class="well well-lg">该兴趣组设置匿名访问限制,不能浏览详细内容，加入该兴趣组之后显示所有信息(o゜▽゜)o☆</p>
                             </div>
                         </c:otherwise>
                     </c:choose>
