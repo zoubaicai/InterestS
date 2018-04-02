@@ -1,7 +1,9 @@
 package com.zbc.controller.manage;
 
+import com.zbc.pojo.MsgInfoPO;
 import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.UserInfoPO;
+import com.zbc.service.MsgInfoService;
 import com.zbc.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ public class UserManageController {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private MsgInfoService msgInfoService;
     /**
      * 分页返回所有用户信息
      * @param request
@@ -50,6 +54,7 @@ public class UserManageController {
         return modelAndView;
     }
 
+    // 分页加载用户上传的头像
     @RequestMapping(value = "/manage/user_portrait_validate")
     public ModelAndView user_portrait_validate(HttpServletRequest request) throws UnsupportedEncodingException {
         String offsetStr = request.getParameter("p");
@@ -73,6 +78,7 @@ public class UserManageController {
         return modelAndView;
     }
 
+    // 删除违规的头像
     @RequestMapping(value = "/manage/deletePortrait")
     @ResponseBody
     public String deletePortrait(HttpServletRequest request){
@@ -82,6 +88,12 @@ public class UserManageController {
         po.setPortrait("");
         int res = userInfoService.updateByPrimaryKeySelective(po);
         if (res > 0){
+            // 删除后发送一条消息给用户
+            MsgInfoPO infoPO = new MsgInfoPO();
+            infoPO.setBelongUserId(id);
+            infoPO.setMsgContent("您上传的头像因不符合本网站的规则，对其进行了删除处理o(╥﹏╥)o");
+            msgInfoService.insertSelective(infoPO);
+
             return "1";
         } else {
             return "-2";

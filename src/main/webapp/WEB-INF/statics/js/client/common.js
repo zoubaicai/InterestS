@@ -6,9 +6,9 @@ $(function () {
 
     // 查看是否存在token，判断用户是否以登录，默认cookie生存期1天
     var token = $.cookie("token");
-    if (null != token && token != "undefined"){
+    if (null !== token && token !== undefined && "" !== token){
         var nickname,portrait;
-        if (typeof window.localStorage != "undefined"){
+        if (typeof window.localStorage !== "undefined"){
             nickname = localStorage.nickname;
             portrait = localStorage.portrait;
         } else {
@@ -22,12 +22,29 @@ $(function () {
         $("#userNickname").text(nickname);
     }
 
+    // 退出登录按钮
+    $("#quitLogin").click(function () {
+        if ($.removeCookie("token")){
+            localStorage.nickname = undefined;
+            localStorage.portrait = undefined;
+        } else {
+            alert("发生异常");
+        }
+        window.location.reload();
+    });
+
     // 重载 footer 的margin top
-    var $footer = document.getElementsByTagName("footer")[0];
-    var bottomGap = window.screen.height - ($footer.offsetHeight + $footer.offsetTop);
-    if (bottomGap > 0){
-        $($footer).css("margin-top",bottomGap);
+    try {
+        var $footer = document.getElementsByTagName("footer")[0];
+        var bottomGap = window.screen.height - ($footer.offsetHeight + $footer.offsetTop);
+        if (bottomGap > 0){
+            $($footer).css("margin-top",bottomGap);
+        }
+    } catch (e){
+        console.log(e);
     }
+
+
 
     // header 上面的搜索按钮
     $("#headerSearchBtn").click(function () {
@@ -37,6 +54,14 @@ $(function () {
             return;
         }
         window.location.href = "/search?p=1&s=" + s;
+    });
+
+    // 加载未读的消息个数
+    $.post("/client/remainMsg?time=" + new Date().getTime(),{},function (result) {
+        var sum = parseInt(result);
+        if (sum > 0){
+            $("#personalMsg").append("<span class=\"badge\">" + result + "</span>")
+        }
     });
 });
 // 各种 zeroModal 弹框

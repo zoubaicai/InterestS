@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>自由分享ლ(╹◡╹ლ)</title>
+    <title>兴趣共享 (๑¯∀¯๑)</title>
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -151,7 +151,7 @@
                     <div class="input-group" style="max-width: 500px;margin: 0 auto;">
                         <input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">
                         <span class="input-group-btn">
-                        <a href="#" class="btn btn-default search-control" role="button" style="border-left: none;">
+                        <a href="javascript:void(0)" class="btn btn-default search-control" role="button" id="indexSearchBtn" style="border-left: none;">
                             &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
                         </a>
                     </span>

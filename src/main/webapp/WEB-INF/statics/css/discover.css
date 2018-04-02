@@ -1,2 +1,6 @@
-.item-a{display: block;color: #222;}
-.item-a:hover{background-color: #ddd;}
+.items{}
+.item{}
+.item a:hover{text-decoration: none;}
+.item>div{border-radius: 0;}
+.item p,h4{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.item p:hover,h4:hover{color: rgba(22,22,222,0.5);}

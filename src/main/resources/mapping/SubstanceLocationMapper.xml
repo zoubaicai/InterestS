@@ -62,6 +62,8 @@
         SELECT *,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude,jdbcType=DOUBLE}*PI()/180-latitude*PI()/180)/2),2)+COS(#{latitude,jdbcType=DOUBLE}*PI()/180)*COS(latitude*PI()/180)*POW(SIN((#{longitude,jdbcType=DOUBLE}*PI()/180-longitude*PI()/180)/2),2)))*1000) AS distance
         FROM substance_location sl JOIN substance_info si on si.id = sl.belong_substance_id
         WHERE
+          si.is_verified = 1
+          and
           sl.id in (select ss.id from (select id,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude,jdbcType=DOUBLE}*PI()/180-latitude*PI()/180)/2),2)+COS(#{latitude,jdbcType=DOUBLE}*PI()/180)*COS(latitude*PI()/180)*POW(SIN((#{longitude,jdbcType=DOUBLE}*PI()/180-longitude*PI()/180)/2),2)))*1000) as dis from substance_location where 20000 > ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude,jdbcType=DOUBLE}*PI()/180-latitude*PI()/180)/2),2)+COS(#{latitude,jdbcType=DOUBLE}*PI()/180)*COS(latitude*PI()/180)*POW(SIN((#{longitude,jdbcType=DOUBLE}*PI()/180-longitude*PI()/180)/2),2)))*1000) and #{longitude,jdbcType=DOUBLE} + 1 > longitude and longitude > #{longitude,jdbcType=DOUBLE} - 1 and #{latitude,jdbcType=DOUBLE} + 1 > latitude and latitude > #{latitude,jdbcType=DOUBLE} - 1 order by dis asc limit #{offset},#{rows}) as ss)
         ORDER BY distance ASC
     </select>

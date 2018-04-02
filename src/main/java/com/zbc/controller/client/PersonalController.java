@@ -31,6 +31,9 @@ public class PersonalController {
     @Autowired
     private GroupInfoService groupInfoService;
 
+    @Autowired
+    private MsgInfoService msgInfoService;
+
 
     /**
      * 请求个人中心页面，如果既没有uid参数也没有登录信息，返回404
@@ -149,7 +152,6 @@ public class PersonalController {
         return arrayRes.toJSONString();
     }
 
-    // TODO 退出时发送一条消息给组长
     /**
      * 删除一条 group_info 中用户加入组的记录
      * @param request
@@ -218,9 +220,7 @@ public class PersonalController {
      */
     private PagingInfo genPagingInfo(HttpServletRequest request) throws Exception {
         int offset = Integer.parseInt(request.getParameter("offset"));
-        long uid = getUid(request);
-        PagingInfo pagingInfo = new PagingInfo();
-        pagingInfo.setId(uid);
+        PagingInfo pagingInfo = getUid(request);
         pagingInfo.setOffset(offset * 10);
         pagingInfo.setRows(10);
         return pagingInfo;
@@ -228,12 +228,12 @@ public class PersonalController {
 
 
     /**
-     * 从 request 中获得用户id，如果没有，就查看cookie中是否有，否则就返回-1
+     * 从 request 中获得用户id，如果没有，就查看cookie中是否有，同时判断request中的id是否和cookie中的相同
      * @param request
      * @return
      * @throws Exception
      */
-    private long getUid(HttpServletRequest request) throws Exception {
+    private PagingInfo getUid(HttpServletRequest request) throws Exception {
         long uid = -1;
         try{
             uid = Long.parseLong(request.getParameter("uid"));
@@ -241,7 +241,14 @@ public class PersonalController {
             uid = -1;
         }
         long nowUserId = jwtService.hasUserLogin(request);
+        PagingInfo pagingInfo = new PagingInfo();
+        if (uid != nowUserId){
+            pagingInfo .setVerifyFlag((byte)1);
+        } else {
+            pagingInfo .setVerifyFlag((byte)0);
+        }
         uid = uid != -1 ? uid : nowUserId;
-        return uid;
+        pagingInfo.setId(uid);
+        return pagingInfo;
     }
 }

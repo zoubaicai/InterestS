@@ -18,8 +18,9 @@
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
-    <link href="/css/content.css" rel="stylesheet">
+    <link href="/css/discover.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -45,11 +46,24 @@
         </div>
     </div>
 
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="text-center paddingAll"><strong>---附近---</strong></p>
+            </div>
+        </div>
+        <div class="row clearfix items" id="masonry">
+            <p class="text-center" style="color: #0000ff;"><i class="fa fa-spinner fa-pulse"></i> 加载中</p>
+        </div>
+    </div>
+
     <%@include file="footer.jsp"%>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Z6Sjk1PdxeUdExaBh3s56HDm2pTNSYhm"></script>
+    <script src="/js/masonry.pkgd.min.js"></script>
+    <script src="/js/imagesloaded.pkgd.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -64,21 +78,35 @@
             var map = new BMap.Map("mapContainer"); // 创建地图实例
             var point = new BMap.Point(117.300061, 39.068119); // 创建点坐标
             map.centerAndZoom(point, 15); // 初始化地图，设置中心点坐标和地图级别
-            var bottom_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT});// 左上角，添加比例尺
+            var bottom_rightcontrol = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});// 左上角，添加比例尺
             var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
-            map.addControl(bottom_left_control);
+            map.addControl(bottom_rightcontrol);
             map.addControl(top_left_navigation);
+            // 添加定位控件
+            testObjct = null;
+            var geolocationControl = new BMap.GeolocationControl({locationIcon : ""});
+            geolocationControl.addEventListener("locationSuccess", function(e){
+                // 定位成功事件
+                loadNearby(e.point);
+            });
+            geolocationControl.addEventListener("locationError",function(e){
+                // 定位失败事件
+                alert(e.message);
+            });
+            map.addControl(geolocationControl);
 
 
             // 构造信息窗口的内容
             var getMContent = function (id,subject,src) {
-                var mItem = "<a href='/content?id=" + id + "' style='color: #000;'><p>" + subject + "</p></a>";
-                var mContent = "<div style='text-align: center'><img src='" + src + "' style='' title='11' width='100' height='66' /></div>" +
-                    "<div style='text-align: center'>" + mItem + "</div>";
+                //var mItem = "<p>" +  + "</p></a>";
+                var mContent = "<a href='/content?id=" + id + "' style='color: #000;text-decoration:none;' target='_blank'><div style='text-align: center'><img src='" + src + "' style='' title='11' width='100' height='66' /></div>" +
+                    "<div style='text-align: center'>" + subject + "</div></a>";
                 return mContent;
             };
             // 从服务器获得附近的定位信息
             var loadNearby = function (point) {
+                map.clearOverlays();
+                map.centerAndZoom(point, 15);
                 var params = {
                     lng : point.lng,
                     lat : point.lat
@@ -95,6 +123,7 @@
                         marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
                         addClickHandler(getMContent(res[i].id,res[i].subject,res[i].cover),marker);
                     }
+                    loadNearbySubstances(res);
                 });
             };
             var opts = {
@@ -113,7 +142,33 @@
                 var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
                 map.openInfoWindow(infoWindow,point); //开启信息窗口
             }
-
+            // 根据数据库返回的内容，加载到地图的下面
+            function loadNearbySubstances(items) {
+                var $masonry = $("#masonry");
+                $masonry.html("");
+                for (var i = 0;i<items.length; i++){
+                    if (items[i].cover === ""){
+                        items[i].cover = "/images/interestshare.jpg";
+                    }
+                    var item = "<div class=\"col-md-2 col-xs-12 item\">\n" +
+                        "<div class=\"thumbnail clear-border clear-padding shards-shadow\">\n" +
+                        "<a href='/content?id=" + items[i].id + "' target='_blank'>\n" +
+                        "<img src='" + items[i].cover + "' alt='image'>\n" +
+                        "<div class=\"caption\">\n" +
+                        "<h4>" + items[i].subject + "</h4>\n" +
+                        "<p>" + items[i].summary + "</p>\n" +
+                        "</div>\n" +
+                        "</a>\n" +
+                        "</div>\n" +
+                        "</div>";
+                    $masonry.append(item);
+                }
+                $masonry.imagesLoaded(function () {
+                    $masonry.masonry({
+                        itemSelector : ".item"
+                    });
+                });
+            }
 
             // 浏览器定位对象，不支持的浏览器将无法使用
             var geolocation = new BMap.Geolocation();
@@ -122,19 +177,6 @@
                 geolocation.getCurrentPosition(function (r) {
                     if (this.getStatus() == BMAP_STATUS_SUCCESS) {
                         map.panTo(r.point);
-//                        var marker = new BMap.Marker(r.point);
-//                        map.addOverlay(marker);    //添加标注
-//                        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-//                        var circle = new BMap.Circle(r.point,5000,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0.1}); //创建圆
-//                        map.addOverlay(circle);
-
-//                        var mItem = "<a href='#' style='color: #000;'><p>标题</p></a>";
-//                        var mContent = "<div style='text-align: center'><img src='/images/dog.gif' style='' title='11' width='66' height='44' /></div>" +
-//                            "<div style='text-align: center'>" + mItem + "</div>";
-//                        var infoWindow = new BMap.InfoWindow(mContent);
-//                        marker.addEventListener("click",function () {
-//                            this.openInfoWindow(infoWindow);
-//                        });
                         loadNearby(r.point); // 加载附近内容
                     }
                     else {
@@ -177,6 +219,7 @@
                 map.clearOverlays();    //清除地图上所有覆盖物
                 function myFun() {
                     var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                    map.clearOverlays();
                     map.centerAndZoom(pp, 15);
                     loadNearby(pp); // 加载附近内容
                 }

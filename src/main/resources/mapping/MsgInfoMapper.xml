@@ -149,12 +149,17 @@
     <select id="listByBelongUserId" parameterType="com.zbc.pojo.PagingInfo" resultMap="BaseResultMap">
         SELECT *
         FROM msg_info
-        WHERE id in (select m.id from (select id from msg_info where belong_user_id = #{id,jdbcType=BIGINT} limit #{offset} , #{rows} order by id desc) as m)
+        WHERE id in (select m.id from (select id from msg_info where belong_user_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as m)
         ORDER BY id DESC
     </select>
     <select id="countByBelongUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
         SELECT count(*)
         FROM msg_info
         WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="countNoRead" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select COUNT(*)
+        FROM msg_info
+        WHERE id = #{id,jdbcType=BIGINT} and is_read = 0
     </select>
 </mapper>

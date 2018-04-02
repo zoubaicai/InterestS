@@ -15,7 +15,7 @@
 .mHidden{display: none;}
 
 /*分页使用*/
-.page-info{line-height: 32px;}
+.page-info{line-height: 32px;color: #337ab7;}
 
 /*belong publish.jsp*/
 .check-box .bootstrap-switch{margin-top: -5px;}

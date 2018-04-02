@@ -1,7 +1,9 @@
 package com.zbc.controller.manage;
 
+import com.zbc.pojo.MsgInfoPO;
 import com.zbc.pojo.PagingInfo;
 import com.zbc.pojo.SubstanceInfoPO;
+import com.zbc.service.MsgInfoService;
 import com.zbc.service.SubstanceInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ public class PublishManageController {
 
     @Autowired
     private SubstanceInfoService substanceInfoService;
+
+    @Autowired
+    private MsgInfoService msgInfoService;
 
     /**
      * ！！！代码出现冗余
@@ -124,6 +129,12 @@ public class PublishManageController {
         po.setUnverifiedFactor(stateStr);
         int res = substanceInfoService.updateByPrimaryKeySelectiveOnly(po);
         if (res > 0){
+            // 审核后发送一条消息给发布人
+            po = substanceInfoService.selectIncludeContent(substanceId);
+            MsgInfoPO infoPO = new MsgInfoPO();
+            infoPO.setBelongUserId(po.getBelongUserId());
+            infoPO.setMsgContent("您发布的主题为\"" + po.getSubject() + "\"的内容审核结果为<mark>" + state + "</mark>,可能的原因是<b>" + stateStr + "</b>");
+            msgInfoService.insertSelective(infoPO);
             return "1";
         } else {
             return "-2";

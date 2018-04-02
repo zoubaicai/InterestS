@@ -240,8 +240,8 @@
                         var res = JSON.parse(result);
                         var sumPage = res.sumPage;
                         var nowPosition = $("#offset").text();
-                        if (sumPage == 0){
-                            $commentLists.html("<p class='text-center'>还没有评论(⊙ˍ⊙)</p>");
+                        if (res.items.length < 1){
+                            $commentLists.html("<p class='text-center' style='padding: 10px;margin: 0;'>还没有评论(⊙ˍ⊙)</p>");
                         } else {
                             var itemsDiv = "";
                             $("#sumPage").text(parseInt(sumPage / 10) + 1);// 总页数

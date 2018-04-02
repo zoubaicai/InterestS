@@ -67,4 +67,11 @@ public interface MsgInfoService {
      * @return
      */
     int countByBelongUserId(long id);
+
+    /**
+     * 统计 is_read 为 0 的条目数
+     * @param id
+     * @return
+     */
+    int countNoRead(long id);
 }

@@ -35,7 +35,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">登录</p>
 
-        <form action="../../index2.html" method="post">
+        <form action="#" method="post">
             <div class="form-group has-feedback">
                 <input type="email" class="form-control" placeholder="Email">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -46,11 +46,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> 记住我的登录状态
-                        </label>
-                    </div>
+
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
@@ -60,8 +56,8 @@
             </div>
         </form>
 
-        <a href="#">忘记密码</a><br>
-        <a href="#" class="text-center">获取帐号</a>
+        <%--<a href="#">忘记密码</a><br>--%>
+        <%--<a href="#" class="text-center">获取帐号</a>--%>
 
     </div>
     <!-- /.login-box-body -->
@@ -73,11 +69,7 @@
     <script src="/iCheck/icheck.min.js"></script>
     <script>
         $(function () {
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' /* optional */
-            });
+
         });
     </script>
 </body>

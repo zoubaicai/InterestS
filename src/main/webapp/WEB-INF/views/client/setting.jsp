@@ -171,6 +171,9 @@
             </div>
         </div>
     </div>
+
+
+
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/webuploader/js/webuploader.min.js"></script>
@@ -283,9 +286,18 @@
             uploader.upload();
         });
         // uploader end |||||||||||||||||||||
+        $("#userImg").on("shown.bs.collapse",function () {
+            uploader.refresh();
+        });
     </script>
     <script>
         $(function () {
+
+
+
+
+
+
             var $userNickname = $("#nickname");
             var $userCity = $("#city");
             var $nowEmail = $("#nowEmail");

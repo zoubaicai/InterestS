@@ -58,4 +58,9 @@ public class MsgInfoServiceImpl implements MsgInfoService {
     public int countByBelongUserId(long id) {
         return msgInfoDAO.countByBelongUserId(id);
     }
+
+    @Override
+    public int countNoRead(long id) {
+        return msgInfoDAO.countNoRead(id);
+    }
 }

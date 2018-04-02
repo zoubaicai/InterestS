@@ -36,7 +36,7 @@ public class DiscoverController {
         double lat = Double.parseDouble(request.getParameter("lat"));
         PagingInfo pagingInfo = new PagingInfo();
         pagingInfo.setOffset(0);
-        pagingInfo.setRows(30);
+        pagingInfo.setRows(24);
         pagingInfo.setLongitude(lng);
         pagingInfo.setLatitude(lat);
         List<SubstanceLocationPO> lists = substanceLocationService.listByDistance(pagingInfo);

@@ -27,16 +27,16 @@
                     <a href="/">首页</a>
                 </li>
                 <li>
-                    <a href="#">发现</a>
+                    <a href="/discover">发现</a>
                 </li>
                 <li>
-                    <a href="#">全部</a>
+                    <a href="/allcontent?p=1&c=default">全部</a>
                 </li>
             </ul>
             <!--用户中心-->
             <ul class="nav navbar-nav navbar-right" id="userArea" style="display: none;">
                 <li>
-                    <a href="#">消息<span class="badge">3</span> </a>
+                    <a href="/client/message?p=1" id="personalMsg">消息</a>
                 </li>
                 <li class="dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -47,7 +47,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="/personal">个人中心</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">退出</a></li>
+                        <li><a href="javascript:void(0)" id="quitLogin">退出</a></li>
                     </ul>
                 </li>
             </ul>

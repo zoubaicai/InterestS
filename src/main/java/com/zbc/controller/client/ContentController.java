@@ -41,7 +41,6 @@ public class ContentController {
     @Autowired
     private JwtService jwtService; // jwt 生成和验证
 
-    // TODO 百度地图的覆盖无单击事件还没有添加
     /**
      * 根据 substanceId 返回 substance_info 中的一条记录，并根据规则显示指定的信息
      * @param request
@@ -140,7 +139,7 @@ public class ContentController {
         List<SubstanceCommentPO> commentPOS = substanceCommentService.listBySubstanceId(pagingInfo);
         int sumPage = substanceCommentService.countByPrimaryKey(substanceId);
         JSONObject res = new JSONObject();
-        res.put("sumPage",String.valueOf(sumPage));
+        res.put("sumPage",String.valueOf(sumPage / 10 + 1));
         JSONArray jsonArray = new JSONArray();
         for (SubstanceCommentPO po : commentPOS){
             JSONObject object = new JSONObject();
@@ -153,7 +152,6 @@ public class ContentController {
         return res.toJSONString();
     }
 
-    // TODO 加入成功后发送一条消息给组长
     /**
      * 加入兴趣组
      * ！！！--没有限制自己发布的内容不可以加入或收藏

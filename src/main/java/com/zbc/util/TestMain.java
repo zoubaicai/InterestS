@@ -31,16 +31,17 @@ public class TestMain {
 //                .watermark(Positions.BOTTOM_LEFT, Thumbnails.of(waterPic).scale(0.1f).outputQuality(0.1f).asBufferedImage(),0.5f)
 //                .outputQuality(0.8f).toFile(toPic);
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-        SubstanceLocationService substanceLocationService = (SubstanceLocationService)context.getBean("substanceLocationService");
+        SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
         PagingInfo pagingInfo = new PagingInfo();
         pagingInfo.setOffset(0);
         pagingInfo.setRows(10);
-        pagingInfo.setLatitude(28.159780);
-        pagingInfo.setLongitude(120.678871);
-        List<SubstanceLocationPO> lists = substanceLocationService.listByDistance(pagingInfo);
-        for (SubstanceLocationPO po : lists){
-            System.out.println(po.getDistance());
+        pagingInfo.setClassFlag(0);
+        List<SubstanceInfoPO> lists = substanceInfoService.listByClassification(pagingInfo);
+        for (SubstanceInfoPO po : lists){
+            System.out.println(po.getId() + ":" + po.getSubject());
         }
+        int count = substanceInfoService.countByClassification(pagingInfo);
+        System.out.println(count);
 //        SubstanceInfoService substanceInfoService = (SubstanceInfoService)context.getBean("substanceInfoService");
 //        SubstanceInfoPO po = new SubstanceInfoPO();
 //        po.setId(1L);

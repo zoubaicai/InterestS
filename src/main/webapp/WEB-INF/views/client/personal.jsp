@@ -77,17 +77,19 @@
         <div class="row tab-content" id="masonry" style="min-height: 400px;background-color: #eee;padding-top: 10px;">
             <!--发布面板-->
             <div class="tab-pane active clearfix" id="panel-publish">
-                <div class="col-md-3 col-xs-12 paint padding-3">
-                    <div class="thumbnail clear-border shards-shadow">
-                        <div style="display: table;width: 100%;">
-                            <a class="btn btn-link" href="/client/publish" style="display: table-cell;width: inherit;height: 200px;text-align: center;vertical-align: middle;">
-                                <span class="glyphicon glyphicon-plus" style="font-size: 30px;"></span>
-                                <br>
-                                添加发布
-                            </a>
+                <c:if test="${isVisitor == -1}">
+                    <div class="col-md-2 col-sm-6 paint padding-3">
+                        <div class="thumbnail clear-border shards-shadow">
+                            <div style="display: table;width: 100%;">
+                                <a class="btn btn-link" href="/client/publish" style="display: table-cell;width: inherit;height: 200px;text-align: center;vertical-align: middle;text-decoration: none;">
+                                    <span class="glyphicon glyphicon-plus" style="font-size: 30px;"></span>
+                                    <br>
+                                    添加发布
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
             </div>
             <div class="tab-pane clearfix" id="panel-join">
                 <%--<p>这里是加入面板</p>--%>
@@ -146,7 +148,7 @@
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
                                 jsonRes[i].cover = "/images/interestshare.jpg";
                             }
-                            var div = "<div class=\"col-md-3 paint padding-3\">\n" +
+                            var div = "<div class=\"col-md-2 col-sm-6 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
                                 "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
                                 "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
@@ -213,7 +215,7 @@
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
                                 jsonRes[i].cover = "/images/interestshare.jpg";
                             }
-                            var div = "<div class=\"col-md-2 paint padding-3\">\n" +
+                            var div = "<div class=\"col-md-2 col-sm-6 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
                                 "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
                                 "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
@@ -292,7 +294,7 @@
                             if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
                                 jsonRes[i].cover = "/images/interestshare.jpg";
                             }
-                            var div = "<div class=\"col-md-2 paint padding-3\">\n" +
+                            var div = "<div class=\"col-md-2 col-sm-6 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
                                 "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
                                 "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +

@@ -122,4 +122,14 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     public int countAll(byte isVerified) {
         return substanceInfoDAO.countAll(isVerified);
     }
+
+    @Override
+    public List<SubstanceInfoPO> listByClassification(PagingInfo pagingInfo) {
+        return substanceInfoDAO.listByClassification(pagingInfo);
+    }
+
+    @Override
+    public int countByClassification(PagingInfo pagingInfo) {
+        return substanceInfoDAO.countByClassification(pagingInfo);
+    }
 }

@@ -87,7 +87,11 @@
         FROM
           substance_info
         WHERE
-          id in (select si.id from (select id from substance_info where belong_user_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as si)
+          id in (select si.id from (select id from substance_info where
+           <if test="verifyFlag == 1">
+               is_verified = 1 and
+           </if>
+           belong_user_id = #{id,jdbcType=BIGINT} order by id desc limit #{offset} , #{rows}) as si)
         ORDER BY id DESC
     </select>
     <select id="listBySearchStr" parameterType="com.zbc.pojo.PagingInfo" resultMap="BaseResultMap">
@@ -114,6 +118,38 @@
         </choose>
         ORDER BY
         s.id DESC
+    </select>
+    <select id="listByClassification" parameterType="com.zbc.pojo.PagingInfo" resultMap="BaseResultMap">
+        SELECT *
+        FROM substance_info
+        WHERE
+           id in (select si.id from (select id from substance_info where
+            <choose>
+                <when test="classFlag == 1">
+                    is_realistic = 1 and
+                </when>
+                <when test="classFlag == 2">
+                    is_restricted = 0 and
+                </when>
+            </choose>
+            is_verified = 1 order by id desc limit #{offset},#{rows}
+        ) as si)
+        ORDER BY
+        id DESC
+    </select>
+    <select id="countByClassification" parameterType="com.zbc.pojo.PagingInfo" resultType="java.lang.Integer">
+        select count(*)
+        FROM substance_info
+        WHERE
+            <choose>
+                <when test="classFlag == 1">
+                    is_realistic = 1 and
+                </when>
+                <when test="classFlag == 2">
+                    is_restricted = 0 and
+                </when>
+            </choose>
+        is_verified = 1
     </select>
     <select id="countAll" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT count(*)

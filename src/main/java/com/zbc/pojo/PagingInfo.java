@@ -16,6 +16,16 @@ public class PagingInfo {
 
     private double latitude;
 
+    private int classFlag;
+
+    public int getClassFlag() {
+        return classFlag;
+    }
+
+    public void setClassFlag(int classFlag) {
+        this.classFlag = classFlag;
+    }
+
     public double getLongitude() {
         return longitude;
     }

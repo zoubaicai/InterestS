@@ -104,4 +104,18 @@ public interface SubstanceInfoDAO {
      * @return
      */
     int countAll(byte isVerified);
+
+    /**
+     * 根据分类进行分页查询
+     * @param pagingInfo
+     * @return
+     */
+    List<SubstanceInfoPO> listByClassification(PagingInfo pagingInfo);
+
+    /**
+     * 根据分类查询公有多少条记录
+     * @param pagingInfo
+     * @return
+     */
+    int countByClassification(PagingInfo pagingInfo);
 }
