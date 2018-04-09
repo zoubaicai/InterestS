@@ -136,33 +136,33 @@
                     uid : getUid()
                 };
                 $.post("/personal/loadPublish?time=" + new Date().getTime(),params,function (result) {
-                    var jsonRes = JSON.parse(result);
+                    var res = JSON.parse(result);
                     if ($("#loadPublishBtn")){
                         $("#loadPublishBtn").parent().remove();
                         $panel_publish.children("h3:last-child").remove();
                     }
-                    if (jsonRes.length === 0){
-                        $panel_publish.append("<h3 class='text-center' style='margin-top: "  + ($panel_publish.height()) + "px'><small>没有更多了</small></h3>");
+                    if (res.length === 0){
+                        $panel_publish.append("<h4 class='text-center' style='margin-top: "  + ($panel_publish.height()) + "px'><small>没有更多了</small></h4>");
                     } else {
-                        for (var i =0;i<jsonRes.length;i++){
-                            if (jsonRes[i].cover === undefined || jsonRes[i].cover === ""){
-                                jsonRes[i].cover = "/images/interestshare.jpg";
+                        for (var i =0; i<res.length; i++){
+                            if (res[i].cover === undefined || res[i].cover === ""){
+                                res[i].cover = "/images/interestshare.jpg";
                             }
                             var div = "<div class=\"col-md-2 col-sm-6 paint padding-3\">\n" +
                                 "<div class=\"thumbnail clear-border clear-padding clear-radius shards-shadow\">\n" +
-                                "<a href=\"/content?id=" + jsonRes[i].substanceId +  "\" target='_blank'>\n" +
-                                "<img src=\"" + jsonRes[i].cover + "\" alt=\"image\">\n" +
+                                "<a href=\"/content?id=" + res[i].substanceId +  "\" target='_blank'>\n" +
+                                "<img src=\"" + res[i].cover + "\" alt=\"image\">\n" +
                                 "</a>\n" +
                                 "<div class=\"caption\">\n" +
-                                "<h3>" + jsonRes[i].subject + "</h3>\n" +
-                                "<p>" + jsonRes[i].summary + "</p>\n";
+                                "<h3>" + res[i].subject + "</h3>\n" +
+                                "<p>" + res[i].summary + "</p>\n";
                             if (isVisitor === "-1"){
                                 div += "<p>\n" +
-                                    "<a href='/content?id=" + jsonRes[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
-                                    "<a href='/client/publish?id=" + jsonRes[i].substanceId + "' target='_blank' class=\"btn btn-default btn-sm\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
+                                    "<a href='/content?id=" + res[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
+                                    "<a href='/client/publish?id=" + res[i].substanceId + "' target='_blank' class=\"btn btn-default btn-sm\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
                                     "</p>\n";
                             }
-                            switch (jsonRes[i].isVerified){
+                            switch (res[i].isVerified){
                                 case 0:
                                     div += "<div><small class='text-info'><i class='fa fa-circle'></i> 未审核</small></div>";
                                     break;
@@ -244,24 +244,34 @@
                     $(".quitGroup").click(function () {
                         var $this = $(this);
                         var id = $this.attr("aria-label");
-                        zeroModal.confirm("确认退出该兴趣组吗？",function () {
-                            $.post("/personal/quitGroup?time=" + new Date().getTime(),{substanceId : id},function (result) {
-                                switch (result){
-                                    case "-1":
-                                        zmAlert("登录信息失效了，请重新登录！-1");
-                                        break;
-                                    case "-5":
-                                        zmAlert("您没有加入该兴趣组！-5");
-                                        break;
-                                    case "1":
-                                        zmSuccess("您已成功退出该兴趣组");
-                                        $this.parent().parent().parent().parent().remove();
-                                        break;
-                                    default:
-                                        zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
-                                        break;
-                                }
-                            });
+                        zeroModal.confirm({
+                            content : "确认退出该兴趣组吗？",
+                            top : document.body.scrollTop + 'px',
+                            okFn : function () {
+                                $.post("/personal/quitGroup?time=" + new Date().getTime(),{substanceId : id},function (result) {
+                                    switch (result){
+                                        case "-1":
+                                            zmAlert("登录信息失效了，请重新登录！-1");
+                                            break;
+                                        case "-5":
+                                            zmAlert("您没有加入该兴趣组！-5");
+                                            break;
+                                        case "1":
+                                            zmSuccess("您已成功退出该兴趣组");
+                                            $this.parent().parent().parent().parent().remove();
+                                            // 调用imagesLoaded
+                                            $panel_join.imagesLoaded(function () {
+                                                $panel_join.masonry({
+                                                    itemSelector : ".paint"
+                                                });
+                                            });
+                                            break;
+                                        default:
+                                            zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
+                                            break;
+                                    }
+                                });
+                            }
                         });
                     });
                     // 调用imagesLoaded
@@ -323,24 +333,34 @@
                     $(".cancelCollection").click(function () {
                         var $this = $(this);
                         var id = $this.attr("aria-label");
-                        zeroModal.confirm("确认取消该兴趣组的收藏吗？",function () {
-                            $.post("/personal/cancelCollection?time=" + new Date().getTime(),{substanceId : id},function (result) {
-                                switch (result){
-                                    case "-1":
-                                        zmAlert("登录信息失效了，请重新登录！-1");
-                                        break;
-                                    case "-5":
-                                        zmAlert("您没有收藏该兴趣组！-5");
-                                        break;
-                                    case "1":
-                                        zmSuccess("取消收藏成功！");
-                                        $this.parent().parent().parent().parent().remove();
-                                        break;
-                                    default:
-                                        zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
-                                        break;
-                                }
-                            });
+                        zeroModal.confirm({
+                            content : "确认取消该兴趣组的收藏吗？",
+                            top : document.body.scrollTop + 'px',
+                            okFn : function () {
+                                $.post("/personal/cancelCollection?time=" + new Date().getTime(),{substanceId : id},function (result) {
+                                    switch (result){
+                                        case "-1":
+                                            zmAlert("登录信息失效了，请重新登录！-1");
+                                            break;
+                                        case "-5":
+                                            zmAlert("您没有收藏该兴趣组！-5");
+                                            break;
+                                        case "1":
+                                            zmSuccess("取消收藏成功！");
+                                            $this.parent().parent().parent().parent().remove();
+                                            // 调用imagesLoaded
+                                            $panel_collection.imagesLoaded(function () {
+                                                $panel_collection.masonry({
+                                                    itemSelector : ".paint"
+                                                });
+                                            });
+                                            break;
+                                        default:
+                                            zmError("意外的崩溃了(╯﹏╰)，请刷新页面重试！");
+                                            break;
+                                    }
+                                });
+                            }
                         });
                     });
                     // 调用imagesLoaded

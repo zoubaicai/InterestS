@@ -14,10 +14,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>帐号设置</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/setting.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/webuploader/css/webuploader.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -177,6 +180,7 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/webuploader/js/webuploader.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -293,11 +297,6 @@
     <script>
         $(function () {
 
-
-
-
-
-
             var $userNickname = $("#nickname");
             var $userCity = $("#city");
             var $nowEmail = $("#nowEmail");
@@ -317,13 +316,41 @@
                     alert(result);
                 });
             });
+
+            //
+
             // 发送邮箱验证码
             $("#sendCaptchaCode").click(function () {
+                var $this = $(this);
+                var forbidClick = function () {
+                    $this.attr("disabled",true);
+                    var time = 60;
+                    var t;
+                    function timeSubtract() {
+                        var s = "请等待: " + time + "秒";
+                        $this.text(s);
+                        time--;
+                        if (time <= 0){
+                            clearTimeout(t);
+                            $this.text("发送验证码").attr("disabled",false);
+                        } else {
+                            t = setTimeout(function () {
+                                timeSubtract();
+                            },1000);
+                            console.log(time);
+                        }
+                    }
+                    timeSubtract();
+                };
+
+                forbidClick();
+
                 var params = {
                    userEmail : $nowEmail.text()
                 };
                 $.post("/client/sendCaptchaCode?time" + new Date().getTime(),params,function (result) {
-                    alert(result);
+                    var res = JSON.parse(result);
+                    console.log(res.des);
                 });
             });
             // 提交邮箱修改
@@ -335,6 +362,8 @@
                 $.post("/client/modifyEmail?time" + new Date().getTime(),params,function (result) {
                     alert(result);
                 });
+
+
             });
             // 修改密码
             $("#sureModifyPwd").click(function () {

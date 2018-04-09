@@ -229,8 +229,8 @@ public class SettingController {
      * @return
      */
     private JSONObject packErrorDes(JSONObject o,String des,String id){
-        o.put("error_des",des);
-        o.put("error_id",id);
+        o.put("des",des);
+        o.put("id",id);
         return o;
     }
 }

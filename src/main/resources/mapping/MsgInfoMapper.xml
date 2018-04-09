@@ -160,6 +160,6 @@
     <select id="countNoRead" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select COUNT(*)
         FROM msg_info
-        WHERE id = #{id,jdbcType=BIGINT} and is_read = 0
+        WHERE belong_user_id = #{id,jdbcType=BIGINT} and is_read = 0
     </select>
 </mapper>

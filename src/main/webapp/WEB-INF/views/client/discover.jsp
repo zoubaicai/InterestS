@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>发现</title>
+    <title>发现 ლ(╹◡╹ლ)</title>
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -113,6 +113,10 @@
                 };
                 $.post("/loadNearby?time=" + new Date().getTime(),params,function (result) {
                     var res = JSON.parse(result);
+                    if (res.length < 1){
+                        zmAlert("附近没有找到任何内容 ヾ(ﾟ∀ﾟゞ)");
+                        return;
+                    }
                     for (var i = 0; i<res.length; i++){
                         if (res[i].cover === ""){
                             res[i].cover = "/images/interestshare.jpg";

@@ -36,6 +36,9 @@ public class PublishManageController {
      */
     @RequestMapping(value = "/manage/substance_verified")
     public ModelAndView substance_verified(HttpServletRequest request) throws UnsupportedEncodingException {
+        if (!isLogin(request)){
+            return new ModelAndView("/manage/login_m");
+        }
         String offsetStr = request.getParameter("p");
         String searchStr = request.getParameter("s");
         if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
@@ -65,6 +68,9 @@ public class PublishManageController {
      */
     @RequestMapping(value = "/manage/substance_no_verify")
     public ModelAndView substance_no_verify(HttpServletRequest request) throws UnsupportedEncodingException {
+        if (!isLogin(request)){
+            return new ModelAndView("/manage/login_m");
+        }
         String offsetStr = request.getParameter("p");
         String searchStr = request.getParameter("s");
         if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
@@ -94,6 +100,9 @@ public class PublishManageController {
      */
     @RequestMapping(value = "/manage/content_detail")
     public ModelAndView content_detail(HttpServletRequest request){
+        if (!isLogin(request)){
+            return new ModelAndView("/manage/login_m");
+        }
         String id = request.getParameter("id");
         if (null == id || !Pattern.matches("^[1-9]+$",id)){
             return new ModelAndView("404 page");
@@ -151,6 +160,9 @@ public class PublishManageController {
      */
     @RequestMapping(value = "/manage/substance_fail_verified")
     public ModelAndView substance_fail_verified(HttpServletRequest request) throws UnsupportedEncodingException {
+        if (!isLogin(request)){
+            return new ModelAndView("/manage/login_m");
+        }
         String offsetStr = request.getParameter("p");
         String searchStr = request.getParameter("s");
         if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
@@ -171,5 +183,19 @@ public class PublishManageController {
         modelAndView.addObject("lists",lists);
         modelAndView.addObject("sum",(sum / 20) % 20 +1);
         return modelAndView;
+    }
+
+    /**
+     * 根据session 判断是否已经登录
+     * @param request
+     * @return
+     */
+    private boolean isLogin(HttpServletRequest request){
+        String flag = String.valueOf(request.getSession().getAttribute("admin"));
+        if (null == flag || !"admin".equals(flag)){
+            return false;
+        } else {
+            return true;
+        }
     }
 }

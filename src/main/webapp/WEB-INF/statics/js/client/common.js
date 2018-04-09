@@ -24,13 +24,15 @@ $(function () {
 
     // 退出登录按钮
     $("#quitLogin").click(function () {
-        if ($.removeCookie("token")){
-            localStorage.nickname = undefined;
-            localStorage.portrait = undefined;
-        } else {
-            alert("发生异常");
-        }
-        window.location.reload();
+        $.post("/client/quitLogin?time=" + new Date().getTime(),{},function (result) {
+            if (result === "1"){
+                localStorage.nickname = undefined;
+                localStorage.portrait = undefined;
+                window.location.reload();
+            } else {
+                alert("发生异常");
+            }
+        });
     });
 
     // 重载 footer 的margin top
@@ -69,20 +71,23 @@ $(function () {
 var zmAlert = function (content) {
     zeroModal.alert({
         content : content,
-        overlayClose : true
+        overlayClose : true,
+        top: document.body.scrollTop + 'px'
     });
 };
 // 无事件错误提示框
 var zmError = function (content) {
     zeroModal.error({
         content : content,
-        overlayClose : true
+        overlayClose : true,
+        top: document.body.scrollTop + 'px'
     });
 };
 // 无事件成功提示框
 var zmSuccess = function (content) {
     zeroModal.success({
         content : content,
-        overlayClose : true
+        overlayClose : true,
+        top: document.body.scrollTop + 'px'
     });
 };

@@ -33,6 +33,9 @@ public class UserManageController {
      */
     @RequestMapping(value = "/manage/user_detail_info")
     public ModelAndView user_detail_info(HttpServletRequest request) throws UnsupportedEncodingException {
+        if (!isLogin(request)){
+            return new ModelAndView("/manage/login_m");
+        }
         String offsetStr = request.getParameter("p");
         String searchStr = request.getParameter("s");
         if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
@@ -57,6 +60,9 @@ public class UserManageController {
     // 分页加载用户上传的头像
     @RequestMapping(value = "/manage/user_portrait_validate")
     public ModelAndView user_portrait_validate(HttpServletRequest request) throws UnsupportedEncodingException {
+        if (!isLogin(request)){
+            return new ModelAndView("/manage/login_m");
+        }
         String offsetStr = request.getParameter("p");
         String searchStr = request.getParameter("s");
         if (null == offsetStr || !Pattern.matches("^[0-9]+$",offsetStr)){
@@ -97,6 +103,20 @@ public class UserManageController {
             return "1";
         } else {
             return "-2";
+        }
+    }
+
+    /**
+     * 根据session 判断是否已经登录
+     * @param request
+     * @return
+     */
+    private boolean isLogin(HttpServletRequest request){
+        String flag = String.valueOf(request.getSession().getAttribute("admin"));
+        if (null == flag || !"admin".equals(flag)){
+            return false;
+        } else {
+            return true;
         }
     }
 }

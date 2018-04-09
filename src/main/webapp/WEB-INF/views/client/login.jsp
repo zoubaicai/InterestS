@@ -13,6 +13,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
@@ -30,7 +32,7 @@
             <div class="col-md-12 hidden-sm hidden-xs" style="height: 70px;"></div>
             <div class="col-md-4 col-md-offset-4" style="margin-top: 30px;">
                 <div class="col-md-12">
-                    <h1 class="text-center">ISharing<br><small>兴趣共享</small></h1>
+                    <h1 class="text-center">InterestS<br><small>兴趣共享</small></h1>
                     <br>
                 </div>
                 <div class="col-md-12 white-back clearfix input-area">
@@ -48,11 +50,12 @@
                 </div>
                 <div class="col-md-12">
                     <br>
-                    <a href="/client/register">注册</a>&nbsp;|&nbsp;<a href="#">忘记密码?</a>
+                    <a href="/client/register">注册</a>&nbsp;
+                    <%--|&nbsp;<a href="#">忘记密码?</a>--%>
                 </div>
                 <div class="col-md-12">
                     <br>
-                    <a href="/">← 返回到ISharing</a>
+                    <a href="/">← 返回到首页</a>
                 </div>
             </div>
         </div>

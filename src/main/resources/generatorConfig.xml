@@ -39,8 +39,8 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 要生成哪些表 -->
-        <table tableName="substance_location"
-               domainObjectName="SubstanceLocation"
+        <table tableName="recommend"
+               domainObjectName="Recommend"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

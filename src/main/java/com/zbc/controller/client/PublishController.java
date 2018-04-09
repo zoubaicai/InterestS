@@ -3,7 +3,9 @@ package com.zbc.controller.client;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zbc.pojo.SubstanceInfoPO;
+import com.zbc.pojo.UserInfoPO;
 import com.zbc.service.JwtService;
+import com.zbc.service.UserInfoService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,9 @@ public class PublishController {
     private SubstanceInfoService substanceInfoService;
 
     @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
     private JwtService jwtService;
 
     /**
@@ -48,6 +53,15 @@ public class PublishController {
         } catch (NumberFormatException e){
             substanceId = -1;
         }
+        long userId = jwtService.hasUserLogin(request);
+        if (userId == -1){
+            return new ModelAndView("404 page");
+        } else {
+            UserInfoPO userInfoPO = userInfoService.selectByPrimaryKey(userId);
+            if (userInfoPO.getIsVerified() == (byte)0){
+                return new ModelAndView("/client/email_no_verify");
+            }
+        }
         ModelAndView modelAndView = new ModelAndView("client/publish");
         if (substanceId == -1){
             modelAndView.addObject("substanceInfo",new SubstanceInfoPO());
@@ -58,7 +72,6 @@ public class PublishController {
             if (null == po.getId()){
                 return new ModelAndView("404 page");
             }
-            long userId = jwtService.hasUserLogin(request);
             if (userId != po.getBelongUserId()){
                 return new ModelAndView("404 page");
             }

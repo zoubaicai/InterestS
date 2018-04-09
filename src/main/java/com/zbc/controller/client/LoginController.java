@@ -12,7 +12,9 @@ import com.zbc.service.UserInfoService;
 import com.zbc.util.MsgDigestUtils;
 import com.zbc.util.ParamsUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class LoginController {
@@ -23,11 +25,21 @@ public class LoginController {
     @Autowired
     private JwtService jwtService; // jwt 生成和验证
 
+    /**
+     * 登录页面
+     * @return
+     */
     @RequestMapping(value = "/login")
     public String client_content(){
         return "client/login";
     }
 
+    /**
+     * 登录验证
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/loginValidate",method = RequestMethod.POST,produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public String loginValidate(HttpServletRequest request) throws Exception {
@@ -68,5 +80,15 @@ public class LoginController {
         res.put("portrait",portrait);
         res.put("des","登录成功");
         return res.toJSONString();
+    }
+
+    @RequestMapping(value = "/client/quitLogin")
+    @ResponseBody
+    public String quitLogin(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "1";
     }
 }

@@ -242,12 +242,12 @@ public class PersonalController {
         }
         long nowUserId = jwtService.hasUserLogin(request);
         PagingInfo pagingInfo = new PagingInfo();
-        if (uid != nowUserId){
-            pagingInfo .setVerifyFlag((byte)1);
-        } else {
-            pagingInfo .setVerifyFlag((byte)0);
-        }
         uid = uid != -1 ? uid : nowUserId;
+        if (uid != nowUserId){
+            pagingInfo.setVerifyFlag((byte)1);
+        } else {
+            pagingInfo.setVerifyFlag((byte)0);
+        }
         pagingInfo.setId(uid);
         return pagingInfo;
     }

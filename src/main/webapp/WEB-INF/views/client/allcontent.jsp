@@ -73,9 +73,9 @@
                 <div class="col-xs-12">
                     <nav>
                         <ul class="pager">
-                            <li class="previous"><a href="javascript:void(0)"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+                            <li class="previous"><a href="javascript:void(0)">上一页</a></li>
                             <li class="page-info">第 <small id="currentPage">1</small> 页,共 <small id="sumPage">${sum}</small> 页</li>
-                            <li class="next"><a href="javascript:void(0)">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="javascript:void(0)">下一页</a></li>
                         </ul>
                     </nav>
                 </div>

@@ -12,10 +12,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>内容</title>
+    <title>登录后台</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/AdminLTE/css/AdminLTE.min.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/iCheck/skins/square/blue.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,11 +38,11 @@
 
         <form action="#" method="post">
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" placeholder="Email">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <input type="email" class="form-control" placeholder="帐号" id="username">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" class="form-control" placeholder="密码" id="password">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
@@ -50,7 +51,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary btn-block btn-flat">登录</button>
+                    <button type="button" class="btn btn-primary btn-block btn-flat" id="loginSubmit">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -67,9 +68,40 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/iCheck/icheck.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script>
         $(function () {
-
+            $username = $("#username");
+            $password = $("#password");
+            // 登录
+            $("#loginSubmit").click(function () {
+                var username = $username.val();
+                var password = $password.val();
+                if (username === "" || username === undefined){
+                    zmAlert("帐号不能为空");
+                    return;
+                }
+                if (password === "" || password === undefined){
+                    zmAlert("密码不能为空");
+                    return;
+                }
+                var params = {
+                    username : username,
+                    password : password
+                };
+                $.post("/manage/loginValidation",params,function (result) {
+                    if (result === "1"){
+                        zeroModal.success({
+                            content : "登录成功",
+                            okFn : function () {
+                                window.location.href = "/manage/substance_verified";
+                            }
+                        });
+                    } else {
+                        zmAlert("帐号或密码错误");
+                    }
+                });
+            });
         });
     </script>
 </body>

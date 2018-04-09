@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCUMENT html>
 <html lang="zh-cn">
@@ -9,6 +10,7 @@
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/index.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -19,126 +21,7 @@
     <![endif]-->
 </head>
 <body style="padding-top: 70px;">
-    <%--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="border-bottom: none;background-color: rgba(2,2,2,0.85);">--%>
-        <%--<div class="container-fluid">--%>
-            <%--<div class="navbar-header">--%>
-                <%--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">--%>
-                    <%--<span class="sr-only">Toggle navigation</span>--%>
-                    <%--<span class="icon-bar"></span>--%>
-                    <%--<span class="icon-bar"></span>--%>
-                    <%--<span class="icon-bar"></span>--%>
-                <%--</button>--%>
-                <%--<a class="navbar-brand" href="#">--%>
-                    <%--<img src="/images/myweb/isharing.png" alt="ISharing" height="25" width="40" style="margin-top: -2px;">--%>
-                <%--</a>--%>
-            <%--</div>--%>
-
-            <%--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">--%>
-                <%--<ul class="nav navbar-nav">--%>
-                    <%--<li>--%>
-                        <%--<a href="#">首页</a>--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
-                <%--<div class="navbar-form navbar-right" role="login or register">--%>
-                    <%--<a href="/client/register" class="btn btn-danger">注册</a>--%>
-                    <%--&nbsp;--%>
-                    <%--<a href="/client/login" class="btn btn-default">登录</a>--%>
-                    <%--&nbsp;--%>
-                <%--</div>--%>
-                <%--<div class="navbar-form navbar-right" role="search">--%>
-                    <%--<div class="input-group">--%>
-                        <%--<input type="text" class="form-control" placeholder="搜索你感兴趣的内容"/>--%>
-                        <%--<span class="input-group-btn">--%>
-                                <%--<button class="btn btn-default" type="button" aria-label="search button">--%>
-                                    <%--&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;--%>
-                                <%--</button>--%>
-                            <%--</span>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</nav>--%>
     <%@include file="client/header.jsp"%>
-    <%--<div class="container-fluid banner" role="banner" style="display:none">--%>
-        <%--<div class="row clearfix">--%>
-            <%--<div class="col-md-12" style="height: 80px;"></div>--%>
-            <%--<div class="col-md-4 col-md-offset-4">--%>
-                <%--<h2 class="text-center"><small style="color: #fff;">搜索</small></h2>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-4 col-md-offset-4">--%>
-                <%--<div>--%>
-                    <%--<div class="input-group" style="max-width: 500px;margin: 0 auto;">--%>
-                        <%--<input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">--%>
-                        <%--<span class="input-group-btn">--%>
-                        <%--<a href="#" class="btn btn-default search-control" role="button" style="background-color: rgba(0,0,0,0.1);border-left: none;">--%>
-                            <%--&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;--%>
-                        <%--</a>--%>
-                    <%--</span>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--<img src="/images/gradual_green.jpg" class="banner-bg" style="z-index: -10;" aria-label="banner image">--%>
-        <%--<div class="banner-bg" style="z-index: -9;background: #000;filter: alpha(Opacity=30);opacity: 0.3;" aria-label="bg mask"></div>--%>
-    <%--</div>--%>
-
-    <%--<div class="container banner" style="margin-top: -20px;position: relative;">--%>
-        <%--<div class="row clearfix">--%>
-            <%--<div class="col-md-12" style="height: 80px;"></div>--%>
-            <%--<div class="col-md-4 col-md-offset-4" style="z-index: 10;">--%>
-                <%--<h2 class="text-center"><small style="color: #fff;">搜索</small></h2>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-4 col-md-offset-4" style="z-index:10;">--%>
-                <%--<div>--%>
-                    <%--<div class="input-group" style="max-width: 500px;margin: 0 auto;">--%>
-                        <%--<input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">--%>
-                        <%--<span class="input-group-btn">--%>
-                        <%--<a href="#" class="btn btn-default search-control" role="button" style="border-left: none;">--%>
-                            <%--&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;--%>
-                        <%--</a>--%>
-                    <%--</span>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--<div id="carousel-example-generic" class="carousel slide shards-shadow" data-ride="carousel" style="position: absolute;top: 0;left: 0;width: 98%;height: 100%;margin-left: 1%;">--%>
-            <%--<!-- Indicators -->--%>
-            <%--<ol class="carousel-indicators">--%>
-                <%--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>--%>
-                <%--<li data-target="#carousel-example-generic" data-slide-to="1"></li>--%>
-            <%--</ol>--%>
-
-            <%--<!-- Wrapper for slides -->--%>
-            <%--<div class="carousel-inner" style="height: 100%;position: relative;" role="listbox">--%>
-                <%--<a href="#" class="item active listBox-item">--%>
-                    <%--<img src="/images/gradual_green.jpg">--%>
-                    <%--<div class="banner-bg"></div>--%>
-                    <%--<div class="carousel-caption">--%>
-                        <%--Test--%>
-                    <%--</div>--%>
-                <%--</a>--%>
-                <%--<a href="#" class="item listBox-item clearfix">--%>
-                    <%--<img src="/images/Saturday.jpg">--%>
-                    <%--<div class="banner-bg"></div>--%>
-                    <%--<div class="carousel-caption">--%>
-                        <%--Test--%>
-                    <%--</div>--%>
-                <%--</a>--%>
-            <%--</div>--%>
-
-            <%--<!-- Controls -->--%>
-            <%--&lt;%&ndash;<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<span class="sr-only">Previous</span>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<span class="sr-only">Next</span>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
-        <%--</div>--%>
-
-    <%--</div>--%>
-
     <div class="container banner" style="position: relative;">
         <img src="/images/500305956_banner.jpg" class="shards-shadow" style="height: 400px;width: 98%;position: absolute;top: 0;left: 1%;z-index: -1;">
         <div class="row clearfix">
@@ -149,7 +32,7 @@
             <div class="col-md-4 col-md-offset-4" style="z-index:10;">
                 <div>
                     <div class="input-group" style="max-width: 500px;margin: 0 auto;">
-                        <input type="search" class="form-control search-control" style="border-right: none;" placeholder="搜索">
+                        <input type="search" id="indexSearchText" class="form-control search-control" style="border-right: none;" placeholder="搜索">
                         <span class="input-group-btn">
                         <a href="javascript:void(0)" class="btn btn-default search-control" role="button" id="indexSearchBtn" style="border-left: none;">
                             &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
@@ -160,99 +43,79 @@
             </div>
         </div>
     </div>
-
     <div class="container" style="margin-top: 60px;">
         <div class="row">
             <div class="col-md-12">
-                <p class="text-center paddingAll"><strong>---推荐---</strong></p>
+                <h5 class="text-center paddingAll"><strong>---推荐---</strong></h5>
             </div>
         </div>
         <div class="row clearfix recommend-lists">
-            <div class="col-md-6 col-xs-12 recommend-item">
-                <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                    <a href="#">
-                        <img src="/images/interestshare.jpg" alt="cat" style="height: 150px;">
-                        <div class="caption">
-                            <p>Test</p>
+            <c:choose>
+                <c:when test="${r_lists.size() > 0}">
+                    <c:forEach items="${r_lists}" var="list">
+                        <div class="col-md-6 col-xs-12 recommend-item">
+                            <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
+                                <a href="/content?id=${list.recommendId}">
+                                    <c:choose>
+                                        <c:when test="${list.substanceInfoPO.cover == '' || list.substanceInfoPO.cover == null}">
+                                            <img src="/images/interestshare.jpg" alt="${list.substanceInfoPO.subject}" style="height: 150px;">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="${list.substanceInfoPO.cover}" alt="${list.substanceInfoPO.subject}" style="height: 150px;width: 100%">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <div class="caption">
+                                        <p>${list.substanceInfoPO.subject}</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-6 col-xs-12 recommend-item">
-                <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                    <a href="#">
-                        <img src="/images/interestshare.jpg" alt="cat" style="height: 150px;">
-                        <div class="caption">
-                            <p>Test</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-warning" role="alert">所有推荐都丢了</div>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <p class="text-center paddingAll"><strong>---最新---</strong></p>
+                <h5 class="text-center paddingAll"><strong>---最新---</strong></h5>
             </div>
         </div>
         <div class="row clearfix latest-lists" id="masonry">
-            <div class="col-md-3 col-xs-12 latest-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <img src="/images/cat.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+            <c:choose>
+                <c:when test="${lists.size() > 0}">
+                    <c:forEach items="${lists}" var="list">
+                        <div class="col-md-3 col-xs-12 latest-item">
+                            <div class="thumbnail clear-border clear-padding shards-shadow">
+                                <a href="/content?id=${list.id}" target="_blank">
+                                    <c:choose>
+                                        <c:when test="${list.cover == '' || list.cover == null}">
+                                            <img src="/images/interestshare.jpg" alt="${list.subject}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="${list.cover}" alt="${list.subject}">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <div class="caption">
+                                        <h3>${list.subject}</h3>
+                                        <p>${list.summary}</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12 latest-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <img src="/images/queen.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12 latest-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <img src="/images/iu.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12 latest-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <img src="/images/cat.jfif" alt="cat">
-                        <div class="caption">
-                            <h3>CAT</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12 latest-item">
-                <div class="thumbnail clear-border clear-padding shards-shadow">
-                    <a href="#">
-                        <div class="caption">
-                            <h3>CAT11111</h3>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-xs-12">
+                        <div class="alert alert-warning" role="alert">没有找到任何内容</div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="row clearfix">
             <div class="col-md-4 col-md-offset-4">
-                <button type="button" class="btn btn-link" style="width: 100%">加载更多</button>
+                <a href="/allcontent?p=1&c=default" class="btn btn-link" style="width: 100%">更多</a>
             </div>
         </div>
     </div>
@@ -264,6 +127,7 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/masonry.pkgd.min.js"></script>
     <script src="/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/zeroModal/js/zeroModal.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -274,6 +138,16 @@
                 $masonry.masonry({
                     itemSelector : ".latest-item"
                 });
+            });
+
+            // 主页搜索按钮
+            $("#indexSearchBtn").click(function () {
+                var s = window.decodeURIComponent($("#indexSearchText").val());
+                if (s === "" || s === undefined){
+                    zmAlert("搜索内容不能为空");
+                    return;
+                }
+                window.location.href = "/search?p=1&s=" + s;
             });
 
         });

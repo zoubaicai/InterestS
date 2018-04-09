@@ -13,11 +13,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>内容</title>
+    <meta name="site" content="http://interests.com">
+    <meta name="title" content="兴趣分享：${substanceInfo.subject}">
+    <meta name="description" content="简介：${substanceInfo.summary}" >
+    <title>Ծ‸ Ծ ${substanceInfo.subject}</title>
     <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/zeroModal/css/zeroModal.css" rel="stylesheet">
+    <link href="/share/css/share.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/content.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -32,7 +37,7 @@
     <div class="container" id="mainContainer">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="col-md-9 white-back shards-shadow ">
+                <div class="col-md-9 col-sm-9 white-back shards-shadow ">
                     <header>
                         <div class="col-md-12">
                             <h2 class="text-center">${substanceInfo.subject}</h2>
@@ -56,9 +61,6 @@
                         <c:if test="${isAnonymous == 1}">
                             <span class="hidden" id="locale">${substanceInfo.locale}</span>
                         </c:if>
-                        <%--<hr>--%>
-                        <%--<label for="mapContainer">地点：<span id="locationTxt"></span></label>--%>
-                        <%--<div class="col-md-12 thumbnail" id="mapContainer" style="min-height: 200px;"></div>--%>
                     </div>
                     <!--兴趣组成员-->
                     <div class="col-md-12" aria-label="participants" style="min-height: 50px;">
@@ -66,7 +68,7 @@
                         <label><span>${listGroupInfo.size()}</span>感兴趣</label>
                         <div class="user-lists">
                             <c:forEach items="${listGroupInfo}" var="item" varStatus="status">
-                                <a href="#" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
+                                <a href="/personal?uid=${item.userInfoPO.id}" target="_blank" class="user-item"><img src="${item.userInfoPO.portrait}" class="user-item-img img-rounded"></a>
                             </c:forEach>
                             <c:if test="${listGroupInfo.size() < 1}">
                                 等待加入...!_!
@@ -90,10 +92,11 @@
                                 <hr>
                                 <textarea class="form-control" placeholder="输入观点" id="userComment"></textarea>
                                 <div class="paddingT-5 clearfix">
-                                    <button type="button" class="btn btn-primary btn-sm pull-right" id="commentSubmit"><i class="glyphicon glyphicon-ok"></i> 发布</button>
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" id="commentSubmit"><i class="glyphicon glyphicon-ok"></i> 提交</button>
                                 </div>
                             </div>
                             <div class="col-md-12" aria-label="comment area" style="min-height: 100px;">
+                                <hr>
                                 <div class="comment-lists clearfix marginT-10" id="commentLists">
                                     <div style="background-color: #fff">
                                         <img class="center-block" src="/images/loadingandword.gif">
@@ -120,8 +123,8 @@
                 <span class="hidden" id="isAnonymous">${isAnonymous}</span><!--匿名标志，防君子-->
                 <span class="hidden" id="isRestricted">${substanceInfo.isRestricted}</span>
                 <!--发布者性息-->
-                <div class="col-md-3 hidden-sm hidden-xs">
-                    <div class="shards-shadow thumbnail clear-border clear-radius">
+                <div class="col-md-3 col-sm-3">
+                    <div class="shards-shadow thumbnail clear-border clear-radius hidden-xs">
                         <h5 class="text-center">组长</h5>
                         <hr>
                         <a href="/personal?uid=${userInfo.id}" target="_blank">
@@ -141,7 +144,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="shards-shadow thumbnail clear-border clear-radius">
+                        <h5 class="text-center">分享</h5>
+                        <hr>
+                        <div class="social-share text-center" data-sites="qq,weibo,wechat" data-disabled="google, facebook, twitter,qzone, douban"
+                             data-wechat-qrcode-helper="<p>微信扫一扫，打开网页后点击右上角分享</p>">
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -150,6 +162,7 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/zeroModal/js/zeroModal.min.js"></script>
+    <script src="/share/js/jquery.share.min.js"></script>
     <script src="/js/jquery.cookie.js"></script>
     <script src="/js/client/common.js"></script>
     <script>
@@ -177,6 +190,22 @@
             marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
         }
         $(function () {
+
+            var shareConfig = {
+                url                 : '', // 网址，默认使用 window.location.href
+                source              : '', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+                title               : '', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+                description         : '', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+                image               : '', // 图片, 默认取网页中第一个img标签
+                sites               : ['qq', 'weibo','wechat'], // 启用的站点
+                disabled            : ['google', 'facebook', 'twitter','qzone', 'douban'], // 禁用的站点
+                wechatQrcodeTitle   : "微信分享", // 微信二维码提示文字
+                wechatQrcodeHelper  : '微信扫一扫，打开网页后点击右上角分享'
+            };
+            // 自定义配置分享按钮
+            $(".social-share").share(shareConfig);
+
+
             // 加载地图，匿名标志为 1 时
             if ($("#isRealistic").text() === "1" && $("#isAnonymous").text() === "1"){
                 loadBaiduMap();
@@ -314,7 +343,7 @@
                 if ($("#isRestricted").text() === "1"){
                     zeroModal.show({
                         title : "该用户组有加入限制\n请输入邀请码，可以通过组长获得",
-                        content : "<div class='from-group form-group-lg'><input class='form-control' type='text' id='invitationCode' placeholder='邀请码'></div>",
+                        content : "<div class='from-group'><input class='form-control' type='text' id='invitationCode' placeholder='邀请码'></div>",
                         overlayClose : true,
                         ok : true,
                         cancel : true,
@@ -324,7 +353,9 @@
                                 invitationCode : $("#invitationCode").val()
                             };
                             personJoinPost(params);
-                        }
+                        },
+                        top : document.body.scrollTop + 'px',
+                        height : '150px'
                     });
                 } else {
                     params = {

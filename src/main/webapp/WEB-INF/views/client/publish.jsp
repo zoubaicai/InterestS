@@ -45,7 +45,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="text20px" for="summary">简介：</label>
-                        <textarea class="form-control" id="summary" name="summary" placeholder="请输入简介" aria-describedby="summary_help">${substanceInfo.subject}</textarea>
+                        <textarea class="form-control" id="summary" rows="5" name="summary" placeholder="请输入简介" aria-describedby="summary_help">${substanceInfo.subject}</textarea>
                         <b><span class="text-danger"></span></b>
                         <span class="help-block">一个合适的简介能够让别人更容易发现这里，最多120个字符</span>
                     </div>
@@ -336,7 +336,7 @@
                         // 获取地图的point，并拼接到location后面
                         if (params.locationSwitch){
                             if (null === globalPoint){
-                                alert("定位还未完成");
+                                zmAlert("定位还未完成");
                                 return;
                             } else {
                                 params.location += $("#nowLocation").text() + "," + globalPoint.lng + "," + globalPoint.lat;
@@ -384,14 +384,16 @@
                                 var res = JSON.parse(result);
                                 zeroModal.alert({
                                     content : res.des,
+                                    top : document.body.scrollTop + 'px',
                                     okFn : function () {
                                         window.location.href = "/personal";
-                                    }
+                                    },
+                                    cancel : false
                                 })
                             });
                         }
                     },
-                    top : "50%"
+                    top : document.body.scrollTop + 'px'
                 }); // confirm
             });
             // 输入框获取焦点时恢复原始状态
