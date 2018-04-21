@@ -104,7 +104,7 @@ public class PublishManageController {
             return new ModelAndView("/manage/login_m");
         }
         String id = request.getParameter("id");
-        if (null == id || !Pattern.matches("^[1-9]+$",id)){
+        if (null == id || !Pattern.matches("^[0-9]+$",id)){
             return new ModelAndView("404 page");
         }
         long substanceId = Long.parseLong(id);

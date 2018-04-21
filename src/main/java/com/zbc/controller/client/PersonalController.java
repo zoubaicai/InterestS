@@ -72,6 +72,41 @@ public class PersonalController {
         return modelAndView;
     }
 
+
+    /**
+     * 根据id 和 当前登录用户，删除指定的一条 substanceInfo 的记录，同时删除加入和收藏表中的记录
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/personal/deleteOneSubstance")
+    @ResponseBody
+    public String deleteContent(HttpServletRequest request) throws Exception {
+        long uid = jwtService.hasUserLogin(request);
+        if (uid == -1){
+            return "-1";
+        }
+        long substanceID = Long.parseLong(request.getParameter("id"));
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setId(substanceID);
+        pagingInfo.setBelongUserId(uid);
+        int res = substanceInfoService.deleteByTwoKey(pagingInfo);
+        res += groupInfoService.deleteByBelongSubstanceId(substanceID);
+        res += userCollectionService.deleteByBelongSubstanceId(substanceID);
+        if (res > 1){
+            // 添加消息到msg_info 表
+            MsgInfoPO msgInfoPO = new MsgInfoPO();
+            msgInfoPO.setBelongUserId(uid);
+            msgInfoPO.setMsgContent("ー(￣～￣)ξ删除了编号为（" + substanceID + "）的兴趣组！" );
+            msgInfoService.insertSelective(msgInfoPO);
+            return "1";
+        } else {
+            return "-2";
+        }
+    }
+
+
+
     /**
      * 加载指定用户的 发布 信息，如果既没有uid参数也没有登录信息，返回 -1
      * @param request

@@ -70,6 +70,9 @@ public class ContentController {
         ArrayList<GroupInfoPO> listGroupInfo = (ArrayList<GroupInfoPO>)groupInfoService.listBySubstanceId(substanceId);
         // 根据token判断是否有用户登录
         long loginId = hasUserLogin(request);
+        if (infoPO.getBelongUserId() != loginId && infoPO.getIsVerified() != 1){
+            return new ModelAndView("/client/content_no_verify");
+        }
         // 是否为匿名访问的标志
         int isAnonymous = infoPO.getIsAnonymousPermit() == 1 ? 1 : -1;
         for (GroupInfoPO po : listGroupInfo){
@@ -91,6 +94,15 @@ public class ContentController {
         modelAndView.addObject("listGroupInfo",listGroupInfo);
         modelAndView.addObject("isAnonymous",isAnonymous);
         return modelAndView;
+    }
+
+    /**
+     * 给予内容未通过验证的提醒
+     * @return
+     */
+    @RequestMapping(value = "/content_no_verify")
+    public String contentNoVerify(){
+        return "/client/content_no_verify";
     }
 
     /**

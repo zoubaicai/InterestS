@@ -13,6 +13,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录后台</title>
+    <link href="/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="/images/favicon.ico" type="image/x-icon" rel=icon>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/AdminLTE/css/AdminLTE.min.css" rel="stylesheet">
@@ -30,7 +32,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="../../index2.html"><b>Interest</b>PARTY</a>
+        <a href="../../index2.html"><b>Interest</b>Sharing</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -94,7 +96,7 @@
                         zeroModal.success({
                             content : "登录成功",
                             okFn : function () {
-                                window.location.href = "/manage/substance_verified";
+                                window.location.href = "/manage/substance_no_verify";
                             }
                         });
                     } else {

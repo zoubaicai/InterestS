@@ -32,7 +32,7 @@
             <div class="col-md-12 hidden-sm hidden-xs" style="height: 70px;"></div>
             <div class="col-md-4 col-md-offset-4" style="margin-top: 30px;">
                 <div class="col-md-12">
-                    <h1 class="text-center">InterestS<br><small>兴趣共享</small></h1>
+                    <h1 class="text-center">InterestS<br><small>兴趣分享</small></h1>
                     <br>
                 </div>
                 <div class="col-md-12 white-back clearfix input-area">
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-12">
                     <br>
-                    <a href="/client/register">注册</a>&nbsp;
+                    <a href="/register">注册</a>&nbsp;
                     <%--|&nbsp;<a href="#">忘记密码?</a>--%>
                 </div>
                 <div class="col-md-12">

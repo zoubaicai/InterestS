@@ -21,6 +21,11 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     }
 
     @Override
+    public int deleteByBelongSubstanceId(Long id) {
+        return userCollectionDAO.deleteByBelongSubstanceId(id);
+    }
+
+    @Override
     public int insertSelective(UserCollectionPO record) {
         return userCollectionDAO.insertSelective(record);
     }

@@ -27,7 +27,7 @@
         <div class="row clearfix">
             <div class="col-md-12" style="height: 150px;"></div>
             <div class="col-md-4 col-md-offset-4" style="z-index: 10;">
-                <h2 class="text-center"><small style="font-size: 1.1em;color: #666;">兴趣共享</small></h2>
+                <h2 class="text-center"><small style="font-size: 1.1em;color: #666;">兴趣分享</small></h2>
             </div>
             <div class="col-md-4 col-md-offset-4" style="z-index:10;">
                 <div>
@@ -55,7 +55,7 @@
                     <c:forEach items="${r_lists}" var="list">
                         <div class="col-md-6 col-xs-12 recommend-item">
                             <div class="thumbnail clear-border clear-padding clear-radius shards-shadow">
-                                <a href="/content?id=${list.recommendId}">
+                                <a href="/content?id=${list.recommendId}" target="_blank">
                                     <c:choose>
                                         <c:when test="${list.substanceInfoPO.cover == '' || list.substanceInfoPO.cover == null}">
                                             <img src="/images/interestshare.jpg" alt="${list.substanceInfoPO.subject}" style="height: 150px;">
@@ -76,6 +76,30 @@
                     <div class="alert alert-warning" role="alert">所有推荐都丢了</div>
                 </c:otherwise>
             </c:choose>
+
+
+
+
+            <%--<div class="col-md-6 col-xs-12 recommend-item">--%>
+                <%--<div class="thumbnail clear-border clear-padding clear-radius shards-shadow">--%>
+                    <%--<a href="#">--%>
+                        <%--<img src="/images/interestshare.jpg" alt="cat" style="height: 150px;">--%>
+                        <%--<div class="caption">--%>
+                            <%--<p>Test</p>--%>
+                        <%--</div>--%>
+                    <%--</a>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="col-md-6 col-xs-12 recommend-item">--%>
+                <%--<div class="thumbnail clear-border clear-padding clear-radius shards-shadow">--%>
+                    <%--<a href="#">--%>
+                        <%--<img src="/images/interestshare.jpg" alt="cat" style="height: 150px;">--%>
+                        <%--<div class="caption">--%>
+                            <%--<p>Test</p>--%>
+                        <%--</div>--%>
+                    <%--</a>--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </div>
         <div class="row">
             <div class="col-md-12">

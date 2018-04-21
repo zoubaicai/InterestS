@@ -81,7 +81,6 @@ public class PublishController {
         }
     }
 
-    // TODO 提交成功后发一条消息给用户
     /**
      * 添加用户提交的新内容到 substance_info
      * @param request
@@ -152,6 +151,7 @@ public class PublishController {
         } else if ("1".equals(isUpdate)){
             long temp_id = Long.parseLong(substanceId);
             po.setId(temp_id);
+            po.setIsVerified((byte)0);
             int_res = substanceInfoService.updateByPrimaryKeySelective(po,mainContent);
         }
         if (int_res > 0){

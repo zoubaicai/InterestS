@@ -10,7 +10,7 @@
     <!-- Logo -->
     <a href="/manage/dashboard" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">ISharing</span>
+        <span class="logo-mini">S</span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>兴趣分享</b></span>
     </a>

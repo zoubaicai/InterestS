@@ -47,6 +47,8 @@
                 </div>
                 <div class="col-md-7">
                     <p class="lead" style="display: inline;padding: 6px;">${userInfo.userNickname}</p>
+                    <br>
+                    <h3 style="display: inline;padding: 6px;margin-top: 10px;"><small>邮箱： ${userInfo.userEmail}</small></h3>
                 </div>
                 <div class="col-md-3">
                     <c:if test="${isVisitor == -1}">
@@ -78,7 +80,7 @@
             <!--发布面板-->
             <div class="tab-pane active clearfix" id="panel-publish">
                 <c:if test="${isVisitor == -1}">
-                    <div class="col-md-2 col-sm-6 paint padding-3">
+                    <div class="col-md-2 col-sm-6 col-xs-12 paint padding-3">
                         <div class="thumbnail clear-border shards-shadow">
                             <div style="display: table;width: 100%;">
                                 <a class="btn btn-link" href="/client/publish" style="display: table-cell;width: inherit;height: 200px;text-align: center;vertical-align: middle;text-decoration: none;">
@@ -158,8 +160,9 @@
                                 "<p>" + res[i].summary + "</p>\n";
                             if (isVisitor === "-1"){
                                 div += "<p>\n" +
-                                    "<a href='/content?id=" + res[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
-                                    "<a href='/client/publish?id=" + res[i].substanceId + "' target='_blank' class=\"btn btn-default btn-sm\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
+                                    "<a href='/content?id=" + res[i].substanceId + "' target='_blank' class='btn btn-primary btn-sm marginT-2' role='button'><i class='fa fa-eye'></i>查看</a>&nbsp;" +
+                                    "<a href='/client/publish?id=" + res[i].substanceId + "' target='_blank' class=\"btn btn-success btn-sm marginT-2\" role=\"button\"><i class='fa fa-pencil'></i>编辑</a>\n" +
+                                    "<a href='javascript:void(0)' class='btn btn-danger btn-sm marginT-2 content-delete-btn' aria-label='" + res[i].substanceId +"' role='button'><i class='fa fa-window-close'></i>删除</a>" +
                                     "</p>\n";
                             }
                             switch (res[i].isVerified){
@@ -189,6 +192,27 @@
                     $panel_publish.imagesLoaded(function () {
                         $panel_publish.masonry({
                             itemSelector : ".paint"
+                        });
+                    });
+                    // 绑定删除按钮的事件
+                    $(".content-delete-btn").click(function () {
+                        var $this = $(this);
+                        zeroModal.confirm({
+                            content: "确认删除该兴趣组吗？",
+                            top: document.body.scrollTop + 'px',
+                            okFn: function () {
+                                var params = {
+                                    id : $this.attr("aria-label")
+                                };
+                                $.post("/personal/deleteOneSubstance?time=" + new Date().getTime(),params,function (res) {
+                                    if (res === "1"){
+                                        loadPublish();
+                                        zmAlert("删除成功!");
+                                    } else {
+                                        zmError("系统异常，删除失败!");
+                                    }
+                                });
+                            }
                         });
                     });
                 });

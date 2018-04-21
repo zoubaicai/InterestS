@@ -41,7 +41,7 @@
                     <div class="container-fluid result-lists shards-shadow clearfix">
                         <c:choose>
                             <c:when test="${lists.size() == 0}">
-                                <mark>没有找到搜索结果</mark>
+                                <p style="padding: 10px;" class="text-center"><mark>没有找到搜索结果</mark></p>
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${lists}" var="list">

@@ -27,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Controller
@@ -151,7 +152,7 @@ public class SettingController {
     @RequestMapping(value = "/client/modifyEmail",produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     // 确认修改邮箱
-    public String modifyEmail(HttpServletRequest request){
+    public String modifyEmail(HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
         String captchaCode = request.getParameter("captchaCode");
         String newEmail = request.getParameter("newEmail");
         String sessionCode = (String)request.getSession().getAttribute(EMAIL_CAPTCHA);
@@ -167,6 +168,12 @@ public class SettingController {
         UserInfoPO po = new UserInfoPO();
         po.setId(id);
         po.setUserEmail(newEmail);
+        po.setIsVerified((byte)0);
+        // uuid
+        String uuid = getUUIDStr();
+        po.setRegisterCode(uuid);
+        // 发送一封验证邮件
+        EmailUtils.sendEmail(newEmail,"邮箱更改验证","感谢您的注册","<p>请点击链接完成注册，<a href='http://localhost:8080/registerCodeValidate?code=" + uuid + "&email=" +newEmail + "'>验证</a></p>");
         int update_res = userInfoService.updateByPrimaryKeySelective(po);
         if (update_res > 0){
             res.put("des","修改成功");
@@ -232,5 +239,13 @@ public class SettingController {
         o.put("des",des);
         o.put("id",id);
         return o;
+    }
+
+    /**
+     * 得到一个没有‘-’符号的UUID字符串
+     * @return
+     */
+    private String getUUIDStr(){
+        return UUID.randomUUID().toString().replaceAll("-","");
     }
 }

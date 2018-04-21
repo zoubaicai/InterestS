@@ -31,6 +31,16 @@ public class SubstanceInfoServiceImpl implements SubstanceInfoService {
     private SubstanceLocationDAO substanceLocationDAO;
 
     @Override
+    public int deleteByPrimaryKey(Long id) {
+        return substanceInfoDAO.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteByTwoKey(PagingInfo pagingInfo) {
+        return substanceInfoDAO.deleteByTwoKey(pagingInfo);
+    }
+
+    @Override
     public int insert(SubstanceInfoPO record) {
         return substanceInfoDAO.insert(record);
     }

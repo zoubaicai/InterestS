@@ -185,6 +185,10 @@
         delete from substance_info
         where id = #{id,jdbcType=BIGINT}
     </delete>
+    <delete id="deleteByTwoKey" parameterType="com.zbc.pojo.PagingInfo">
+        DELETE from substance_info
+        where id = #{id,jdbcType=BIGINT} and belong_user_id =  #{belongUserId,jdbcType=BIGINT}
+    </delete>
     <insert id="insert" parameterType="com.zbc.pojo.SubstanceInfoPO">
         <!--
           WARNING - @mbg.generated

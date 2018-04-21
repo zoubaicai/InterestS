@@ -7,8 +7,14 @@ import java.util.List;
 
 public interface SubstanceInfoService {
 
-    //int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id);
 
+    /**
+     * 根据id和belongUserId删除指定的条目
+     * @param pagingInfo
+     * @return
+     */
+    int deleteByTwoKey(PagingInfo pagingInfo);
 
     /**
      * 插入一条记录

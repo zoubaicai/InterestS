@@ -20,6 +20,11 @@ public class GroupInfoServiceImpl implements GroupInfoService {
     }
 
     @Override
+    public int deleteByBelongSubstanceId(Long id) {
+        return groupInfoDAO.deleteByBelongSubstanceId(id);
+    }
+
+    @Override
     public int insertSelective(GroupInfoPO record) {
         return groupInfoDAO.insertSelective(record);
     }

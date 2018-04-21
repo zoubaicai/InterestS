@@ -4,6 +4,8 @@ public class PagingInfo {
 
     private Long id;
 
+    private Long belongUserId;
+
     private int offset;
 
     private int rows;
@@ -17,6 +19,14 @@ public class PagingInfo {
     private double latitude;
 
     private int classFlag;
+
+    public Long getBelongUserId() {
+        return belongUserId;
+    }
+
+    public void setBelongUserId(Long belongUserId) {
+        this.belongUserId = belongUserId;
+    }
 
     public int getClassFlag() {
         return classFlag;
