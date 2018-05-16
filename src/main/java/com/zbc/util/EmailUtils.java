@@ -50,7 +50,6 @@ public final class EmailUtils {
         } finally {
             transport.close();
         }
-
     }
 
     private EmailUtils(){}

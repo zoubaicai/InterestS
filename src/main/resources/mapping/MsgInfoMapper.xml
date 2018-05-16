@@ -155,7 +155,7 @@
     <select id="countByBelongUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
         SELECT count(*)
         FROM msg_info
-        WHERE id = #{id,jdbcType=BIGINT}
+        WHERE belong_user_id = #{id,jdbcType=BIGINT}
     </select>
     <select id="countNoRead" parameterType="java.lang.Long" resultType="java.lang.Integer">
         select COUNT(*)

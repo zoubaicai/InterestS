@@ -117,10 +117,7 @@
                    p--;
                    window.location.href = window.location.host + "/search?p=" + p + "&s=" + getCurrentSearchStr();
                } else {
-                   zeroModal.alert({
-                       content : "已经是首页了",
-                       top : "20%"
-                   });
+                   zmAlert("已经是首页了");
                }
            });
            // 下一页
@@ -131,10 +128,7 @@
                    p++;
                    window.location.href = window.location.host + "/search?p=" + p + "&s=" + getCurrentSearchStr();
                } else {
-                   zeroModal.alert({
-                       content : "已经是最后一页了",
-                       top : "20%"
-                   });
+                   zmAlert("已经是最后一页了");
                }
            });
         });

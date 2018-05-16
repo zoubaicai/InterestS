@@ -67,7 +67,6 @@ public class LoginController {
             return res.toJSONString();
         }
         // 生成token
-        // ...
         jwtService.genHeader();
         jwtService.putHeaderProp("type","JWT");
         jwtService.putHeaderProp("alg","HS256");

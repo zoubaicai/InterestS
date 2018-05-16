@@ -118,7 +118,7 @@ public class RegisterController {
         // 发送一封验证邮件
         EmailUtils.sendEmail(userEmail,userNickname,"感谢您的注册","<p>请点击链接完成注册，<a href='http://localhost:8080/registerCodeValidate?code=" + uuid + "&email=" +userEmail + "'>验证</a></p>");
         // 将信息插入到数据库
-        // userInfoService.insertSelective(reg_po);
+        userInfoService.insertSelective(reg_po);
         res.put("des","注册成功");
         return res.toJSONString();
     }

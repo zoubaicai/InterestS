@@ -32,11 +32,13 @@
     <%@include file="header.jsp"%>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2 white-back" style="min-height: 420px;">
-                <h4>消息</h4>
-                <hr>
+            <div class="col-xs-10 col-xs-offset-1 white-back" style="">
+                <div class="col-xs-12">
+                    <h4>消息</h4>
+                    <hr>
+                </div>
                 <div class="msg-lists">
-                    <%--<div class="col-sm-12 well well-sm msg-item">--%>
+                    <%--<div class="col-xs-12 well well-sm msg-item">--%>
                         <%--<div class="col-sm-11">--%>
                             <%--<p class="msgShow">欢迎注册“兴趣共享团”，<a href="/client/personal">我的主页</a></p>--%>
                             <%--<small>2018-1-9 14:27</small>--%>
@@ -50,17 +52,17 @@
                             <c:forEach items="${lists}" var="list">
                                 <c:choose>
                                     <c:when test="${list.isRead == 1}">
-                                        <div class="col-sm-12 well well-sm msg-item" style="color: #aaa;">
+                                        <div class="col-xs-12 well well-sm msg-item" style="color: #aaa;">
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="col-sm-12 well well-sm msg-item">
+                                        <div class="col-xs-12 well well-sm msg-item">
                                     </c:otherwise>
                                 </c:choose>
-                                    <div class="col-sm-11" aria-label="${list.isRead}">
+                                    <div class="col-xs-11" aria-label="${list.isRead}">
                                         <p class="msgShow" aria-label="${list.id}">${list.msgContent}</p>
                                         <small><i class="fa fa-clock-o"></i> ${list.gmtCreate}</small>
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-xs-1">
                                         <button type="button" class="close" aria-label="${list.id}"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                 </div>
@@ -72,7 +74,7 @@
                     </c:choose>
                 </div>
             </div>
-            <div class="col-md-8 col-md-offset-2 white-back">
+            <div class="col-xs-10 col-xs-offset-1 white-back">
                 <nav>
                     <ul class="pager">
                         <li class="previous"><a href="javascript:void(0)">上一页</a></li>

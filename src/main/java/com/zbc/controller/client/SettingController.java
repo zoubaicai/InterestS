@@ -156,7 +156,7 @@ public class SettingController {
         String captchaCode = request.getParameter("captchaCode");
         String newEmail = request.getParameter("newEmail");
         String sessionCode = (String)request.getSession().getAttribute(EMAIL_CAPTCHA);
-    System.out.println(captchaCode + "|" + sessionCode + "|" + newEmail);
+    //System.out.println(captchaCode + "|" + sessionCode + "|" + newEmail);
         JSONObject res = new JSONObject();
         if (!captchaCode.equals(sessionCode)){
             packErrorDes(res,"验证码不正确","").toJSONString();
@@ -173,7 +173,7 @@ public class SettingController {
         String uuid = getUUIDStr();
         po.setRegisterCode(uuid);
         // 发送一封验证邮件
-        EmailUtils.sendEmail(newEmail,"邮箱更改验证","感谢您的注册","<p>请点击链接完成注册，<a href='http://localhost:8080/registerCodeValidate?code=" + uuid + "&email=" +newEmail + "'>验证</a></p>");
+        EmailUtils.sendEmail(newEmail,"邮箱更改验证","邮箱验证","<p>请点击链接完成注册，<a href='http://localhost:8080/registerCodeValidate?code=" + uuid + "&email=" +newEmail + "'>验证</a></p>");
         int update_res = userInfoService.updateByPrimaryKeySelective(po);
         if (update_res > 0){
             res.put("des","修改成功");

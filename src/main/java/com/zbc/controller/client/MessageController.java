@@ -46,7 +46,7 @@ public class MessageController {
         modelAndView.addObject("lists",lists);
         modelAndView.addObject("sum",sum / 10 + 1);
         return modelAndView;
-}
+    }
 
     /**
      * 返回用户未读的消息个数
